@@ -1,0 +1,114 @@
+import type { MediaKind, QuestionSource, SourceKey } from "@/lib/questions/types";
+
+export type SourceDefinition = QuestionSource & {
+  short: string;
+  defaultMediaLink: string;
+  defaultMediaKind: MediaKind;
+  mediaAlt: string;
+};
+
+export const sourceRegistry: Record<SourceKey, SourceDefinition> = {
+  gapminder: {
+    key: "gapminder",
+    name: "Gapminder",
+    url: "https://www.gapminder.org/data/",
+    short: "Development indicators",
+    description: "Development indicators, time series and teaching data.",
+    license: "CC BY 4.0 for Systema Globalis; underlying sources may add requirements",
+    attribution: "Gapminder and the named underlying data provider",
+    defaultMediaLink: "https://www.gapminder.org/data/",
+    defaultMediaKind: "chart",
+    mediaAlt: "Gapminder-style development indicator chart",
+  },
+  worldmapper: {
+    key: "worldmapper",
+    name: "Worldmapper",
+    url: "https://worldmapper.org/",
+    short: "Cartograms",
+    description: "World cartograms resized by social and environmental totals.",
+    license: "CC BY-NC-SA 4.0",
+    attribution: "Worldmapper",
+    defaultMediaLink: "https://worldmapper.org/maps/co%E2%82%82-emissions-per-capita-2020/",
+    defaultMediaKind: "cartogram",
+    mediaAlt: "Worldmapper CO2 emissions per capita 2020 cartogram",
+  },
+  usgs: {
+    key: "usgs",
+    name: "USGS",
+    url: "https://earthquake.usgs.gov/fdsnws/event/1/",
+    short: "Earthquakes & hazards",
+    description: "Earthquake magnitude, depth, location and event sequences.",
+    license: "Generally U.S. public domain; verify third-party items",
+    attribution: "U.S. Geological Survey",
+    defaultMediaLink: "https://earthquake.usgs.gov/earthquakes/map/",
+    defaultMediaKind: "map",
+    mediaAlt: "Earthquake epicentre distribution map",
+  },
+  noaa: {
+    key: "noaa",
+    name: "NOAA NCEI",
+    url: "https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation",
+    short: "Climate observations",
+    description: "Station records, climate normals and seasonal observations.",
+    license: "U.S. government data; preserve dataset and station metadata",
+    attribution: "NOAA National Centers for Environmental Information",
+    defaultMediaLink: "https://www.ncei.noaa.gov/access",
+    defaultMediaKind: "chart",
+    mediaAlt: "Monthly climate observation chart",
+  },
+  nasa: {
+    key: "nasa",
+    name: "NASA GIBS",
+    url: "https://nasa-gibs.github.io/gibs-api-docs/",
+    short: "Earth observation",
+    description: "Tiled satellite imagery for environmental change and hazards.",
+    license: "NASA media guidance and dataset-specific acknowledgements",
+    attribution: "NASA Global Imagery Browse Services (GIBS), part of ESDIS",
+    defaultMediaLink: "https://worldview.earthdata.nasa.gov/",
+    defaultMediaKind: "satellite",
+    mediaAlt: "NASA Earth observation satellite image",
+  },
+  worldbank: {
+    key: "worldbank",
+    name: "World Bank",
+    url: "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+    short: "Global indicators",
+    description: "Development, population, urbanisation and inequality indicators.",
+    license: "CC BY 4.0 unless a dataset states otherwise",
+    attribution: "World Bank and the named indicator provider",
+    defaultMediaLink: "https://data.worldbank.org/indicator",
+    defaultMediaKind: "table",
+    mediaAlt: "World development indicator comparison table",
+  },
+  gbif: {
+    key: "gbif",
+    name: "GBIF",
+    url: "https://techdocs.gbif.org/en/openapi/v1/occurrence",
+    short: "Biodiversity records",
+    description: "Species occurrence records and biodiversity distributions.",
+    license: "Dataset-specific CC0, CC BY or CC BY-NC",
+    attribution: "GBIF and each contributing occurrence dataset",
+    defaultMediaLink: "https://www.gbif.org/occurrence/map",
+    defaultMediaKind: "map",
+    mediaAlt: "Species occurrence distribution map",
+  },
+  openmaps: {
+    key: "openmaps",
+    name: "Open map media",
+    url: "https://www.naturalearthdata.com/about/terms-of-use/",
+    short: "Maps & licensed media",
+    description: "Natural Earth, OpenStreetMap and licensed Wikimedia media.",
+    license: "Provider-specific: public domain, ODbL or Creative Commons",
+    attribution: "Preserve the attribution required by the selected provider",
+    defaultMediaLink: "https://www.naturalearthdata.com/",
+    defaultMediaKind: "map",
+    mediaAlt: "Open geographic map or licensed geographic media",
+  },
+};
+
+export const sourceInfo = Object.fromEntries(
+  Object.entries(sourceRegistry).map(([key, value]) => [
+    key,
+    { name: value.name, url: value.url, short: value.short },
+  ]),
+) as Record<SourceKey, { name: string; url: string; short: string }>;

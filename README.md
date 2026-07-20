@@ -15,6 +15,7 @@ The project is independent and educational. It is not affiliated with, endorsed 
 - Visual resource renderers for cartograms, scatter plots, climate bars, satellite imagery, occurrence maps and indicator tables
 - Explicit attribution for the Worldmapper cartogram included in the prototype
 - A source registry designed to keep provenance and reuse constraints attached to every question
+- A question-bank domain separated from the website, with a repository interface and Supabase-ready schema
 
 The current version uses curated, source-backed templates rather than automatically publishing unreviewed questions from live APIs. This is deliberate: live data can change after an answer key is generated, and remote media often has item-level licensing requirements. The architecture section below describes the intended reviewed-ingestion pipeline.
 
@@ -111,48 +112,44 @@ A production generator should not send raw API responses directly to learners. T
 
 This avoids answer drift, copyright mistakes and unsupported AI-generated explanations.
 
-### Suggested question schema
+### Question schema
 
-```ts
-type Question = {
-  id: string;
-  topic: IGeoTopic;
-  skill: GeographicSkill;
-  prompt: string;
-  options: [string, string, string, string];
-  correctIndex: 0 | 1 | 2 | 3;
-  explanation: string;
-  resource: {
-    kind: "map" | "photo" | "chart" | "diagram" | "video" | "audio";
-    frozenAssetUrl: string;
-    altText: string;
-  };
-  provenance: {
-    provider: string;
-    dataset: string;
-    sourceUrl: string;
-    creator?: string;
-    licence: string;
-    accessedAt: string;
-    snapshotHash: string;
-  };
-};
-```
+The canonical `QuestionRecord` lives in `lib/questions/types.ts`. It stores source and licence metadata, question, four options, answer index/value, reasoning, media link and alt text, category, skill, difficulty, editorial status, origin, timestamps and an optional generation-run ID. The website receives a smaller `PracticeQuestion` projection through the repository layer.
 
 ## Project structure
 
 ```text
 app/
   layout.tsx          Site metadata and document shell
-  page.tsx            Generator, 40 templates, test runner and review UI
+  page.tsx            Generator, test runner and review UI
   globals.css         Responsive visual system and resource renderers
+data/questions/
+  question-bank.ts    Canonical local seed records
+  sources.ts          Provider, licence and media defaults
+lib/questions/
+  types.ts            Storage and UI types
+  repository.ts       Repository contract and local adapter
+  supabase-question-repository.ts
+                      Supabase read/write adapter
+docs/
+  question-data-model.md
+                      Data flow and future generation design
+supabase/migrations/
+  20260720_create_question_bank.sql
+                      Sources, generation runs, questions and RLS
 public/
   worldmapper-co2-2020.png
 .openai/
   hosting.json        Sites hosting metadata
 ```
 
-The application is a single-route React/Vinext site. Questions and source metadata are currently colocated in `app/page.tsx` for easy prototype review. A production version should split source adapters, schemas, frozen snapshots and question templates into separate modules and add a database only after an editorial workflow is defined.
+The website no longer contains question content. It imports a UI projection from the question domain, which currently uses the read-only local bank and can later be replaced by `SupabaseQuestionRepository` without rewriting the test interface.
+
+## Supabase-ready storage
+
+The migration normalizes source attribution, questions and generation-run audit records. It enforces exactly four unique options, a matching answer, difficulty/status enums and public read access only for published items. Generated questions are designed to be inserted server-side as drafts and reviewed before publication; no browser insert policy is granted.
+
+Copy `.env.example` when connecting a Supabase project. Keep `SUPABASE_SERVICE_ROLE_KEY` on the server only. Full integration notes and the planned generation flow are in [`docs/question-data-model.md`](docs/question-data-model.md).
 
 ## Local development
 
@@ -192,13 +189,12 @@ npm test
 
 ## Next steps
 
-1. Add frozen Gapminder CSV snapshots and generate charts directly from the cited values.
-2. Build reviewed server-side adapters for USGS, World Bank, NASA GIBS, NOAA and GBIF.
-3. Use the Wikimedia Imageinfo API to store creator and licence metadata for each selected image.
-4. Add an editorial queue with automated checks for four unique options, one correct answer, complete provenance and licence compatibility.
-5. Add audio/video resource support and an accessible untimed mode.
+1. Create a Supabase project, apply the included migration and add `@supabase/supabase-js`.
+2. Add a server-only generation endpoint that writes an audit run and draft questions through the repository.
+3. Add frozen Gapminder CSV snapshots and generate charts directly from the cited values.
+4. Build reviewed server-side adapters for USGS, World Bank, NASA GIBS, NOAA and GBIF.
+5. Add an editorial queue with licence, provenance and answer-key checks before publication.
 6. Add item analytics (difficulty and discrimination) without collecting unnecessary student data.
-7. Expand from practice templates to balanced 40-question blueprints covering all 12 iGEO topics.
 
 ## Attribution
 
