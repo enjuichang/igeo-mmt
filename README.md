@@ -140,6 +140,8 @@ lib/questions/
 docs/
   question-data-model.md
                       Data flow and future generation design
+  v2-auth-and-leaderboard-plan.md
+                      V2 accounts, attempt history and leaderboard plan
 supabase/migrations/
   20260720_create_question_bank.sql
                       Sources, generation runs, questions and RLS
@@ -149,7 +151,24 @@ public/
   hosting.json        Sites hosting metadata
 ```
 
-The website no longer contains question content. It imports a UI projection from the question domain. The editorial source of truth is `data/questions/questions.json`; `question-bank.ts` validates and adapts it for the website. The downloaded Worldmapper manifest and images remain separate under `data/worldmapper`. Practice mode samples 5 or 10 items; mock mode uses all 40 unique records with a single exam countdown.
+The website no longer contains question content. It imports a UI projection from the question domain. The 40 educator-reviewed records remain in `data/questions/questions.json`; the live generator reads the complete `data/questions/worldmapper-draft-questions.json` bank and retains reviewed-versus-generated workflow metadata in `question-bank.ts`. Practice mode samples 5 or 10 items; mock mode samples up to 40 items with a single exam countdown.
+
+### Generate the full Worldmapper draft bank
+
+Generate one schema-valid draft question for every entry in the downloaded
+Worldmapper manifest while preserving the reviewed questions unchanged:
+
+```bash
+npm run questions:generate-worldmapper
+```
+
+The command writes `data/questions/worldmapper-draft-questions.json`. Generated
+items use category- and title-similar distractors, balanced answer positions,
+local media paths, and the original Worldmapper URLs. The live generator can
+draw from the full bank by category, while generated records remain marked as
+drafts in the domain model until an educator verifies the visible evidence,
+accessibility, licensing, and answer quality. Check that the generated file is
+current and valid with `npm run questions:check-worldmapper`.
 
 ## Supabase-ready storage
 
@@ -209,6 +228,8 @@ npm test
 - Decorative visualisations are labelled as illustrative so they cannot be confused with a frozen empirical dataset.
 
 ## Next steps
+
+See [`docs/v2-auth-and-leaderboard-plan.md`](docs/v2-auth-and-leaderboard-plan.md) for the proposed V2 account, saved-attempt and leaderboard release plan.
 
 1. Create a Supabase project, apply the included migration and add `@supabase/supabase-js`.
 2. Add a server-only generation endpoint that writes an audit run and draft questions through the repository.

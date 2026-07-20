@@ -7,11 +7,16 @@ import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
 
 const sourceModes = {
-  worldmapper: { label: "Worldmapper crop cartograms", keys: ["worldmapper"] as SourceKey[] },
+  worldmapper: { label: "Worldmapper cartograms", keys: ["worldmapper"] as SourceKey[] },
 };
 
 function shuffled<T>(items: T[]) {
-  return [...items].sort(() => Math.random() - 0.5);
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+  }
+  return result;
 }
 
 function randomizeOptions(question: Question): Question {
@@ -21,6 +26,32 @@ function randomizeOptions(question: Question): Question {
     options: options.map((option) => option.value),
     correct: options.findIndex((option) => option.correct),
   };
+}
+
+function selectRandomQuestions(items: Question[], targetLength: number, balanceCategories: boolean) {
+  if (!balanceCategories) return shuffled(items).slice(0, Math.min(targetLength, items.length));
+
+  const buckets = new Map<string, Question[]>();
+  for (const item of items) {
+    const bucket = buckets.get(item.topic) ?? [];
+    bucket.push(item);
+    buckets.set(item.topic, bucket);
+  }
+  for (const [category, bucket] of buckets) buckets.set(category, shuffled(bucket));
+
+  const selected: Question[] = [];
+  let categoryOrder = shuffled([...buckets.keys()]);
+  while (selected.length < targetLength && categoryOrder.length > 0) {
+    const nextRound: string[] = [];
+    for (const category of categoryOrder) {
+      const question = buckets.get(category)?.pop();
+      if (question) selected.push(question);
+      if ((buckets.get(category)?.length ?? 0) > 0) nextRound.push(category);
+      if (selected.length === targetLength) break;
+    }
+    categoryOrder = shuffled(nextRound);
+  }
+  return selected;
 }
 
 function formatCountdown(totalSeconds: number) {
@@ -107,7 +138,7 @@ function ResourceVisual({ question }: { question: Question }) {
     return (
       <figure className="worldmapper-figure">
         <img src={question.mediaLink} alt={question.mediaAlt} />
-        <figcaption>Worldmapper · crop production cartogram · CC BY-NC-SA 4.0</figcaption>
+        <figcaption>Worldmapper · thematic cartogram · CC BY-NC-SA 4.0</figcaption>
       </figure>
     );
   }
@@ -129,6 +160,7 @@ export default function Home() {
   const [length, setLength] = useState(10);
   const [seconds, setSeconds] = useState(60);
   const [mockMinutes, setMockMinutes] = useState(30);
+  const [category, setCategory] = useState("all");
   const [includePastQuestions, setIncludePastQuestions] = useState(false);
   const [test, setTest] = useState<Question[] | null>(null);
   const [index, setIndex] = useState(0);
@@ -136,29 +168,38 @@ export default function Home() {
   const [remaining, setRemaining] = useState(seconds);
   const [finished, setFinished] = useState(false);
 
-  const available = useMemo(() => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)), [mode]);
-  const preview = available[1] ?? available[0];
-
-  useEffect(() => {
-    if (!test || finished || testType === "mock") return;
-    setRemaining(seconds);
-  }, [index, test, seconds, finished, testType]);
+  const sourceQuestions = useMemo(() => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)), [mode]);
+  const categoryOptions = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const question of sourceQuestions) counts.set(question.topic, (counts.get(question.topic) ?? 0) + 1);
+    return [...counts].sort(([left], [right]) => left.localeCompare(right));
+  }, [sourceQuestions]);
+  const available = useMemo(
+    () => category === "all" ? sourceQuestions : sourceQuestions.filter((question) => question.topic === category),
+    [category, sourceQuestions],
+  );
+  const preview = available[1] ?? available[0] ?? sourceQuestions[0];
+  const targetLength = testType === "mock" ? 40 : length;
+  const testQuestionCount = Math.min(targetLength, available.length);
 
   useEffect(() => {
     if (!test || finished) return;
-    if (remaining <= 0) {
-      if (testType === "mock" || index >= test.length - 1) setFinished(true);
-      else setIndex((current) => current + 1);
-      return;
-    }
-    const timer = window.setTimeout(() => setRemaining((value) => value - 1), 1000);
+    const timer = window.setTimeout(() => {
+      if (remaining <= 1) {
+        if (testType === "mock" || index >= test.length - 1) setFinished(true);
+        else {
+          setIndex((current) => current + 1);
+          setRemaining(seconds);
+        }
+      } else {
+        setRemaining((value) => value - 1);
+      }
+    }, 1000);
     return () => window.clearTimeout(timer);
-  }, [remaining, index, test, finished, testType]);
+  }, [remaining, index, test, finished, testType, seconds]);
 
   function generateTest() {
-    const targetLength = testType === "mock" ? 40 : length;
-    const selected = shuffled(available)
-      .slice(0, Math.min(targetLength, available.length))
+    const selected = selectRandomQuestions(available, targetLength, category === "all")
       .map(randomizeOptions);
     setTest(selected);
     setIndex(0);
@@ -175,7 +216,10 @@ export default function Home() {
   function nextQuestion() {
     if (!test) return;
     if (index === test.length - 1) setFinished(true);
-    else setIndex((current) => current + 1);
+    else {
+      setIndex((current) => current + 1);
+      if (testType === "practice") setRemaining(seconds);
+    }
   }
 
   if (test) {
@@ -186,7 +230,7 @@ export default function Home() {
       return (
         <main className="result-shell">
           <section className="result-card">
-            <div className="eyebrow"><span>{testType === "mock" ? "Mock exam complete" : "Practice complete"}</span><span>{test.length} resources reviewed</span></div>
+            <div className="eyebrow"><span>{testType === "mock" ? "Mock exam complete" : "Practice complete"}</span><span>{test.length} resources explored</span></div>
             <div className="score-ring" style={{ "--score": `${percent * 3.6}deg` } as React.CSSProperties}><strong>{percent}%</strong><span>{score}/{test.length}</span></div>
             <h1>{percent >= 80 ? "Excellent geographic reading." : percent >= 60 ? "A strong foundation." : "Keep reading the evidence."}</h1>
             <p>Your score reflects interpretation of maps, charts, satellite imagery and spatial data—not just factual recall.</p>
@@ -249,7 +293,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <div className="kicker"><span>iGEO-style practice lab</span><span>{questionBank.length} reviewed Worldmapper questions</span></div>
+          <div className="kicker"><span>iGEO-style practice lab</span><span>{questionBank.length.toLocaleString("en-US")} Worldmapper questions</span></div>
           <h1>Read the world.<br /><em>Question</em> the evidence.</h1>
           <p>Generate fast, visual geography practice from trusted global datasets—with every map, chart and answer tied back to its source.</p>
           <div className="hero-actions"><a className="primary-button" href="#builder">Generate a practice test <span>↗</span></a><a className="text-button" href="#method">See how it works <span>↓</span></a></div>
@@ -260,11 +304,11 @@ export default function Home() {
           <div className="pulse-dot" />
           <div className="hero-label label-a">CARTOGRAM</div><div className="hero-label label-b">CLIMATE</div><div className="hero-label label-c">CHANGE</div>
         </div>
-        <div className="hero-stats"><div><strong>{questionBank.length}</strong><span>reviewed questions</span></div><div><strong>1</strong><span>focused topic family</span></div><div><strong>1</strong><span>verified source</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
+        <div className="hero-stats"><div><strong>{questionBank.length.toLocaleString("en-US")}</strong><span>source-linked questions</span></div><div><strong>{categoryOptions.length}</strong><span>curiosity categories</span></div><div><strong>1</strong><span>verified source</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
       </section>
 
       <section className="builder-section" id="builder">
-        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Choose flexible practice or a full 40-question mock exam with one adjustable countdown.</p></div>
+        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Follow your curiosity into one category, or draw a balanced random mix from the complete Worldmapper collection.</p></div>
         <div className="builder-grid">
           <div className="controls-card">
             <div className="control-group"><label>Test format</label><div className="test-type-list">
@@ -273,9 +317,15 @@ export default function Home() {
             </div></div>
             <div className="control-group"><label>Source collection</label><div className="mode-list">
               {(Object.entries(sourceModes) as [keyof typeof sourceModes, (typeof sourceModes)[keyof typeof sourceModes]][]).map(([key, item]) => (
-                <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length} reviewed questions</small><i>{mode === key ? "●" : "○"}</i></button>
+                <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length.toLocaleString("en-US")} source-linked questions</small><i>{mode === key ? "●" : "○"}</i></button>
               ))}
             </div></div>
+            <div className="control-group category-control"><label htmlFor="category">Category you’re curious about</label><div className="select-wrap">
+              <select id="category" value={category} onChange={(event) => setCategory(event.target.value)}>
+                <option value="all">Surprise me — balanced mix ({sourceQuestions.length.toLocaleString("en-US")})</option>
+                {categoryOptions.map(([name, count]) => <option key={name} value={name}>{name} ({count})</option>)}
+              </select><span aria-hidden="true">⌄</span>
+            </div><small className="category-hint">Each generation reshuffles both questions and answer choices.</small></div>
             {testType === "practice" ? (
               <div className="control-row"><div className="control-group"><label>Questions</label><div className="segmented">
                 {[5, 10].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
@@ -283,7 +333,7 @@ export default function Home() {
                 {[45, 60, 75].map((value) => <button key={value} className={seconds === value ? "active" : ""} onClick={() => setSeconds(value)}>{value}s</button>)}
               </div></div></div>
             ) : (
-              <div className="control-row"><div className="control-group"><label>Questions</label><div className="fixed-value">40 <span>fixed</span></div></div><div className="control-group"><label>Total exam time</label><div className="segmented mock-time">
+              <div className="control-row"><div className="control-group"><label>Questions</label><div className="fixed-value">{testQuestionCount} <span>{testQuestionCount < 40 ? "available" : "fixed"}</span></div></div><div className="control-group"><label>Total exam time</label><div className="segmented mock-time">
                 {[20, 30, 40, 50, 60].map((value) => <button key={value} className={mockMinutes === value ? "active" : ""} onClick={() => setMockMinutes(value)}>{value}m</button>)}
               </div></div></div>
             )}
@@ -292,13 +342,13 @@ export default function Home() {
               <a href={igeoSource.sourceUrl} target="_blank" rel="noreferrer">Official library ↗</a>
               {!igeoSource.available && <p>{igeoSource.notice}</p>}
             </div>
-            <div className="coverage"><div><span>Coverage</span><b>{sourceModes[mode].keys.length} source family · {testType === "mock" ? 40 : Math.min(length, available.length)} questions</b></div><div className="coverage-bar"><span style={{ width: `${testType === "mock" ? 100 : available.length ? (Math.min(length, available.length) / available.length) * 100 : 0}%` }} /></div></div>
-            <button className="generate-button" onClick={generateTest}><span>Generate {testType === "mock" ? "mock test" : "practice test"}</span><b>↗</b></button>
+            <div className="coverage"><div><span>Coverage</span><b>{category === "all" ? `Balanced across ${categoryOptions.length} categories` : category} · {testQuestionCount} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (testQuestionCount / available.length) * 100 : 0}%` }} /></div></div>
+            <button className="generate-button" onClick={generateTest} disabled={available.length === 0}><span>Generate {testType === "mock" ? "mock test" : "practice test"}</span><b>↗</b></button>
             <small className="not-affiliated">Independent educational prototype. Not an official iGEO test.</small>
           </div>
 
           <div className="preview-card">
-            <div className="preview-header"><span>QUESTION PREVIEW</span><div><i /> SOURCE VERIFIED</div></div>
+            <div className="preview-header"><span>QUESTION PREVIEW</span><div><i /> SOURCE-LINKED</div></div>
             <div className="preview-resource"><ResourceVisual question={preview} /></div>
             <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span><span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className="preview-options">{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{option}</span>)}</div></div>
             <div className="preview-credit"><SourceMark source={preview.source} /><span>Question evidence from <b>{preview.sourceName}</b></span><a href={preview.sourceUrl} target="_blank" rel="noreferrer">View ↗</a></div>

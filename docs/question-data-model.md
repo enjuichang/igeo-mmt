@@ -7,7 +7,7 @@ app/page.tsx
     │ uses PracticeQuestion
     ▼
 QuestionRepository interface
-    ├── LocalQuestionRepository ── data/questions/questions.json (current)
+    ├── LocalQuestionRepository ── data/questions/worldmapper-draft-questions.json (current)
     └── SupabaseQuestionRepository ── public.questions (planned)
                                            │
                                            ├── public.question_sources
@@ -29,7 +29,7 @@ The `PracticeQuestion` type is only a UI projection. `toPracticeQuestion()` is t
 
 ## Current local workflow
 
-Curated records live in `data/questions/questions.json`. Each JSON object contains `Question Name`, `Question ID`, `Image/Media source`, `Source URL`, `Category/Tags`, `Options`, `Answer` and `Explanation`. `question-bank.ts` validates and projects those fields into the application model. Source definitions live independently in `data/questions/sources.ts`. The downloaded Worldmapper manifest and images remain untouched in `data/worldmapper`.
+The 40 curated records live in `data/questions/questions.json`, while the runtime generator reads the complete `data/questions/worldmapper-draft-questions.json` bank. Each JSON object contains `Question Name`, `Question ID`, `Image/Media source`, `Source URL`, `Category/Tags`, `Options`, `Answer` and `Explanation`. `question-bank.ts` validates and projects those fields into the application model, marking curated records as published/editor-authored and generated records as drafts. Source definitions live independently in `data/questions/sources.ts`. The downloaded Worldmapper manifest and images remain untouched in `data/worldmapper`.
 
 `data/questions/igeo-source.json` tracks whether official past MMT material can be included. It remains disabled while the official document library marks MMT files unavailable or their multimedia cannot be redistributed. This avoids treating public access as permission to republish third-party assessment media.
 

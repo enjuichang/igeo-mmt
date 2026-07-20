@@ -1,6 +1,7 @@
 import { toPracticeQuestion } from "@/lib/questions/repository";
 import type { QuestionRecord } from "@/lib/questions/types";
-import rawQuestions from "./questions.json";
+import rawQuestions from "./worldmapper-draft-questions.json";
+import reviewedQuestions from "./questions.json";
 import { sourceRegistry } from "./sources";
 
 type JsonQuestion = {
@@ -19,6 +20,7 @@ type JsonQuestion = {
 };
 
 const questions = rawQuestions as JsonQuestion[];
+const reviewedIds = new Set((reviewedQuestions as JsonQuestion[]).map((item) => item["Question ID"]));
 const SEED_TIMESTAMP = "2026-07-20T00:00:00.000Z";
 
 /**
@@ -27,6 +29,7 @@ const SEED_TIMESTAMP = "2026-07-20T00:00:00.000Z";
  */
 export const questionRecords: QuestionRecord[] = questions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
+  const reviewed = reviewedIds.has(item["Question ID"]);
   if (answerIndex < 0 || answerIndex > 3) {
     throw new Error(`Answer is not one of the four options: ${item["Question ID"]}`);
   }
@@ -51,8 +54,8 @@ export const questionRecords: QuestionRecord[] = questions.map((item, index) => 
     tags: item["Category/Tags"],
     skill: "Cartogram interpretation",
     difficulty: "foundation",
-    status: "published",
-    origin: "editor",
+    status: reviewed ? "published" : "draft",
+    origin: reviewed ? "editor" : "generated",
     visualVariant: index,
     createdAt: SEED_TIMESTAMP,
     updatedAt: SEED_TIMESTAMP,

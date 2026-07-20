@@ -1,0 +1,4 @@
+interface:
+  display_name: "Generate MMT Questions"
+  short_description: "Create evidence-led iGEO-style questions"
+  default_prompt: "Use $generate-mmt-questions to create a balanced, source-verified set of MMT practice questions."
