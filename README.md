@@ -7,9 +7,11 @@ The project is independent and educational. It is not affiliated with, endorsed 
 ## What is implemented
 
 - A polished responsive generator and timed test-taking experience
-- 10 reviewed Worldmapper crop-cartogram questions stored as JSON
+- 40 reviewed Worldmapper crop-cartogram questions stored as JSON
 - Closely related distractors within the same agricultural product family
-- Configurable 5 or 10-question practice tests
+- Configurable 5 or 10-question practice tests with per-item pacing
+- A 40-question mock exam with a 30-minute default and adjustable 20-60 minute countdown
+- An official iGEO past-question source option with live availability and reuse-status messaging
 - 45, 60 or 75-second pacing per question
 - Four-option answer selection, scoring, explanations and source verification links
 - Visual resource renderers for cartograms, scatter plots, climate bars, satellite imagery, occurrence maps and indicator tables
@@ -37,6 +39,8 @@ The guidelines list 12 broad content areas: climate and climate change; hazards;
 The required skills are map skills, inquiry and problem solving, and graphicacy. A 2023 content analysis by Artvinli and Dönmez similarly identifies spatial analysis and interpretation, map skills, GIS, data analysis, field observation, critical thinking, cultural and human geography, and environmental sustainability as recurring iGEO skill families: [DOI 10.59409/ojer.1213392](https://doi.org/10.59409/ojer.1213392).
 
 The [iGEO document library](https://geoolympiad.org/document-library/) provides past questions, reports and a 2025 MMT sample. At the time of this research, the library also notes that some MMT files are temporarily unavailable.
+
+The official library currently states that MMT files are temporarily unavailable. Its [2025 MMT sample](https://geoolympiad.org/wp-content/uploads/2026/01/MMT-Sample-Questions.pdf) also says that the included third-party multimedia is for viewing within that assessment and is not intended for redistribution or publication. GeoLens therefore exposes the official-source option and links to the archive, but does not copy protected iGEO multimedia into the local bank. The option can be enabled when iGEO provides reusable assets or explicit permission.
 
 ### Analysis of the provided 2013 sample
 
@@ -125,6 +129,7 @@ app/
   globals.css         Responsive visual system and resource renderers
 data/questions/
   questions.json      Human-readable reviewed question records
+  igeo-source.json    Official archive availability and reuse status
   question-bank.ts    JSON-to-application adapter
   sources.ts          Provider, licence and media defaults
 lib/questions/
@@ -144,7 +149,7 @@ public/
   hosting.json        Sites hosting metadata
 ```
 
-The website no longer contains question content. It imports a UI projection from the question domain. The editorial source of truth is `data/questions/questions.json`; `question-bank.ts` validates and adapts it for the website. The downloaded Worldmapper manifest and images remain separate under `data/worldmapper`.
+The website no longer contains question content. It imports a UI projection from the question domain. The editorial source of truth is `data/questions/questions.json`; `question-bank.ts` validates and adapts it for the website. The downloaded Worldmapper manifest and images remain separate under `data/worldmapper`. Practice mode samples 5 or 10 items; mock mode uses all 40 unique records with a single exam countdown.
 
 ## Supabase-ready storage
 
@@ -171,6 +176,21 @@ Create a production build:
 ```bash
 npm run build
 ```
+
+### Deploy to Netlify
+
+The repository includes `netlify.toml`, so Netlify will use the native Next.js
+build and its automatically managed OpenNext adapter. Import the repository in
+Netlify and accept the settings detected from the configuration file:
+
+- Build command: `npm run build:netlify`
+- Publish directory: `.next`
+- Node.js: `22.13.0`
+
+If Supabase is enabled later, add the values from `.env.example` in Netlify at
+**Project configuration → Environment variables**. Keep
+`SUPABASE_SERVICE_ROLE_KEY` server-only and never expose it as a `NEXT_PUBLIC_`
+variable.
 
 Run the render smoke test:
 

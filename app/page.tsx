@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { practiceQuestionBank as questionBank } from "@/data/questions/question-bank";
+import igeoSource from "@/data/questions/igeo-source.json";
 import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
 
@@ -11,6 +12,21 @@ const sourceModes = {
 
 function shuffled<T>(items: T[]) {
   return [...items].sort(() => Math.random() - 0.5);
+}
+
+function randomizeOptions(question: Question): Question {
+  const options = shuffled(question.options.map((value, index) => ({ value, correct: index === question.correct })));
+  return {
+    ...question,
+    options: options.map((option) => option.value),
+    correct: options.findIndex((option) => option.correct),
+  };
+}
+
+function formatCountdown(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 function Bars({ variant }: { variant: number }) {
@@ -109,8 +125,11 @@ function SourceMark({ source }: { source: SourceKey }) {
 
 export default function Home() {
   const [mode, setMode] = useState<keyof typeof sourceModes>("worldmapper");
+  const [testType, setTestType] = useState<"practice" | "mock">("practice");
   const [length, setLength] = useState(10);
   const [seconds, setSeconds] = useState(60);
+  const [mockMinutes, setMockMinutes] = useState(30);
+  const [includePastQuestions, setIncludePastQuestions] = useState(false);
   const [test, setTest] = useState<Question[] | null>(null);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -121,28 +140,31 @@ export default function Home() {
   const preview = available[1] ?? available[0];
 
   useEffect(() => {
-    if (!test || finished) return;
+    if (!test || finished || testType === "mock") return;
     setRemaining(seconds);
-  }, [index, test, seconds, finished]);
+  }, [index, test, seconds, finished, testType]);
 
   useEffect(() => {
     if (!test || finished) return;
     if (remaining <= 0) {
-      if (index >= test.length - 1) setFinished(true);
+      if (testType === "mock" || index >= test.length - 1) setFinished(true);
       else setIndex((current) => current + 1);
       return;
     }
     const timer = window.setTimeout(() => setRemaining((value) => value - 1), 1000);
     return () => window.clearTimeout(timer);
-  }, [remaining, index, test, finished]);
+  }, [remaining, index, test, finished, testType]);
 
   function generateTest() {
-    const selected = shuffled(available).slice(0, Math.min(length, available.length));
+    const targetLength = testType === "mock" ? 40 : length;
+    const selected = shuffled(available)
+      .slice(0, Math.min(targetLength, available.length))
+      .map(randomizeOptions);
     setTest(selected);
     setIndex(0);
     setAnswers({});
     setFinished(false);
-    setRemaining(seconds);
+    setRemaining(testType === "mock" ? mockMinutes * 60 : seconds);
   }
 
   function chooseAnswer(answer: number) {
@@ -164,7 +186,7 @@ export default function Home() {
       return (
         <main className="result-shell">
           <section className="result-card">
-            <div className="eyebrow"><span>Practice complete</span><span>{test.length} resources reviewed</span></div>
+            <div className="eyebrow"><span>{testType === "mock" ? "Mock exam complete" : "Practice complete"}</span><span>{test.length} resources reviewed</span></div>
             <div className="score-ring" style={{ "--score": `${percent * 3.6}deg` } as React.CSSProperties}><strong>{percent}%</strong><span>{score}/{test.length}</span></div>
             <h1>{percent >= 80 ? "Excellent geographic reading." : percent >= 60 ? "A strong foundation." : "Keep reading the evidence."}</h1>
             <p>Your score reflects interpretation of maps, charts, satellite imagery and spatial data—not just factual recall.</p>
@@ -192,7 +214,7 @@ export default function Home() {
         <header className="test-header">
           <button className="brand compact" onClick={() => setTest(null)} aria-label="Exit test"><span className="brand-orbit">◎</span><b>GeoLens</b></button>
           <div className="test-progress"><span style={{ width: `${((index + 1) / test.length) * 100}%` }} /></div>
-          <div className={`timer ${remaining < 15 ? "urgent" : ""}`}><span>◷</span><b>{remaining}s</b></div>
+          <div className={`timer ${remaining < (testType === "mock" ? 60 : 15) ? "urgent" : ""}`}><span>◷</span><b>{testType === "mock" ? formatCountdown(remaining) : `${remaining}s`}</b></div>
         </header>
         <section className="question-layout">
           <div className="question-resource">
@@ -242,21 +264,36 @@ export default function Home() {
       </section>
 
       <section className="builder-section" id="builder">
-        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Choose a source mix, pace and length. We’ll assemble a fresh sequence from source-aware templates.</p></div>
+        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Choose flexible practice or a full 40-question mock exam with one adjustable countdown.</p></div>
         <div className="builder-grid">
           <div className="controls-card">
+            <div className="control-group"><label>Test format</label><div className="test-type-list">
+              <button className={testType === "practice" ? "active" : ""} onClick={() => setTestType("practice")}><b>Practice test</b><span>5 or 10 questions</span><small>Adjustable time per item</small></button>
+              <button className={testType === "mock" ? "active" : ""} onClick={() => setTestType("mock")}><b>Mock test</b><span>40 questions</span><small>One exam countdown</small></button>
+            </div></div>
             <div className="control-group"><label>Source collection</label><div className="mode-list">
-              {(Object.entries(sourceModes) as [keyof typeof sourceModes, typeof sourceModes.all][]).map(([key, item]) => (
+              {(Object.entries(sourceModes) as [keyof typeof sourceModes, (typeof sourceModes)[keyof typeof sourceModes]][]).map(([key, item]) => (
                 <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length} reviewed questions</small><i>{mode === key ? "●" : "○"}</i></button>
               ))}
             </div></div>
-            <div className="control-row"><div className="control-group"><label>Questions</label><div className="segmented">
-              {[5, 10].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
-            </div></div><div className="control-group"><label>Time per item</label><div className="segmented">
-              {[45, 60, 75].map((value) => <button key={value} className={seconds === value ? "active" : ""} onClick={() => setSeconds(value)}>{value}s</button>)}
-            </div></div></div>
-            <div className="coverage"><div><span>Coverage</span><b>{sourceModes[mode].keys.length} source family · {Math.min(length, available.length)} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (Math.min(length, available.length) / available.length) * 100 : 0}%` }} /></div></div>
-            <button className="generate-button" onClick={generateTest}><span>Generate practice test</span><b>↗</b></button>
+            {testType === "practice" ? (
+              <div className="control-row"><div className="control-group"><label>Questions</label><div className="segmented">
+                {[5, 10].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
+              </div></div><div className="control-group"><label>Time per item</label><div className="segmented">
+                {[45, 60, 75].map((value) => <button key={value} className={seconds === value ? "active" : ""} onClick={() => setSeconds(value)}>{value}s</button>)}
+              </div></div></div>
+            ) : (
+              <div className="control-row"><div className="control-group"><label>Questions</label><div className="fixed-value">40 <span>fixed</span></div></div><div className="control-group"><label>Total exam time</label><div className="segmented mock-time">
+                {[20, 30, 40, 50, 60].map((value) => <button key={value} className={mockMinutes === value ? "active" : ""} onClick={() => setMockMinutes(value)}>{value}m</button>)}
+              </div></div></div>
+            )}
+            <div className={`past-source-option ${!igeoSource.available ? "unavailable" : ""}`}>
+              <label><input type="checkbox" checked={includePastQuestions} disabled={!igeoSource.available} onChange={(event) => setIncludePastQuestions(event.target.checked)} /><span><b>{igeoSource.label}</b><small>{igeoSource.status}</small></span></label>
+              <a href={igeoSource.sourceUrl} target="_blank" rel="noreferrer">Official library ↗</a>
+              {!igeoSource.available && <p>{igeoSource.notice}</p>}
+            </div>
+            <div className="coverage"><div><span>Coverage</span><b>{sourceModes[mode].keys.length} source family · {testType === "mock" ? 40 : Math.min(length, available.length)} questions</b></div><div className="coverage-bar"><span style={{ width: `${testType === "mock" ? 100 : available.length ? (Math.min(length, available.length) / available.length) * 100 : 0}%` }} /></div></div>
+            <button className="generate-button" onClick={generateTest}><span>Generate {testType === "mock" ? "mock test" : "practice test"}</span><b>↗</b></button>
             <small className="not-affiliated">Independent educational prototype. Not an official iGEO test.</small>
           </div>
 

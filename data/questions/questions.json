@@ -8,7 +8,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_SunflowerProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/sunflower-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Sunflower"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Crop production",
+      "Sunflower"
+    ],
     "Options": [
       "Sunflower seed production",
       "Pumpkin production",
@@ -27,7 +33,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_OlivesProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/olive-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Olives"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Crop production",
+      "Olives"
+    ],
     "Options": [
       "Olive production",
       "Grape production",
@@ -46,7 +58,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PumpkinProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/pumpkin-production/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Pumpkins"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Crop production",
+      "Pumpkins"
+    ],
     "Options": [
       "Pumpkin production",
       "Watermelon production",
@@ -65,7 +83,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2019/10/Crops_MaizeProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/maize-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Maize"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Cereal crops",
+      "Maize"
+    ],
     "Options": [
       "Maize production",
       "Wheat production",
@@ -84,7 +108,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2018/04/Production_Coffee_2014-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/coffee-production-2014/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Plantation crops", "Coffee"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Plantation crops",
+      "Coffee"
+    ],
     "Options": [
       "Coffee production",
       "Cocoa bean production",
@@ -103,7 +133,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2019/01/Crops_WheatProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/wheat-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Wheat"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Cereal crops",
+      "Wheat"
+    ],
     "Options": [
       "Wheat production",
       "Barley production",
@@ -122,7 +158,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2019/02/Crops_SoyBeans_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/soybean-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Oilseed crops", "Soybeans"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Oilseed crops",
+      "Soybeans"
+    ],
     "Options": [
       "Soybean production",
       "Groundnut production",
@@ -141,7 +183,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2019/01/Crops_RiceProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/rice-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Staple crops", "Rice"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Staple crops",
+      "Rice"
+    ],
     "Options": [
       "Rice production",
       "Wheat production",
@@ -160,7 +208,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2018/12/Crops_TeaProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/tea-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Plantation crops", "Tea"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Plantation crops",
+      "Tea"
+    ],
     "Options": [
       "Tea production",
       "Coffee production",
@@ -179,7 +233,13 @@
       "Image URL": "https://worldmapper.org/wp-content/uploads/2018/08/Crops_BarleyProduction_2016-660x330.png"
     },
     "Source URL": "https://worldmapper.org/maps/barley-production-2016/",
-    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Barley"],
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Cereal crops",
+      "Barley"
+    ],
     "Options": [
       "Barley production",
       "Wheat production",
@@ -188,5 +248,755 @@
     ],
     "Answer": "Barley production",
     "Explanation": "This is Worldmapper's barley production cartogram for 2016. Europe, Russia, Canada and Australia are enlarged because the map resizes territories according to barley output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0066-potato-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0066-potato-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2022/09/Crops_PotatoProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/potato-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Root crops",
+      "Potatoes"
+    ],
+    "Options": [
+      "Potato production",
+      "Cassava production",
+      "Sweet potato production",
+      "Yam production"
+    ],
+    "Answer": "Potato production",
+    "Explanation": "This cartogram represents potato production. Territory area is resized according to national production rather than physical land area. The enlargement of China, India and parts of Europe matches the geography of major potato producers."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0025-lentil-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0025-lentil-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_LentilProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/lentil-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Pulses",
+      "Lentils"
+    ],
+    "Options": [
+      "Lentil production",
+      "Chickpea production",
+      "Dry pea production",
+      "Pigeon pea production"
+    ],
+    "Answer": "Lentil production",
+    "Explanation": "This cartogram represents lentil production. Territory area is resized according to national production rather than physical land area. Canada and India are especially prominent, consistent with their large shares of world lentil output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0047-hazelnut-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0047-hazelnut-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_HazelnutProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/hazelnut-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tree nuts",
+      "Hazelnuts"
+    ],
+    "Options": [
+      "Hazelnut production",
+      "Almond production",
+      "Pistachio production",
+      "Walnut production"
+    ],
+    "Answer": "Hazelnut production",
+    "Explanation": "This cartogram represents hazelnut production. Territory area is resized according to national production rather than physical land area. Turkey is exceptionally enlarged because it dominates global hazelnut production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0101-raspberry-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0101-raspberry-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2021/02/Crops_RaspberryProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/raspberry-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Raspberries"
+    ],
+    "Options": [
+      "Raspberry production",
+      "Strawberry production",
+      "Blueberry production",
+      "Blackberry production"
+    ],
+    "Answer": "Raspberry production",
+    "Explanation": "This cartogram represents raspberry production. Territory area is resized according to national production rather than physical land area. The enlarged areas in Russia, Europe and North America fit the distribution of leading raspberry producers."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0127-poppy-seed-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0127-poppy-seed-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PoppySeedsProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/poppy-seed-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Oilseed crops",
+      "Poppy seed"
+    ],
+    "Options": [
+      "Poppy seed production",
+      "Sesame seed production",
+      "Rapeseed production",
+      "Sunflower seed production"
+    ],
+    "Answer": "Poppy seed production",
+    "Explanation": "This cartogram represents poppy seed production. Territory area is resized according to national production rather than physical land area. Central and eastern European producers and Turkey are enlarged in line with the geography of poppy seed cultivation."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0128-plum-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0128-plum-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PlumProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/plum-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Plums"
+    ],
+    "Options": [
+      "Plum production",
+      "Peach production",
+      "Apricot production",
+      "Cherry production"
+    ],
+    "Answer": "Plum production",
+    "Explanation": "This cartogram represents plum production. Territory area is resized according to national production rather than physical land area. China and parts of Europe expand strongly, matching the concentration of global plum output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0129-plantain-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0129-plantain-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PlantainProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/plantain-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical crops",
+      "Plantains"
+    ],
+    "Options": [
+      "Plantain production",
+      "Banana production",
+      "Cassava production",
+      "Yam production"
+    ],
+    "Answer": "Plantain production",
+    "Explanation": "This cartogram represents plantain production. Territory area is resized according to national production rather than physical land area. Tropical Africa and Latin America are prominent, where plantains are major food and market crops."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0133-pepper-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0133-pepper-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PepperProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/pepper-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Spice crops",
+      "Pepper"
+    ],
+    "Options": [
+      "Pepper production",
+      "Dry chilli production",
+      "Ginger production",
+      "Vanilla production"
+    ],
+    "Answer": "Pepper production",
+    "Explanation": "This cartogram represents pepper production. Territory area is resized according to national production rather than physical land area. South and Southeast Asian producing regions are enlarged, consistent with the tropical distribution of pepper cultivation."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0143-mango-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0143-mango-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_MangoProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/mango-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical fruit",
+      "Mangoes"
+    ],
+    "Options": [
+      "Mango production",
+      "Papaya production",
+      "Pineapple production",
+      "Avocado production"
+    ],
+    "Answer": "Mango production",
+    "Explanation": "This cartogram represents mango production. Territory area is resized according to national production rather than physical land area. India is especially enlarged, with other tropical Asian and Latin American producers also prominent."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0150-vanilla-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0150-vanilla-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_VanillaProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/vanilla-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Spice crops",
+      "Vanilla"
+    ],
+    "Options": [
+      "Vanilla production",
+      "Cocoa bean production",
+      "Coffee production",
+      "Tea production"
+    ],
+    "Answer": "Vanilla production",
+    "Explanation": "This cartogram represents vanilla production. Territory area is resized according to national production rather than physical land area. Madagascar expands dramatically because of its dominant role in natural vanilla production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0151-strawberry-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0151-strawberry-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_StrawberryProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/strawberry-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Strawberries"
+    ],
+    "Options": [
+      "Strawberry production",
+      "Raspberry production",
+      "Blueberry production",
+      "Cherry production"
+    ],
+    "Answer": "Strawberry production",
+    "Explanation": "This cartogram represents strawberry production. Territory area is resized according to national production rather than physical land area. China, the United States, Mexico and parts of Europe are enlarged in line with major strawberry output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0160-rubber-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0160-rubber-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_RubberProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/rubber-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Industrial crops",
+      "Natural rubber"
+    ],
+    "Options": [
+      "Natural rubber production",
+      "Palm oil production",
+      "Cotton fibre production",
+      "Silk production"
+    ],
+    "Answer": "Natural rubber production",
+    "Explanation": "This cartogram represents natural rubber production. Territory area is resized according to national production rather than physical land area. Southeast Asia dominates the distorted map because Thailand, Indonesia and nearby countries lead natural rubber production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0161-pineapple-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0161-pineapple-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PineappleProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/pineapple-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical fruit",
+      "Pineapples"
+    ],
+    "Options": [
+      "Pineapple production",
+      "Papaya production",
+      "Mango production",
+      "Banana production"
+    ],
+    "Answer": "Pineapple production",
+    "Explanation": "This cartogram represents pineapple production. Territory area is resized according to national production rather than physical land area. Costa Rica, Brazil and Southeast Asian producers are prominent, reflecting tropical pineapple cultivation."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0163-palm-oil-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0163-palm-oil-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/07/ProcessedCrops_PalmOilProduction_2014-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/palm-oil-production-2014/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Oil crops",
+      "Palm oil"
+    ],
+    "Options": [
+      "Palm oil production",
+      "Coconut oil production",
+      "Soybean oil production",
+      "Olive oil production"
+    ],
+    "Answer": "Palm oil production",
+    "Explanation": "This cartogram represents palm oil production. Territory area is resized according to national production rather than physical land area. Indonesia and Malaysia are overwhelmingly enlarged because they dominate global palm oil output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0169-papaya-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0169-papaya-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PapayaProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/papaya-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical fruit",
+      "Papayas"
+    ],
+    "Options": [
+      "Papaya production",
+      "Mango production",
+      "Pineapple production",
+      "Avocado production"
+    ],
+    "Answer": "Papaya production",
+    "Explanation": "This cartogram represents papaya production. Territory area is resized according to national production rather than physical land area. India and other tropical Asian and Latin American countries expand in line with papaya production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0174-hops-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0174-hops-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/10/Crops_HopsProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/hops-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Beverage crops",
+      "Hops"
+    ],
+    "Options": [
+      "Hops production",
+      "Barley production",
+      "Wine grape production",
+      "Tobacco production"
+    ],
+    "Answer": "Hops production",
+    "Explanation": "This cartogram represents hops production. Territory area is resized according to national production rather than physical land area. Germany, the United States and central European producers are prominent, matching the geography of hops grown for brewing."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0176-honey-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0176-honey-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/10/Agriculture_Honey_Production_2017-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/honey-production-2017/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Animal products",
+      "Honey"
+    ],
+    "Options": [
+      "Honey production",
+      "Egg production",
+      "Milk production",
+      "Wool production"
+    ],
+    "Answer": "Honey production",
+    "Explanation": "This cartogram represents honey production. Territory area is resized according to national production rather than physical land area. China and several temperate agricultural regions are enlarged because territory size follows honey output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0181-pistachio-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0181-pistachio-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PistachioProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/pistacchio-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tree nuts",
+      "Pistachios"
+    ],
+    "Options": [
+      "Pistachio production",
+      "Almond production",
+      "Hazelnut production",
+      "Walnut production"
+    ],
+    "Answer": "Pistachio production",
+    "Explanation": "This cartogram represents pistachio production. Territory area is resized according to national production rather than physical land area. Iran, the United States and Turkey are enlarged, matching the concentration of pistachio cultivation."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0210-grape-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0210-grape-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/10/Crops_Grapes_Production_2017-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/grape-production-2017/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Grapes"
+    ],
+    "Options": [
+      "Grape production",
+      "Olive production",
+      "Apple production",
+      "Orange production"
+    ],
+    "Answer": "Grape production",
+    "Explanation": "This cartogram represents grape production. Territory area is resized according to national production rather than physical land area. China, Mediterranean Europe and the Americas are prominent, reflecting major table-grape and wine-grape regions."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0238-kiwi-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0238-kiwi-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_KiwiProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/kiwi-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Kiwifruit"
+    ],
+    "Options": [
+      "Kiwi production",
+      "Pear production",
+      "Apple production",
+      "Plum production"
+    ],
+    "Answer": "Kiwi production",
+    "Explanation": "This cartogram represents kiwi production. Territory area is resized according to national production rather than physical land area. China, Italy and New Zealand stand out in line with their importance in kiwifruit production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0243-pear-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0243-pear-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PearProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/pear-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Pears"
+    ],
+    "Options": [
+      "Pear production",
+      "Apple production",
+      "Peach production",
+      "Plum production"
+    ],
+    "Answer": "Pear production",
+    "Explanation": "This cartogram represents pear production. Territory area is resized according to national production rather than physical land area. China expands strongly because it accounts for a large share of world pear production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0271-avocado-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0271-avocado-production-2016.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/06/Crops_AvocadoProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/avocado-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical fruit",
+      "Avocados"
+    ],
+    "Options": [
+      "Avocado production",
+      "Mango production",
+      "Papaya production",
+      "Olive production"
+    ],
+    "Answer": "Avocado production",
+    "Explanation": "This cartogram represents avocado production. Territory area is resized according to national production rather than physical land area. Mexico is exceptionally enlarged, with other Latin American producers also visible."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0290-yams-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0290-yams-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_YamsProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/yams-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Root crops",
+      "Yams"
+    ],
+    "Options": [
+      "Yam production",
+      "Cassava production",
+      "Sweet potato production",
+      "Potato production"
+    ],
+    "Answer": "Yam production",
+    "Explanation": "This cartogram represents yam production. Territory area is resized according to national production rather than physical land area. West Africa dominates the cartogram, consistent with the concentration of global yam production there."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0336-tobacco-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0336-tobacco-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/08/Crop_TobaccoProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/tobacco-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Industrial crops",
+      "Tobacco"
+    ],
+    "Options": [
+      "Tobacco production",
+      "Tea production",
+      "Coffee production",
+      "Natural rubber production"
+    ],
+    "Answer": "Tobacco production",
+    "Explanation": "This cartogram represents tobacco production. Territory area is resized according to national production rather than physical land area. China, Brazil and India expand strongly in line with their large shares of tobacco output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0357-peach-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0357-peach-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PeachProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/peach-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Fruit crops",
+      "Peaches"
+    ],
+    "Options": [
+      "Peach production",
+      "Plum production",
+      "Apricot production",
+      "Pear production"
+    ],
+    "Answer": "Peach production",
+    "Explanation": "This cartogram represents peach production. Territory area is resized according to national production rather than physical land area. China is greatly enlarged because it is the leading producer of peaches and nectarines."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0434-spinach-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0434-spinach-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_SpinachProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/spinach-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Vegetable crops",
+      "Spinach"
+    ],
+    "Options": [
+      "Spinach production",
+      "Cabbage production",
+      "Lettuce production",
+      "Broccoli production"
+    ],
+    "Answer": "Spinach production",
+    "Explanation": "This cartogram represents spinach production. Territory area is resized according to national production rather than physical land area. China dominates the distorted map, reflecting its very large share of global spinach production."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0476-walnut-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0476-walnut-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_WalnutProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/walnut-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tree nuts",
+      "Walnuts"
+    ],
+    "Options": [
+      "Walnut production",
+      "Hazelnut production",
+      "Almond production",
+      "Pistachio production"
+    ],
+    "Answer": "Walnut production",
+    "Explanation": "This cartogram represents walnut production. Territory area is resized according to national production rather than physical land area. China, the United States and Iran are prominent, matching major walnut-producing regions."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0485-tomato-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0485-tomato-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/01/Crops_TomatoProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/tomato-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Vegetable crops",
+      "Tomatoes"
+    ],
+    "Options": [
+      "Tomato production",
+      "Pepper production",
+      "Eggplant production",
+      "Cucumber production"
+    ],
+    "Answer": "Tomato production",
+    "Explanation": "This cartogram represents tomato production. Territory area is resized according to national production rather than physical land area. China, India, the United States and Mediterranean producers expand in line with tomato output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0563-banana-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0563-banana-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/08/Crops_BananaProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/banana-production/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Tropical fruit",
+      "Bananas"
+    ],
+    "Options": [
+      "Banana production",
+      "Plantain production",
+      "Pineapple production",
+      "Papaya production"
+    ],
+    "Answer": "Banana production",
+    "Explanation": "This cartogram represents banana production. Territory area is resized according to national production rather than physical land area. India, China, Southeast Asia and Latin America are enlarged because the map represents banana output."
+  },
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-0581-ginger-production",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0581-ginger-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/10/Crops_GingerProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/ginger-production-2016/",
+    "Category/Tags": [
+      "Agriculture and food",
+      "Worldmapper",
+      "Cartogram",
+      "Spice crops",
+      "Ginger"
+    ],
+    "Options": [
+      "Ginger production",
+      "Pepper production",
+      "Garlic production",
+      "Vanilla production"
+    ],
+    "Answer": "Ginger production",
+    "Explanation": "This cartogram represents ginger production. Territory area is resized according to national production rather than physical land area. India, China and Nigeria are prominent, matching the tropical and subtropical geography of ginger production."
   }
 ]

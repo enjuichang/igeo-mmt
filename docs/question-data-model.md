@@ -31,6 +31,8 @@ The `PracticeQuestion` type is only a UI projection. `toPracticeQuestion()` is t
 
 Curated records live in `data/questions/questions.json`. Each JSON object contains `Question Name`, `Question ID`, `Image/Media source`, `Source URL`, `Category/Tags`, `Options`, `Answer` and `Explanation`. `question-bank.ts` validates and projects those fields into the application model. Source definitions live independently in `data/questions/sources.ts`. The downloaded Worldmapper manifest and images remain untouched in `data/worldmapper`.
 
+`data/questions/igeo-source.json` tracks whether official past MMT material can be included. It remains disabled while the official document library marks MMT files unavailable or their multimedia cannot be redistributed. This avoids treating public access as permission to republish third-party assessment media.
+
 ## Supabase workflow
 
 Apply `supabase/migrations/20260720_create_question_bank.sql` when a Supabase project is available. It creates normalized sources, generation runs and questions, plus constraints for four unique choices and an answer that matches the selected option.
