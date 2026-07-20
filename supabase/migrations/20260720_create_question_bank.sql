@@ -42,6 +42,7 @@ create table public.questions (
   media_kind public.question_media_kind not null,
   media_alt text not null,
   category text not null,
+  tags text[] not null default '{}',
   skill text not null,
   difficulty public.question_difficulty not null,
   status public.question_status not null default 'draft',

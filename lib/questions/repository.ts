@@ -19,6 +19,7 @@ export function toPracticeQuestion(record: QuestionRecord): PracticeQuestion {
     sourceName: record.source.name,
     sourceUrl: record.source.url,
     topic: record.category,
+    tags: record.tags,
     skill: record.skill,
     prompt: record.question,
     options: record.options,
@@ -26,6 +27,7 @@ export function toPracticeQuestion(record: QuestionRecord): PracticeQuestion {
     explanation: record.reasoning,
     difficulty: record.difficulty,
     mediaLink: record.mediaLink,
+    mediaAlt: record.mediaAlt,
     variant: record.visualVariant,
   };
 }

@@ -21,7 +21,7 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /<title>GeoLens/);
   assert.match(html, /Read the world/);
   assert.match(html, /Build your test/);
-  assert.match(html, /Gapminder \+ Worldmapper/);
+  assert.match(html, /Worldmapper crop cartograms/);
   assert.match(html, /Evidence with a paper trail/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
 });

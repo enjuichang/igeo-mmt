@@ -7,9 +7,9 @@ The project is independent and educational. It is not affiliated with, endorsed 
 ## What is implemented
 
 - A polished responsive generator and timed test-taking experience
-- 40 source-aware question templates across physical and human geography
-- Three source collections: all sources, Gapminder + Worldmapper, and an open-data mix
-- Configurable 5, 10, 20 or 40-question tests where the selected collection has enough templates
+- 10 reviewed Worldmapper crop-cartogram questions stored as JSON
+- Closely related distractors within the same agricultural product family
+- Configurable 5 or 10-question practice tests
 - 45, 60 or 75-second pacing per question
 - Four-option answer selection, scoring, explanations and source verification links
 - Visual resource renderers for cartograms, scatter plots, climate bars, satellite imagery, occurrence maps and indicator tables
@@ -124,7 +124,8 @@ app/
   page.tsx            Generator, test runner and review UI
   globals.css         Responsive visual system and resource renderers
 data/questions/
-  question-bank.ts    Canonical local seed records
+  questions.json      Human-readable reviewed question records
+  question-bank.ts    JSON-to-application adapter
   sources.ts          Provider, licence and media defaults
 lib/questions/
   types.ts            Storage and UI types
@@ -143,7 +144,7 @@ public/
   hosting.json        Sites hosting metadata
 ```
 
-The website no longer contains question content. It imports a UI projection from the question domain, which currently uses the read-only local bank and can later be replaced by `SupabaseQuestionRepository` without rewriting the test interface.
+The website no longer contains question content. It imports a UI projection from the question domain. The editorial source of truth is `data/questions/questions.json`; `question-bank.ts` validates and adapts it for the website. The downloaded Worldmapper manifest and images remain separate under `data/worldmapper`.
 
 ## Supabase-ready storage
 

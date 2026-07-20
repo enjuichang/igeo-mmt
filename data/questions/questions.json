@@ -1,0 +1,192 @@
+[
+  {
+    "Question Name": "What does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-crop-0001-sunflower",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0001-sunflower-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_SunflowerProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/sunflower-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Sunflower"],
+    "Options": [
+      "Sunflower seed production",
+      "Pumpkin production",
+      "Cotton production",
+      "Barley production"
+    ],
+    "Answer": "Sunflower seed production",
+    "Explanation": "This cartogram shows sunflower seed production in 2016. Territory area is resized according to national production; the greatly enlarged parts of eastern Europe and Russia, together with Argentina, match the geography of major sunflower producers."
+  },
+  {
+    "Question Name": "Which agricultural product is represented by this Worldmapper cartogram?",
+    "Question ID": "worldmapper-crop-0002-olive",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0002-olive-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2026/02/Crops_OlivesProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/olive-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Olives"],
+    "Options": [
+      "Olive production",
+      "Grape production",
+      "Orange production",
+      "Date production"
+    ],
+    "Answer": "Olive production",
+    "Explanation": "This cartogram represents olive production in 2016. The Mediterranean basin—especially Spain and other southern European producers—is strongly enlarged, which is characteristic of the global distribution of olive cultivation."
+  },
+  {
+    "Question Name": "What crop production does this distorted world map show?",
+    "Question ID": "worldmapper-crop-0117-pumpkin",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0117-pumpkin-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2020/02/Crops_PumpkinProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/pumpkin-production/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Crop production", "Pumpkins"],
+    "Options": [
+      "Pumpkin production",
+      "Watermelon production",
+      "Cucumber production",
+      "Tomato production"
+    ],
+    "Answer": "Pumpkin production",
+    "Explanation": "This is Worldmapper's 2016 pumpkin production cartogram. Countries are resized by their share of the mapped production total, so large producing countries—particularly China and India—occupy much more area than on a conventional map."
+  },
+  {
+    "Question Name": "Which cereal crop is mapped in this cartogram?",
+    "Question ID": "worldmapper-crop-0256-maize",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0256-maize-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/10/Crops_MaizeProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/maize-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Maize"],
+    "Options": [
+      "Maize production",
+      "Wheat production",
+      "Rice production",
+      "Barley production"
+    ],
+    "Answer": "Maize production",
+    "Explanation": "This cartogram maps maize production in 2016. The United States, China, Brazil and Argentina are visibly enlarged because territory size represents the amount of maize produced rather than physical land area."
+  },
+  {
+    "Question Name": "Which beverage crop does this Worldmapper cartogram represent?",
+    "Question ID": "worldmapper-crop-0351-coffee",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0351-coffee-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/04/Production_Coffee_2014-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/coffee-production-2014/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Plantation crops", "Coffee"],
+    "Options": [
+      "Coffee production",
+      "Cocoa bean production",
+      "Tea production",
+      "Tobacco production"
+    ],
+    "Answer": "Coffee production",
+    "Explanation": "This cartogram represents coffee production in 2014. The enlargement of Brazil, Vietnam, Colombia and coffee-growing parts of Africa is consistent with the global concentration of coffee cultivation in tropical regions."
+  },
+  {
+    "Question Name": "Which grain production pattern is shown on this cartogram?",
+    "Question ID": "worldmapper-crop-0438-wheat",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0438-wheat-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/01/Crops_WheatProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/wheat-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Wheat"],
+    "Options": [
+      "Wheat production",
+      "Barley production",
+      "Rye production",
+      "Oat production"
+    ],
+    "Answer": "Wheat production",
+    "Explanation": "This map shows wheat production in 2016. China, India, Russia, North America and parts of Europe are enlarged because their territory size is proportional to wheat output."
+  },
+  {
+    "Question Name": "Which oilseed crop is represented by this Worldmapper cartogram?",
+    "Question ID": "worldmapper-crop-0439-soybean",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0439-soybean-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/02/Crops_SoyBeans_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/soybean-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Oilseed crops", "Soybeans"],
+    "Options": [
+      "Soybean production",
+      "Groundnut production",
+      "Rapeseed production",
+      "Sunflower seed production"
+    ],
+    "Answer": "Soybean production",
+    "Explanation": "This is the 2016 soybean production cartogram. The exceptional enlargement of the United States, Brazil and Argentina reflects their dominant shares of global soybean output."
+  },
+  {
+    "Question Name": "Which staple crop does this cartogram represent?",
+    "Question ID": "worldmapper-crop-0477-rice",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0477-rice-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2019/01/Crops_RiceProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/rice-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Staple crops", "Rice"],
+    "Options": [
+      "Rice production",
+      "Wheat production",
+      "Maize production",
+      "Millet production"
+    ],
+    "Answer": "Rice production",
+    "Explanation": "This cartogram maps rice production in 2016. China, India and Southeast Asia expand dramatically, reflecting the strong concentration of global rice production in monsoon Asia."
+  },
+  {
+    "Question Name": "Which plantation crop is shown by this cartogram?",
+    "Question ID": "worldmapper-crop-0537-tea",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0537-tea-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/12/Crops_TeaProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/tea-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Plantation crops", "Tea"],
+    "Options": [
+      "Tea production",
+      "Coffee production",
+      "Cocoa bean production",
+      "Tobacco production"
+    ],
+    "Answer": "Tea production",
+    "Explanation": "This cartogram represents tea production in 2016. China and India dominate the distorted map, with Kenya and Sri Lanka also enlarged in line with their importance as tea producers."
+  },
+  {
+    "Question Name": "Which cereal production total determines the size of countries on this map?",
+    "Question ID": "worldmapper-crop-0653-barley",
+    "Image/Media source": {
+      "Provider": "Worldmapper",
+      "Local path": "data/worldmapper/images/0653-barley-production.png",
+      "Image URL": "https://worldmapper.org/wp-content/uploads/2018/08/Crops_BarleyProduction_2016-660x330.png"
+    },
+    "Source URL": "https://worldmapper.org/maps/barley-production-2016/",
+    "Category/Tags": ["Agriculture and food", "Worldmapper", "Cartogram", "Cereal crops", "Barley"],
+    "Options": [
+      "Barley production",
+      "Wheat production",
+      "Rye production",
+      "Oat production"
+    ],
+    "Answer": "Barley production",
+    "Explanation": "This is Worldmapper's barley production cartogram for 2016. Europe, Russia, Canada and Australia are enlarged because the map resizes territories according to barley output."
+  }
+]

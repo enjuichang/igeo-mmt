@@ -40,6 +40,7 @@ export type QuestionRecord = {
   mediaKind: MediaKind;
   mediaAlt: string;
   category: string;
+  tags: string[];
   skill: string;
   difficulty: QuestionDifficulty;
   status: QuestionStatus;
@@ -57,6 +58,7 @@ export type PracticeQuestion = {
   sourceName: string;
   sourceUrl: string;
   topic: string;
+  tags: string[];
   skill: string;
   prompt: string;
   options: string[];
@@ -64,6 +66,7 @@ export type PracticeQuestion = {
   explanation: string;
   difficulty: QuestionDifficulty;
   mediaLink: string;
+  mediaAlt: string;
   variant: number;
 };
 

@@ -6,9 +6,7 @@ import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
 
 const sourceModes = {
-  all: { label: "All verified sources", keys: Object.keys(sourceInfo) as SourceKey[] },
-  core: { label: "Gapminder + Worldmapper", keys: ["gapminder", "worldmapper"] as SourceKey[] },
-  open: { label: "Open data mix", keys: ["usgs", "noaa", "nasa", "worldbank", "gbif", "openmaps"] as SourceKey[] },
+  worldmapper: { label: "Worldmapper crop cartograms", keys: ["worldmapper"] as SourceKey[] },
 };
 
 function shuffled<T>(items: T[]) {
@@ -92,8 +90,8 @@ function ResourceVisual({ question }: { question: Question }) {
   if (question.source === "worldmapper") {
     return (
       <figure className="worldmapper-figure">
-        <img src="/worldmapper-co2-2020.png" alt="Worldmapper CO2 emissions per capita 2020 cartogram" />
-        <figcaption>Worldmapper · CO₂ emissions per capita 2020 · CC BY-NC-SA 4.0</figcaption>
+        <img src={question.mediaLink} alt={question.mediaAlt} />
+        <figcaption>Worldmapper · crop production cartogram · CC BY-NC-SA 4.0</figcaption>
       </figure>
     );
   }
@@ -110,7 +108,7 @@ function SourceMark({ source }: { source: SourceKey }) {
 }
 
 export default function Home() {
-  const [mode, setMode] = useState<keyof typeof sourceModes>("all");
+  const [mode, setMode] = useState<keyof typeof sourceModes>("worldmapper");
   const [length, setLength] = useState(10);
   const [seconds, setSeconds] = useState(60);
   const [test, setTest] = useState<Question[] | null>(null);
@@ -120,7 +118,7 @@ export default function Home() {
   const [finished, setFinished] = useState(false);
 
   const available = useMemo(() => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)), [mode]);
-  const preview = available[mode === "core" ? 5 : 1] ?? available[0];
+  const preview = available[1] ?? available[0];
 
   useEffect(() => {
     if (!test || finished) return;
@@ -229,7 +227,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <div className="kicker"><span>iGEO-style practice lab</span><span>40 source-verified templates</span></div>
+          <div className="kicker"><span>iGEO-style practice lab</span><span>{questionBank.length} reviewed Worldmapper questions</span></div>
           <h1>Read the world.<br /><em>Question</em> the evidence.</h1>
           <p>Generate fast, visual geography practice from trusted global datasets—with every map, chart and answer tied back to its source.</p>
           <div className="hero-actions"><a className="primary-button" href="#builder">Generate a practice test <span>↗</span></a><a className="text-button" href="#method">See how it works <span>↓</span></a></div>
@@ -240,7 +238,7 @@ export default function Home() {
           <div className="pulse-dot" />
           <div className="hero-label label-a">CARTOGRAM</div><div className="hero-label label-b">CLIMATE</div><div className="hero-label label-c">CHANGE</div>
         </div>
-        <div className="hero-stats"><div><strong>40</strong><span>question templates</span></div><div><strong>12</strong><span>iGEO topic areas</span></div><div><strong>8</strong><span>trusted source families</span></div><div><strong>4</strong><span>choices per question</span></div></div>
+        <div className="hero-stats"><div><strong>{questionBank.length}</strong><span>reviewed questions</span></div><div><strong>1</strong><span>focused topic family</span></div><div><strong>1</strong><span>verified source</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
       </section>
 
       <section className="builder-section" id="builder">
@@ -249,15 +247,15 @@ export default function Home() {
           <div className="controls-card">
             <div className="control-group"><label>Source collection</label><div className="mode-list">
               {(Object.entries(sourceModes) as [keyof typeof sourceModes, typeof sourceModes.all][]).map(([key, item]) => (
-                <button key={key} className={mode === key ? "active" : ""} onClick={() => { setMode(key); if (key === "core" && length > 10) setLength(10); }}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length} templates</small><i>{mode === key ? "●" : "○"}</i></button>
+                <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length} reviewed questions</small><i>{mode === key ? "●" : "○"}</i></button>
               ))}
             </div></div>
             <div className="control-row"><div className="control-group"><label>Questions</label><div className="segmented">
-              {[5, 10, 20, 40].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
+              {[5, 10].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
             </div></div><div className="control-group"><label>Time per item</label><div className="segmented">
               {[45, 60, 75].map((value) => <button key={value} className={seconds === value ? "active" : ""} onClick={() => setSeconds(value)}>{value}s</button>)}
             </div></div></div>
-            <div className="coverage"><div><span>Coverage</span><b>{sourceModes[mode].keys.length} source families · {Math.min(length, available.length)} questions</b></div><div className="coverage-bar"><span style={{ width: `${Math.min(100, (Math.min(length, available.length) / 40) * 100)}%` }} /></div></div>
+            <div className="coverage"><div><span>Coverage</span><b>{sourceModes[mode].keys.length} source family · {Math.min(length, available.length)} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (Math.min(length, available.length) / available.length) * 100 : 0}%` }} /></div></div>
             <button className="generate-button" onClick={generateTest}><span>Generate practice test</span><b>↗</b></button>
             <small className="not-affiliated">Independent educational prototype. Not an official iGEO test.</small>
           </div>

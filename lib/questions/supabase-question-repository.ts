@@ -37,6 +37,7 @@ type DatabaseRow = {
   media_kind: MediaKind;
   media_alt: string;
   category: string;
+  tags: string[];
   skill: string;
   difficulty: QuestionDifficulty;
   status: QuestionStatus;
@@ -70,6 +71,7 @@ function toRecord(value: unknown): QuestionRecord {
     mediaKind: row.media_kind,
     mediaAlt: row.media_alt,
     category: row.category,
+    tags: row.tags,
     skill: row.skill,
     difficulty: row.difficulty,
     status: row.status,
@@ -94,6 +96,7 @@ function toDatabaseRow(input: CreateQuestionInput) {
     media_kind: input.mediaKind,
     media_alt: input.mediaAlt,
     category: input.category,
+    tags: input.tags,
     skill: input.skill,
     difficulty: input.difficulty,
     status: input.status,

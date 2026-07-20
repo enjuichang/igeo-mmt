@@ -7,7 +7,7 @@ app/page.tsx
     │ uses PracticeQuestion
     ▼
 QuestionRepository interface
-    ├── LocalQuestionRepository ── data/questions/question-bank.ts (current)
+    ├── LocalQuestionRepository ── data/questions/questions.json (current)
     └── SupabaseQuestionRepository ── public.questions (planned)
                                            │
                                            ├── public.question_sources
@@ -21,7 +21,7 @@ QuestionRepository interface
 - source: key, name, URL, description, licence and attribution
 - item: question, exactly four options, answer index/value and reasoning
 - media: link, kind and accessible alternative text
-- taxonomy: category, geographic skill and difficulty
+- taxonomy: category/tags list, geographic skill and difficulty
 - workflow: draft/review/published status, origin and generation run
 - audit: stable ID and created/updated timestamps
 
@@ -29,7 +29,7 @@ The `PracticeQuestion` type is only a UI projection. `toPracticeQuestion()` is t
 
 ## Current local workflow
 
-Curated records live in `data/questions/question-bank.ts`. Source definitions live independently in `data/questions/sources.ts`. The local repository is intentionally read-only, preventing browser-generated questions from being mistaken for reviewed content.
+Curated records live in `data/questions/questions.json`. Each JSON object contains `Question Name`, `Question ID`, `Image/Media source`, `Source URL`, `Category/Tags`, `Options`, `Answer` and `Explanation`. `question-bank.ts` validates and projects those fields into the application model. Source definitions live independently in `data/questions/sources.ts`. The downloaded Worldmapper manifest and images remain untouched in `data/worldmapper`.
 
 ## Supabase workflow
 
