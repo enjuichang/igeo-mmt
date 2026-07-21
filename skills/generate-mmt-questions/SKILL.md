@@ -102,6 +102,11 @@ Reject the item if the answer depends on:
 Create distractors from likely geographic misconceptions or misreadings, not random alternatives.
 
 - Make each option represent a meaningfully different conceptual category, causal pathway, implication, process, or evidence pattern.
+- Separate **semantic distance** from **visual plausibility**. Each distractor must be unrelated in subject matter while predicting a geographic distribution that could reasonably resemble the displayed resource.
+- For a map or cartogram, first identify the countries or regions with the largest, smallest, or most distinctive values. Then choose unrelated phenomena that could plausibly emphasize a similar set of places.
+- Prefer measured distribution similarity when a bank of comparable maps is available. For local, cropped, or single-country resources, use the named place and defensible geographic knowledge to predict where an unrelated phenomenon would be concentrated.
+- Reject inverse, umbrella, and same-subject pairs such as water access versus no water access, Serbian language versus spread of Serbian language, crop production versus crop consumption, or imports versus exports of the same good.
+- Require all four options to come from different broad semantic families, such as human development, culture and belief, mobility and communication, natural environment, production and exchange, or institutions and achievement.
 - Keep the options grammatically parallel and at similar specificity even though their concepts differ.
 - Do not distinguish options only by year ranges, small numerical boundaries, sex labels, trend direction, or neighboring subtypes in one taxonomy.
 - Reject sets such as "tweets in 2016-2019" versus "tweets in 2016-2020"; the year is not a meaningful conceptual distinction.
@@ -164,6 +169,9 @@ Run every item through all gates below. Revise or reject any item that fails.
 - Confirm exactly one option survives the wording, scale, date, and evidence.
 - Ask whether any reasonable expert interpretation makes a distractor correct; revise if so.
 - Name the conceptual category represented by each option during review and confirm all four categories are distinct.
+- Name each option's broader semantic family and confirm all four families are distinct; different labels inside one connected topic are not sufficiently independent.
+- Predict the high-value countries or regions for every option. Reject a distractor when its expected distribution plainly conflicts with the resource, even if its subject is unrelated.
+- Remove relationship words such as "no," "spread," "access," "production," "consumption," "imports," and "exports" mentally; if two options then share the same underlying subject, rewrite them.
 - Remove years, sex labels, and trend words mentally; if two options then become equivalent, rewrite them.
 
 ### Assessment gate
@@ -209,9 +217,9 @@ Return every generated question with exactly these keys and nesting unless the u
   ],
   "Options": [
     "Sunflower seed production",
-    "Earthquake-related displacement",
-    "Adult literacy",
-    "Mobile phone subscriptions"
+    "Migration to Cuba, 1990–2017",
+    "Heatwave deaths, 2001–2017",
+    "Christian Orthodox population"
   ],
   "Answer": "Sunflower seed production",
   "Explanation": "This cartogram shows sunflower seed production in 2016. Territory area is resized according to national production; the greatly enlarged parts of eastern Europe and Russia, together with Argentina, match the geography of major sunflower producers."

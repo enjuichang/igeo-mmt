@@ -17,9 +17,9 @@
     ],
     "Options": [
       "Sunflower seed production",
-      "Covid-19/Coronavirus cases (rates / per capita)",
-      "Migration from Switzerland 1990-2017",
-      "Tibetan Language"
+      "Migration to Cuba 1990-2017",
+      "Heatwaves Deaths 2001-2017",
+      "Christian Orthodox Population"
     ],
     "Answer": "Sunflower seed production",
     "Explanation": "This cartogram shows sunflower seed production in 2016. Territory area is resized according to national production; the greatly enlarged parts of eastern Europe and Russia, together with Argentina, match the geography of major sunflower producers."
@@ -42,9 +42,9 @@
     ],
     "Options": [
       "Olive production",
-      "Migration from Armenia 1990-2017",
-      "Tswana Language",
-      "Worldmapper Visit Times April-September 2018"
+      "Age 1-4 Deaths",
+      "Arabic Language",
+      "Migration to France 1990-2017"
     ],
     "Answer": "Olive production",
     "Explanation": "This cartogram represents olive production in 2016. The Mediterranean basin—especially Spain and other southern European producers—is strongly enlarged, which is characteristic of the global distribution of olive cultivation."
@@ -67,9 +67,9 @@
     ],
     "Options": [
       "Pumpkin production",
-      "Electricity Access Urban 2014",
-      "State visits received by Queen Elizabeth II",
-      "Floods Deaths 2001-2017"
+      "Deaths 2015",
+      "Religious Population",
+      "Mobile Subscriptions 2015"
     ],
     "Answer": "Pumpkin production",
     "Explanation": "This is Worldmapper's 2016 pumpkin production cartogram. Countries are resized by their share of the mapped production total, so large producing countries—particularly China and India—occupy much more area than on a conventional map."
@@ -92,9 +92,9 @@
     ],
     "Options": [
       "Maize production",
-      "Malaria Deaths",
-      "Migration from Kyrgyzstan 1990-2017",
-      "Hindi Language"
+      "Migration from Venezuela 1990-2017",
+      "Quaker Population",
+      "CO₂ Emissions from Oil 2020"
     ],
     "Answer": "Maize production",
     "Explanation": "This cartogram maps maize production in 2016. The United States, China, Brazil and Argentina are visibly enlarged because territory size represents the amount of maize produced rather than physical land area."
@@ -117,9 +117,9 @@
     ],
     "Options": [
       "Coffee production",
-      "Geese and Guineafowls",
-      "Other animals grown for meat, eggs, feathers and skins",
-      "Turkey Gridded Population"
+      "Volcanic Eruptions Damages 2000-2017",
+      "Covid-19/Coronavirus deaths June 2021",
+      "Migration to Bolivia 1990-2017"
     ],
     "Answer": "Coffee production",
     "Explanation": "This cartogram represents coffee production in 2014. The enlargement of Brazil, Vietnam, Colombia and coffee-growing parts of Africa is consistent with the global concentration of coffee cultivation in tropical regions."
@@ -142,9 +142,9 @@
     ],
     "Options": [
       "Wheat production",
-      "Spread of the Danish Language",
-      "Illiterate Young Women Surplus",
-      "Football World Cup Total Participations 1930-2018"
+      "Agnostic Population",
+      "CO₂ Emissions from Gas flaring 2020",
+      "IMF Votes"
     ],
     "Answer": "Wheat production",
     "Explanation": "This map shows wheat production in 2016. China, India, Russia, North America and parts of Europe are enlarged because their territory size is proportional to wheat output."
@@ -167,9 +167,9 @@
     ],
     "Options": [
       "Soybean production",
-      "Nobel Prize Male Laureates 1901-2025",
-      "Football World Cup Positive Goal Difference 1930-2014",
-      "CO₂ Emissions from Oil 2020"
+      "Migration from Colombia 1990-2017",
+      "Covid-19/Coronavirus deaths August 2020",
+      "Spread of the Italian Language"
     ],
     "Answer": "Soybean production",
     "Explanation": "This is the 2016 soybean production cartogram. The exceptional enlargement of the United States, Brazil and Argentina reflects their dominant shares of global soybean output."
@@ -192,9 +192,9 @@
     ],
     "Options": [
       "Rice production",
-      "Urban Living",
-      "UK EU Referendum 2016",
-      "Earthquakes 2000-2025"
+      "Storm Injured 2000-2017",
+      "Migration to Fiji 1990-2017",
+      "Spread of Burmese Language"
     ],
     "Answer": "Rice production",
     "Explanation": "This cartogram maps rice production in 2016. China, India and Southeast Asia expand dramatically, reflecting the strong concentration of global rice production in monsoon Asia."
@@ -217,9 +217,9 @@
     ],
     "Options": [
       "Tea production",
-      "Electricity Access Urban 2014",
-      "UK EU Referendum 2016",
-      "Avalanches/Landslides 2000-2017"
+      "Dharmic Religions",
+      "Migration from Indonesia 1990-2017",
+      "Underweight Children"
     ],
     "Answer": "Tea production",
     "Explanation": "This cartogram represents tea production in 2016. China and India dominate the distorted map, with Kenya and Sri Lanka also enlarged in line with their importance as tea producers."
@@ -242,9 +242,9 @@
     ],
     "Options": [
       "Barley production",
-      "Burkina Faso Gridded Population",
-      "Tanker Ships",
-      "UK General Election 2024: Conservative Party Vote Share"
+      "Non-religious Population",
+      "Population Year 1900",
+      "Olympic Bronze Medals 2018"
     ],
     "Answer": "Barley production",
     "Explanation": "This is Worldmapper's barley production cartogram for 2016. Europe, Russia, Canada and Australia are enlarged because the map resizes territories according to barley output."
@@ -267,9 +267,9 @@
     ],
     "Options": [
       "Potato production",
-      "Hydroelectric Power",
-      "Camels",
-      "Slovakia Gridded Population"
+      "Non-religious Population",
+      "Population Year 1900",
+      "Migration to Israel 1990-2017"
     ],
     "Answer": "Potato production",
     "Explanation": "This cartogram represents potato production. Territory area is resized according to national production rather than physical land area. The enlargement of China, India and parts of Europe matches the geography of major potato producers."
@@ -292,9 +292,9 @@
     ],
     "Options": [
       "Lentil production",
-      "UK General Election 2024: Vote Share of Other Parties (non-Labour/Conservative Votes)",
-      "Mobile Subscriptions 2002",
-      "Electricity Access Rural"
+      "Migration from Philippines 1990-2017",
+      "Storm Damages 2000-2017",
+      "Spread of the Korean Language"
     ],
     "Answer": "Lentil production",
     "Explanation": "This cartogram represents lentil production. Territory area is resized according to national production rather than physical land area. Canada and India are especially prominent, consistent with their large shares of world lentil output."
@@ -317,9 +317,9 @@
     ],
     "Options": [
       "Hazelnut production",
-      "Migration to Nigeria 1990-2017",
-      "Uzbek Language",
-      "Nobel Prize Male Laureates 1901-2025"
+      "Spread of Pashto Language",
+      "Migration from Egypt 1990-2017",
+      "Afghanistan Gridded Population"
     ],
     "Answer": "Hazelnut production",
     "Explanation": "This cartogram represents hazelnut production. Territory area is resized according to national production rather than physical land area. Turkey is exceptionally enlarged because it dominates global hazelnut production."
@@ -342,9 +342,9 @@
     ],
     "Options": [
       "Raspberry production",
-      "Donald Trump Tweets 2016-2019",
-      "Rural Living",
-      "Billionaires 2018"
+      "Nuclear Weapons Strategic Deployed 2017",
+      "Spread of Romanian Language",
+      "Malta Gridded Population"
     ],
     "Answer": "Raspberry production",
     "Explanation": "This cartogram represents raspberry production. Territory area is resized according to national production rather than physical land area. The enlarged areas in Russia, Europe and North America fit the distribution of leading raspberry producers."
@@ -367,9 +367,9 @@
     ],
     "Options": [
       "Poppy seed production",
-      "Genetically modified organisms (GMO) Production 2013",
-      "Sweden Gridded Population",
-      "State visits made by Queen Elizabeth II (Head of States and Commonwealth)"
+      "Migration to Austria 1990-2017",
+      "Bulgarian Language",
+      "Population Decline 1973 to 2022"
     ],
     "Answer": "Poppy seed production",
     "Explanation": "This cartogram represents poppy seed production. Territory area is resized according to national production rather than physical land area. Central and eastern European producers and Turkey are enlarged in line with the geography of poppy seed cultivation."
@@ -392,9 +392,9 @@
     ],
     "Options": [
       "Plum production",
-      "Republic of Korea (South Korea) Gridded Population",
-      "Dry Bulk Ships 2016",
-      "UK General Election 2024: Winning Parties"
+      "Beehives",
+      "Abrahamic Religions",
+      "Air traffic Accidents 1972 to 2017"
     ],
     "Answer": "Plum production",
     "Explanation": "This cartogram represents plum production. Territory area is resized according to national production rather than physical land area. China and parts of Europe expand strongly, matching the concentration of global plum output."
@@ -417,9 +417,9 @@
     ],
     "Options": [
       "Plantain production",
-      "Guide Michelin OneStar Restaurants 2018",
-      "UK General Election 2024: Vote Share of Other Parties (non-Labour/Conservative Votes)",
-      "Joe Biden Tweets 2021"
+      "Plant species endangered",
+      "Migration to Spain 1990-2017",
+      "Covid-19/Coronavirus cases June 2021"
     ],
     "Answer": "Plantain production",
     "Explanation": "This cartogram represents plantain production. Territory area is resized according to national production rather than physical land area. Tropical Africa and Latin America are prominent, where plantains are major food and market crops."
@@ -442,9 +442,9 @@
     ],
     "Options": [
       "Pepper production",
-      "People sentenced to death in 2020",
-      "Storm Injured 2000-2017",
-      "Covid-19/Coronavirus cases (January 2020 – November 2021)"
+      "Volcanic Eruptions Deaths 2000-2017",
+      "Migration to East Timor 1990-2017",
+      "Spread of the Min Language"
     ],
     "Answer": "Pepper production",
     "Explanation": "This cartogram represents pepper production. Territory area is resized according to national production rather than physical land area. South and Southeast Asian producing regions are enlarged, consistent with the tropical distribution of pepper cultivation."
@@ -467,9 +467,9 @@
     ],
     "Options": [
       "Mango production",
-      "100 plus Year Olds",
-      "GNI 2018",
-      "UK General Election 2024: Second-Placed Parties"
+      "Earthquakes 2000-2025",
+      "No Tertiary Education",
+      "Religious Population"
     ],
     "Answer": "Mango production",
     "Explanation": "This cartogram represents mango production. Territory area is resized according to national production rather than physical land area. India is especially enlarged, with other tropical Asian and Latin American producers also prominent."
@@ -492,9 +492,9 @@
     ],
     "Options": [
       "Vanilla production",
-      "Earthquakes Homeless 2000-2025",
-      "HIV Prevalence",
-      "Migration from Russia 1990-2017"
+      "Migration to Singapore 1990-2017",
+      "Tsunami Deaths 2001-2017",
+      "Spread of Burmese Language"
     ],
     "Answer": "Vanilla production",
     "Explanation": "This cartogram represents vanilla production. Territory area is resized according to national production rather than physical land area. Madagascar expands dramatically because of its dominant role in natural vanilla production."
@@ -517,9 +517,9 @@
     ],
     "Options": [
       "Strawberry production",
-      "Obesity Prevalence in Children",
-      "Asylum-seeker Origins 2018",
-      "French Language"
+      "Military Spending 2017",
+      "Jewish Population",
+      "Billionaires Wealth 2018"
     ],
     "Answer": "Strawberry production",
     "Explanation": "This cartogram represents strawberry production. Territory area is resized according to national production rather than physical land area. China, the United States, Mexico and parts of Europe are enlarged in line with major strawberry output."
@@ -542,9 +542,9 @@
     ],
     "Options": [
       "Natural rubber production",
-      "Death Penalty Sentences 2020",
-      "Mobile Subscriptions 2002",
-      "Electricity Access Urban 2014"
+      "Migration to Brunei 1990-2017",
+      "Malay Language",
+      "Tsunami Deaths 2001-2017"
     ],
     "Answer": "Natural rubber production",
     "Explanation": "This cartogram represents natural rubber production. Territory area is resized according to national production rather than physical land area. Southeast Asia dominates the distorted map because Thailand, Indonesia and nearby countries lead natural rubber production."
@@ -567,9 +567,9 @@
     ],
     "Options": [
       "Pineapple production",
-      "Joe Biden Tweets 2021-2023",
-      "Electricity Access Rural",
-      "Billionaires 2018"
+      "Volcanic Eruptions 2000-2017",
+      "Migration to Japan 1990-2017",
+      "Illiterate Young Men Surplus"
     ],
     "Answer": "Pineapple production",
     "Explanation": "This cartogram represents pineapple production. Territory area is resized according to national production rather than physical land area. Costa Rica, Brazil and Southeast Asian producers are prominent, reflecting tropical pineapple cultivation."
@@ -592,9 +592,9 @@
     ],
     "Options": [
       "Palm oil production",
-      "Billionaires 2018",
-      "Tsunami Deaths 2001-2017",
-      "Adults with Diabetes"
+      "Migration to East Timor 1990-2017",
+      "Malay Language",
+      "Tsunami Deaths 2001-2017"
     ],
     "Answer": "Palm oil production",
     "Explanation": "This cartogram represents palm oil production. Territory area is resized according to national production rather than physical land area. Indonesia and Malaysia are overwhelmingly enlarged because they dominate global palm oil output."
@@ -617,9 +617,9 @@
     ],
     "Options": [
       "Papaya production",
-      "Nobel Prize Male Laureates 1901-2025",
-      "Olympic Silver Medals 2018",
-      "Rodents"
+      "Asylum-seeker Origins 2018",
+      "Plant species endangered",
+      "Covid-19/Coronavirus deaths May 2021"
     ],
     "Answer": "Papaya production",
     "Explanation": "This cartogram represents papaya production. Territory area is resized according to national production rather than physical land area. India and other tropical Asian and Latin American countries expand in line with papaya production."
@@ -642,9 +642,9 @@
     ],
     "Options": [
       "Hops production",
-      "Wine Import",
-      "UK General Election 2024: Winning Parties",
-      "Joe Biden Tweets 2021"
+      "Spread of Czech Language",
+      "Migration from Cape Verde 1990-2017",
+      "Nobel Prize Physics 1901-2022"
     ],
     "Answer": "Hops production",
     "Explanation": "This cartogram represents hops production. Territory area is resized according to national production rather than physical land area. Germany, the United States and central European producers are prominent, matching the geography of hops grown for brewing."
@@ -667,9 +667,9 @@
     ],
     "Options": [
       "Honey production",
-      "Joe Biden Tweets 2021-2023",
-      "Electricity Access 2014",
-      "People sentenced to death in 2020"
+      "Electricity Access Urban 2014",
+      "Abrahamic Religions",
+      "Mobile Subscriptions 2015"
     ],
     "Answer": "Honey production",
     "Explanation": "This cartogram represents honey production. Territory area is resized according to national production rather than physical land area. China and several temperate agricultural regions are enlarged because territory size follows honey output."
@@ -692,9 +692,9 @@
     ],
     "Options": [
       "Pistachio production",
-      "HIV Prevalence",
-      "Migration from Malawi 1990-2017",
-      "Sinhala Language"
+      "Spread of the Korean Language",
+      "Migration from Philippines 1990-2017",
+      "Military Spending 2017"
     ],
     "Answer": "Pistachio production",
     "Explanation": "This cartogram represents pistachio production. Territory area is resized according to national production rather than physical land area. Iran, the United States and Turkey are enlarged, matching the concentration of pistachio cultivation."
@@ -717,9 +717,9 @@
     ],
     "Options": [
       "Grape production",
-      "Tsunami Damages 2001-2017",
-      "Heatwaves Deaths 2001-2017",
-      "Migration to Bulgaria 1990-2017"
+      "Internet Usage 2015",
+      "Abrahamic Religions",
+      "Air traffic Accidents 1972 to 2017"
     ],
     "Answer": "Grape production",
     "Explanation": "This cartogram represents grape production. Territory area is resized according to national production rather than physical land area. China, Mediterranean Europe and the Americas are prominent, reflecting major table-grape and wine-grape regions."
@@ -742,9 +742,9 @@
     ],
     "Options": [
       "Kiwi production",
-      "People sentenced to death in 2020",
-      "Droughts 2000-2017",
-      "Neonatal Deaths"
+      "Earthquakes Damages 2000-2025",
+      "UNESCO Heritage Mixed Sites",
+      "Migration to North Korea 1990-2017"
     ],
     "Answer": "Kiwi production",
     "Explanation": "This cartogram represents kiwi production. Territory area is resized according to national production rather than physical land area. China, Italy and New Zealand stand out in line with their importance in kiwifruit production."
@@ -767,9 +767,9 @@
     ],
     "Options": [
       "Pear production",
-      "Sunni Population",
-      "Adult Literacy",
-      "Olympic Bronze Medals 2018"
+      "Covid-19/Coronavirus cases April 2021",
+      "Spread of the German Language",
+      "Migration from Chile 1990-2017"
     ],
     "Answer": "Pear production",
     "Explanation": "This cartogram represents pear production. Territory area is resized according to national production rather than physical land area. China expands strongly because it accounts for a large share of world pear production."
@@ -792,9 +792,9 @@
     ],
     "Options": [
       "Avocado production",
-      "Age 1-4 Deaths",
-      "Migration to Sierra Leone 1990-2017",
-      "Spread of Pashto Language"
+      "Spanish Language",
+      "Football World Cup Negative Goal Difference 1930-2014",
+      "Migration to Panama 1990-2017"
     ],
     "Answer": "Avocado production",
     "Explanation": "This cartogram represents avocado production. Territory area is resized according to national production rather than physical land area. Mexico is exceptionally enlarged, with other Latin American producers also visible."
@@ -817,9 +817,9 @@
     ],
     "Options": [
       "Yam production",
-      "Football World Cup Matches Played 1930-2014",
-      "Freshwater Fish",
-      "Sheep"
+      "Fula Language",
+      "Migration to Ivory Coast 1990-2017",
+      "Ebola Deaths 1976-2016"
     ],
     "Answer": "Yam production",
     "Explanation": "This cartogram represents yam production. Territory area is resized according to national production rather than physical land area. West Africa dominates the cartogram, consistent with the concentration of global yam production there."
@@ -842,9 +842,9 @@
     ],
     "Options": [
       "Tobacco production",
-      "Proven Gas Reserves",
-      "Organic Producers 2015",
-      "Mongolia Gridded Population"
+      "Covid-19/Coronavirus cases May 2021",
+      "Plant species endangered",
+      "Migration from Uruguay 1990-2017"
     ],
     "Answer": "Tobacco production",
     "Explanation": "This cartogram represents tobacco production. Territory area is resized according to national production rather than physical land area. China, Brazil and India expand strongly in line with their large shares of tobacco output."
@@ -867,9 +867,9 @@
     ],
     "Options": [
       "Peach production",
-      "No Electricity Access",
-      "UK EU Referendum 2016",
-      "Floods Deaths 2001-2017"
+      "Abrahamic Religions",
+      "Obese Children",
+      "Air traffic Accidents 1972 to 2017"
     ],
     "Answer": "Peach production",
     "Explanation": "This cartogram represents peach production. Territory area is resized according to national production rather than physical land area. China is greatly enlarged because it is the leading producer of peaches and nectarines."
@@ -892,9 +892,9 @@
     ],
     "Options": [
       "Spinach production",
-      "People sentenced to death in 2020",
-      "Earthquake Risk",
-      "Covid-19/Coronavirus cases September 2020"
+      "CO₂ Emissions from Coal 2020",
+      "Migration from United Arab Emirates 1990-2017",
+      "GDP Growth 2017-2018"
     ],
     "Answer": "Spinach production",
     "Explanation": "This cartogram represents spinach production. Territory area is resized according to national production rather than physical land area. China dominates the distorted map, reflecting its very large share of global spinach production."
@@ -917,9 +917,9 @@
     ],
     "Options": [
       "Walnut production",
-      "Joe Biden Tweets 2021",
-      "Electricity Access Rural",
-      "State visits received by Queen Elizabeth II"
+      "Jewish Population",
+      "Military Spending 2017",
+      "Migration from Ethiopia 1990-2017"
     ],
     "Answer": "Walnut production",
     "Explanation": "This cartogram represents walnut production. Territory area is resized according to national production rather than physical land area. China, the United States and Iran are prominent, matching major walnut-producing regions."
@@ -942,9 +942,9 @@
     ],
     "Options": [
       "Tomato production",
-      "Football World Cup Match Wins 1930-2014",
-      "Coal Power",
-      "Buffalos"
+      "Adults with Diabetes",
+      "Japanese Language",
+      "Air traffic Accidents 1972 to 2017"
     ],
     "Answer": "Tomato production",
     "Explanation": "This cartogram represents tomato production. Territory area is resized according to national production rather than physical land area. China, India, the United States and Mediterranean producers expand in line with tomato output."
@@ -967,9 +967,9 @@
     ],
     "Options": [
       "Banana production",
-      "Mali Gridded Population",
-      "Work Force",
-      "UK General Election 2019"
+      "Plant species endangered",
+      "Illiterate Young Men Surplus",
+      "Asylum-seeker Origins 2018"
     ],
     "Answer": "Banana production",
     "Explanation": "This cartogram represents banana production. Territory area is resized according to national production rather than physical land area. India, China, Southeast Asia and Latin America are enlarged because the map represents banana output."
@@ -992,9 +992,9 @@
     ],
     "Options": [
       "Ginger production",
-      "Mobile Subscriptions 2002",
-      "Urban Living",
-      "People sentenced to death in 2020"
+      "Measles Cases 2011-2018",
+      "Migration to Saudi Arabia 1990-2017",
+      "Death Penalty Sentences 2020"
     ],
     "Answer": "Ginger production",
     "Explanation": "This cartogram represents ginger production. Territory area is resized according to national production rather than physical land area. India, China and Nigeria are prominent, matching the tropical and subtropical geography of ginger production."

@@ -2,9 +2,12 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 import {
+  areAdjacentTopics,
   assertDistinctConcepts,
   normalizeOptionText,
   worldmapperOptionCategory,
+  worldmapperSemanticDomain,
+  worldmapperSemanticFamily,
 } from "../scripts/question_option_taxonomy.mjs";
 
 async function render() {
@@ -91,6 +94,9 @@ test("Worldmapper bank contains all 1,222 valid source-linked questions", async 
   const raw = await readFile(new URL("../data/questions/worldmapper-draft-questions.json", import.meta.url), "utf8");
   const questions = JSON.parse(raw);
   const manifest = JSON.parse(await readFile(new URL("../data/worldmapper/maps.json", import.meta.url), "utf8"));
+  const distributionFeatures = JSON.parse(
+    await readFile(new URL("../data/worldmapper/distribution-features.json", import.meta.url), "utf8"),
+  );
   const itemsByName = new Map(manifest.items.map((item) => [normalizeOptionText(item.name), item]));
   const itemsBySourcePath = new Map(
     manifest.items.map((item) => [new URL(item.map_page_url).pathname.replace(/\/+$/, "").toLowerCase(), item]),
@@ -99,6 +105,13 @@ test("Worldmapper bank contains all 1,222 valid source-linked questions", async 
   assert.equal(new Set(questions.map((question) => question["Question ID"])).size, 1222);
   assert.equal(new Set(questions.map((question) => question["Source URL"])).size, 1222);
   assert.equal(new Set(questions.map((question) => question["Category/Tags"][0])).size, 11);
+  assert.equal(distributionFeatures.feature_version, 1);
+  assert.equal(distributionFeatures.item_count, manifest.item_count);
+  assert.equal(distributionFeatures.dimensions, 30);
+  assert.equal(distributionFeatures.items.length, manifest.item_count);
+  for (const feature of distributionFeatures.items) {
+    assert.equal(feature.vector.length, distributionFeatures.dimensions, `distribution feature ${feature.index}`);
+  }
 
   for (const question of questions) {
     assert.equal(question.Options.length, 4, question["Question ID"]);
@@ -120,5 +133,22 @@ test("Worldmapper bank contains all 1,222 valid source-linked questions", async 
       return worldmapperOptionCategory(distractorItem);
     });
     assert.equal(new Set(optionCategories).size, 4, `${question["Question ID"]}: ${optionCategories.join(", ")}`);
+    const optionItems = question.Options.map((option) => {
+      if (option === question.Answer) return sourceItem;
+      return itemsByName.get(normalizeOptionText(option));
+    });
+    const optionDomains = optionItems.map(worldmapperSemanticDomain);
+    const optionFamilies = optionItems.map(worldmapperSemanticFamily);
+    assert.equal(new Set(optionDomains).size, 4, `${question["Question ID"]}: ${optionDomains.join(", ")}`);
+    assert.equal(new Set(optionFamilies).size, 4, `${question["Question ID"]}: ${optionFamilies.join(", ")}`);
+    for (let left = 0; left < optionItems.length; left += 1) {
+      for (let right = left + 1; right < optionItems.length; right += 1) {
+        assert.equal(
+          areAdjacentTopics(optionItems[left], optionItems[right]),
+          false,
+          `${question["Question ID"]}: ${question.Options[left]} / ${question.Options[right]}`,
+        );
+      }
+    }
   }
 });

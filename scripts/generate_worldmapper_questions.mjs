@@ -2,20 +2,24 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  areAdjacentTopics,
   assertDistinctConcepts,
   normalizeOptionText,
-  optionConceptKey,
-  worldmapperOptionCategories,
   worldmapperOptionCategory,
+  worldmapperSemanticDomain,
+  worldmapperSemanticFamily,
+  worldmapperSubjectKey,
 } from "./question_option_taxonomy.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = path.join(projectRoot, "data/worldmapper/maps.json");
+const distributionFeaturePath = path.join(projectRoot, "data/worldmapper/distribution-features.json");
 const reviewedPath = path.join(projectRoot, "data/questions/questions.json");
 const outputPath = path.join(projectRoot, "data/questions/worldmapper-draft-questions.json");
 const checkOnly = process.argv.includes("--check");
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+const distributionFeatures = JSON.parse(fs.readFileSync(distributionFeaturePath, "utf8"));
 let reviewedQuestions = JSON.parse(fs.readFileSync(reviewedPath, "utf8"));
 const expectedKeys = [
   "Question Name",
@@ -38,25 +42,6 @@ const promptPatterns = [
   "Which description best identifies this Worldmapper cartogram?",
 ];
 
-const stopWords = new Set([
-  "a",
-  "all",
-  "and",
-  "at",
-  "between",
-  "by",
-  "for",
-  "from",
-  "in",
-  "of",
-  "per",
-  "the",
-  "to",
-  "total",
-  "world",
-  "year",
-]);
-
 function normalizeUrl(value) {
   const url = new URL(value);
   url.hash = "";
@@ -65,70 +50,121 @@ function normalizeUrl(value) {
   return url.toString();
 }
 
-function tokens(value) {
-  return new Set(
-    normalizeOptionText(value)
-      .split(/\s+/)
-      .filter((token) => token && !stopWords.has(token)),
-  );
-}
-
 function slugify(value) {
   return normalizeOptionText(value).replace(/\s+/g, "-").slice(0, 72).replace(/-+$/, "");
 }
 
-function categoryOverlap(left, right) {
-  const rightCategories = new Set(right.categories ?? []);
-  return (left.categories ?? []).filter((category) => rightCategories.has(category)).length;
-}
-
-function titleSimilarity(left, right) {
-  const leftTokens = tokens(left.name);
-  const rightTokens = tokens(right.name);
-  let shared = 0;
-  for (const token of leftTokens) {
-    if (rightTokens.has(token)) shared += 1;
+function validateDistributionFeatures() {
+  if (
+    distributionFeatures.feature_version !== 1 ||
+    distributionFeatures.item_count !== manifest.item_count ||
+    distributionFeatures.dimensions !== 30 ||
+    !Array.isArray(distributionFeatures.items) ||
+    distributionFeatures.items.length !== manifest.item_count
+  ) {
+    throw new Error("Worldmapper distribution-feature artifact is inconsistent");
   }
-  return shared;
+
+  const manifestByIndex = new Map(manifest.items.map((item) => [item.index, item]));
+  for (const feature of distributionFeatures.items) {
+    const item = manifestByIndex.get(feature.index);
+    if (!item || item.local_file !== feature.local_file || feature.vector.length !== distributionFeatures.dimensions) {
+      throw new Error(`Invalid distribution feature for Worldmapper item ${feature.index}`);
+    }
+  }
 }
 
-function distractorScore(item, candidate) {
-  return (
-    categoryOverlap(item, candidate) * -100 -
-    titleSimilarity(item, candidate) * 18 -
-    Math.min(Math.abs(item.index - candidate.index), 1000) / 1000
+validateDistributionFeatures();
+const featureByIndex = new Map(distributionFeatures.items.map((item) => [item.index, item.vector]));
+const ignoredGeographicWords = new Set([
+  "and",
+  "democratic",
+  "gridded",
+  "island",
+  "islands",
+  "population",
+  "republic",
+  "saint",
+  "states",
+  "united",
+]);
+const geographicReferenceStems = new Set(
+  manifest.items
+    .filter((item) => /gridded population/i.test(item.name))
+    .flatMap((item) => normalizeOptionText(item.name).split(/\s+/))
+    .filter((word) => word.length >= 4 && !ignoredGeographicWords.has(word))
+    .map((word) => word.slice(0, Math.min(5, word.length))),
+);
+
+function distributionSimilarity(left, right) {
+  const leftVector = featureByIndex.get(left.index);
+  const rightVector = featureByIndex.get(right.index);
+  if (!leftVector || !rightVector) throw new Error(`Missing distribution feature for ${left.index} or ${right.index}`);
+  return leftVector.reduce((sum, value, index) => sum + value * rightVector[index], 0);
+}
+
+function geographicStems(item) {
+  return new Set(
+    normalizeOptionText(item.name)
+      .split(/\s+/)
+      .filter((word) => word.length >= 4 && !ignoredGeographicWords.has(word))
+      .map((word) => word.slice(0, Math.min(5, word.length)))
+      .filter((word) => geographicReferenceStems.has(word)),
   );
+}
+
+function geographicAffinity(left, right) {
+  const leftStems = geographicStems(left);
+  const rightStems = geographicStems(right);
+  for (const stem of leftStems) if (rightStems.has(stem)) return 1;
+  return 0;
 }
 
 function chooseDistractors(item, items) {
   const answerCategory = worldmapperOptionCategory(item);
-  const seenConcepts = new Set([optionConceptKey(item.name)]);
+  const answerDomain = worldmapperSemanticDomain(item);
+  const answerFamily = worldmapperSemanticFamily(item);
+  const seenSubjects = new Set([worldmapperSubjectKey(item.name)]);
   const usedCategories = new Set([answerCategory]);
-  const categoryOrder = worldmapperOptionCategories.filter((category) => category !== answerCategory);
-  const offset = item.index % categoryOrder.length;
-  const rotatedCategories = [...categoryOrder.slice(offset), ...categoryOrder.slice(0, offset)];
+  const usedDomains = new Set([answerDomain]);
+  const usedFamilies = new Set([answerFamily]);
   const distractors = [];
-  for (const category of rotatedCategories) {
-    if (usedCategories.has(category)) continue;
-    const pool = items
-      .filter((candidate) => candidate.map_page_url !== item.map_page_url && worldmapperOptionCategory(candidate) === category)
-      .filter((candidate) => {
-        const concept = optionConceptKey(candidate.name);
-        return concept && !seenConcepts.has(concept);
-      })
-      .sort((left, right) => {
-        const scoreDifference = distractorScore(item, right) - distractorScore(item, left);
-        return scoreDifference || left.index - right.index;
-      });
-    if (!pool.length) continue;
-    const candidate = pool[(item.index * 17 + distractors.length * 23) % pool.length];
+
+  const rankedCandidates = items
+    .filter((candidate) => candidate.map_page_url !== item.map_page_url)
+    .filter((candidate) => !areAdjacentTopics(item, candidate))
+    .map((candidate) => {
+      const similarity = distributionSimilarity(item, candidate);
+      // A shared country/demonym is decisive for local gridded and language
+      // maps, whose cropped geometry is not directly comparable with a global
+      // cartogram. Otherwise the normalized visual-distribution score decides.
+      return { candidate, score: similarity + geographicAffinity(item, candidate) * 1.25 };
+    })
+    .sort((left, right) => right.score - left.score || left.candidate.index - right.candidate.index);
+
+  for (const { candidate } of rankedCandidates) {
+    const category = worldmapperOptionCategory(candidate);
+    const domain = worldmapperSemanticDomain(candidate);
+    const family = worldmapperSemanticFamily(candidate);
+    const subject = worldmapperSubjectKey(candidate.name);
+    if (
+      !subject ||
+      seenSubjects.has(subject) ||
+      usedCategories.has(category) ||
+      usedDomains.has(domain) ||
+      usedFamilies.has(family)
+    ) continue;
+    if (distractors.some((selected) => areAdjacentTopics(selected, candidate))) continue;
     distractors.push(candidate.name);
-    seenConcepts.add(optionConceptKey(candidate.name));
+    seenSubjects.add(subject);
     usedCategories.add(category);
+    usedDomains.add(domain);
+    usedFamilies.add(family);
     if (distractors.length === 3) break;
   }
+
   if (distractors.length !== 3) {
-    throw new Error(`Unable to find three cross-category distractors for ${item.map_page_url}`);
+    throw new Error(`Unable to find three unrelated, distribution-matched distractors for ${item.map_page_url}`);
   }
   return distractors;
 }
@@ -244,6 +280,26 @@ function validateQuestion(question, index, ids, sourceUrls) {
   });
   if (new Set(optionCategories).size !== 4) {
     throw new Error(`Options must represent four distinct conceptual categories: ${question["Question ID"]}: ${optionCategories.join(", ")}`);
+  }
+
+  const optionItems = question.Options.map((option) => {
+    if (option === question.Answer) return sourceItem;
+    return manifest.items.find((item) => normalizeOptionText(item.name) === normalizeOptionText(option));
+  });
+  const optionDomains = optionItems.map(worldmapperSemanticDomain);
+  if (new Set(optionDomains).size !== 4) {
+    throw new Error(`Options must represent four distinct semantic domains: ${question["Question ID"]}: ${optionDomains.join(", ")}`);
+  }
+  const optionFamilies = optionItems.map(worldmapperSemanticFamily);
+  if (new Set(optionFamilies).size !== 4) {
+    throw new Error(`Options must represent four unrelated semantic families: ${question["Question ID"]}: ${optionFamilies.join(", ")}`);
+  }
+  for (let left = 0; left < optionItems.length; left += 1) {
+    for (let right = left + 1; right < optionItems.length; right += 1) {
+      if (areAdjacentTopics(optionItems[left], optionItems[right])) {
+        throw new Error(`Options contain adjacent topics: ${question["Question ID"]}: ${question.Options[left]} / ${question.Options[right]}`);
+      }
+    }
   }
 }
 
