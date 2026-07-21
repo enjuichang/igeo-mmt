@@ -11,6 +11,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "GeoLens — iGEO MMT Practice Generator",
     description: "Generate source-verified, visual geography practice inspired by the iGEO Multimedia Test.",
+    icons: {
+      icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+      shortcut: "/favicon.svg",
+    },
     openGraph: {
       title: "GeoLens — Read the world. Question the evidence.",
       description: "A source-aware iGEO MMT practice generator built with Gapminder, Worldmapper and open geographic data.",
