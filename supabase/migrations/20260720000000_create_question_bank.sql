@@ -33,6 +33,7 @@ create table public.question_generation_runs (
 create table public.questions (
   id text primary key default gen_random_uuid()::text,
   source_key text not null references public.question_sources(key) on update cascade,
+  source_url text not null,
   question text not null check (length(trim(question)) > 0),
   options text[] not null check (cardinality(options) = 4),
   answer_index smallint not null check (answer_index between 0 and 3),
@@ -102,6 +103,9 @@ using (status = 'published');
 
 grant select on public.question_sources to anon, authenticated;
 grant select on public.questions to anon, authenticated;
+grant all on public.question_sources to service_role;
+grant all on public.question_generation_runs to service_role;
+grant all on public.questions to service_role;
 
 comment on table public.questions is
   'Reviewed iGEO-style question bank. Server-generated rows begin as drafts and require editorial publication.';

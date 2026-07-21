@@ -42,3 +42,7 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# Supabase CLI local state
+/supabase/.branches/
+/supabase/.temp/

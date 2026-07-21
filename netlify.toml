@@ -1,7 +1,6 @@
 [build]
-  command = "npm run build:netlify"
+  command = "npm run deploy:check && npm run build:netlify"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22.13.0"
-

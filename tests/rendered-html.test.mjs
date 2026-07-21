@@ -29,7 +29,11 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /Surprise me — balanced mix/);
   assert.match(html, /option value="People">People.*568/s);
   assert.match(html, /Include real iGEO past questions/);
-  assert.match(html, /Evidence with a paper trail/);
+  assert.match(html, /Real data.*Carefully made questions/s);
+  assert.match(html, /verified by a human/i);
+  assert.match(html, /PopulationPyramid\.net/);
+  assert.match(html, /FEATURED SOURCE/);
+  assert.match(html, /COMING SOON/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
 });
 

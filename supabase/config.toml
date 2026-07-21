@@ -1,0 +1,10 @@
+project_id = "igeo-mmt"
+
+[api]
+enabled = true
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 5000
+
+[db.seed]
+enabled = false

@@ -28,6 +28,7 @@ export type SupabaseLikeClient = {
 type DatabaseRow = {
   id: string;
   source_key: SourceKey;
+  source_url: string;
   question: string;
   options: [string, string, string, string];
   answer_index: 0 | 1 | 2 | 3;
@@ -62,7 +63,10 @@ function toRecord(value: unknown): QuestionRecord {
   const row = value as DatabaseRow;
   return {
     id: row.id,
-    source: row.question_sources,
+    source: {
+      ...row.question_sources,
+      url: row.source_url,
+    },
     question: row.question,
     options: row.options,
     answer: { index: row.answer_index, value: row.answer },
@@ -87,6 +91,7 @@ function toDatabaseRow(input: CreateQuestionInput) {
   return {
     id: input.id,
     source_key: input.source.key,
+    source_url: input.source.url,
     question: input.question,
     options: input.options,
     answer_index: input.answer.index,

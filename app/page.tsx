@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { practiceQuestionBank as questionBank } from "@/data/questions/question-bank";
+import { practiceQuestionBank as localQuestionBank } from "@/data/questions/question-bank";
 import igeoSource from "@/data/questions/igeo-source.json";
 import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
@@ -9,6 +9,26 @@ import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/ty
 const sourceModes = {
   worldmapper: { label: "Worldmapper cartograms", keys: ["worldmapper"] as SourceKey[] },
 };
+
+const featuredSources = [
+  {
+    name: "Worldmapper",
+    url: "https://worldmapper.org/",
+    short: "Cartograms",
+    mark: "W",
+    className: "worldmapper",
+  },
+  {
+    name: "PopulationPyramid.net",
+    url: "https://www.populationpyramid.net/",
+    short: "Population pyramids",
+    mark: "P",
+    className: "pyramid",
+  },
+];
+
+const comingSoonSources = (Object.entries(sourceInfo) as [SourceKey, typeof sourceInfo.gapminder][])
+  .filter(([key]) => key !== "worldmapper");
 
 function shuffled<T>(items: T[]) {
   const result = [...items];
@@ -155,6 +175,7 @@ function SourceMark({ source }: { source: SourceKey }) {
 }
 
 export default function Home() {
+  const [questionBank, setQuestionBank] = useState<Question[]>(localQuestionBank);
   const [mode, setMode] = useState<keyof typeof sourceModes>("worldmapper");
   const [testType, setTestType] = useState<"practice" | "mock">("practice");
   const [length, setLength] = useState(10);
@@ -168,7 +189,10 @@ export default function Home() {
   const [remaining, setRemaining] = useState(seconds);
   const [finished, setFinished] = useState(false);
 
-  const sourceQuestions = useMemo(() => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)), [mode]);
+  const sourceQuestions = useMemo(
+    () => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)),
+    [mode, questionBank],
+  );
   const categoryOptions = useMemo(() => {
     const counts = new Map<string, number>();
     for (const question of sourceQuestions) counts.set(question.topic, (counts.get(question.topic) ?? 0) + 1);
@@ -181,6 +205,33 @@ export default function Home() {
   const preview = available[1] ?? available[0] ?? sourceQuestions[0];
   const targetLength = testType === "mock" ? 40 : length;
   const testQuestionCount = Math.min(targetLength, available.length);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadPublishedQuestions() {
+      try {
+        const response = await fetch("/api/questions", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) return;
+
+        const payload = await response.json() as { questions?: Question[] };
+        if (Array.isArray(payload.questions) && payload.questions.length > 0) {
+          setQuestionBank(payload.questions);
+          setCategory("all");
+        }
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          console.error("Unable to load the published Supabase question bank.", error);
+        }
+      }
+    }
+
+    void loadPublishedQuestions();
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     if (!test || finished) return;
@@ -357,23 +408,34 @@ export default function Home() {
       </section>
 
       <section className="method-section" id="method">
-        <div className="section-heading inverse"><div><span className="section-index">02 / METHOD</span><h2>Built like an MMT,<br />not a trivia quiz.</h2></div><p>Every item begins with evidence. The prompt asks learners to interpret, compare, infer or evaluate.</p></div>
+        <div className="section-heading inverse"><div><span className="section-index">02 / METHOD</span><h2>Real data.<br />Carefully made questions.</h2></div><p>Every item uses real geographic data, curated from trusted sources and verified by a human before it reaches learners.</p></div>
         <div className="method-grid">
-          <article><span>01</span><div className="method-icon">⌁</div><h3>Start with a resource</h3><p>Maps, graphs, satellite imagery, photos and data tables anchor every question.</p></article>
-          <article><span>02</span><div className="method-icon">◎</div><h3>Test geographic thinking</h3><p>Templates target map reading, graphicacy, spatial analysis and problem-solving.</p></article>
-          <article><span>03</span><div className="method-icon">↗</div><h3>Keep provenance visible</h3><p>Source, licence notes and a verification link stay attached through review.</p></article>
+          <article><span>01</span><div className="method-icon">⌁</div><h3>Start with real data</h3><p>Every map, chart and population pyramid comes from a named, traceable source—not invented examples.</p></article>
+          <article><span>02</span><div className="method-icon">◎</div><h3>Curate for learning</h3><p>Source material is selected and shaped into questions that test interpretation, comparison and geographic reasoning.</p></article>
+          <article><span>03</span><div className="method-icon">✓</div><h3>Verified by a human</h3><p>A human reviewer checks the evidence, answer choices, explanation and attribution before publication.</p></article>
         </div>
-        <div className="sample-insight"><div><span>FROM THE PROVIDED SAMPLE</span><strong>40 × 4 × 1–2</strong><small>40 questions · 4 options · 1–2 minutes</small></div><p>The 2013 set ranges from landform identification and climate graphs to population pyramids, cartograms, urban change and hazard response—evidence of a deliberately broad mix of physical and human geography.</p></div>
+        <div className="sample-insight"><div><span>QUALITY STANDARD</span><strong>Real × Curated × Verified</strong><small>Source-linked from evidence to answer</small></div><p>Each question keeps its original source and supporting evidence attached, so reviewers can verify the answer and learners can follow the data back to where it came from.</p></div>
       </section>
 
       <section className="sources-section" id="sources">
-        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Evidence with a paper trail</h2></div><p>The registry separates data access from reuse rules, so future question adapters can refresh responsibly.</p></div>
+        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Trusted sources,<br />clearly credited</h2></div><p>Worldmapper and PopulationPyramid.net are our featured sources. More trusted data collections are coming soon.</p></div>
         <div className="source-grid">
-          {(Object.entries(sourceInfo) as [SourceKey, typeof sourceInfo.gapminder][]).map(([key, info], index) => (
-            <a href={info.url} target="_blank" rel="noreferrer" key={key}><SourceMark source={key} /><span><b>{info.name}</b><small>{info.short}</small></span><em>{String(index + 1).padStart(2, "0")}</em><i>↗</i></a>
+          {featuredSources.map((source, index) => (
+            <a className="featured-source" href={source.url} target="_blank" rel="noreferrer" key={source.name}>
+              <span className={`source-mark ${source.className}`}>{source.mark}</span>
+              <span><b>{source.name}</b><small>{source.short}</small><strong>FEATURED SOURCE</strong></span>
+              <em>{String(index + 1).padStart(2, "0")}</em><i>↗</i>
+            </a>
+          ))}
+          {comingSoonSources.map(([key, info], index) => (
+            <div className="coming-soon-source" key={key} aria-label={`${info.name}, coming soon`}>
+              <SourceMark source={key} />
+              <span><b>{info.name}</b><small>{info.short}</small><strong>COMING SOON</strong></span>
+              <em>{String(index + featuredSources.length + 1).padStart(2, "0")}</em>
+            </div>
           ))}
         </div>
-        <div className="source-note"><span>LICENSING RULE</span><p>Open access does not mean “no attribution.” GeoLens keeps provider, original dataset, creator and licence fields alongside each template.</p><a href="https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia" target="_blank" rel="noreferrer">Read reuse guidance ↗</a></div>
+        <div className="source-note"><span>SOURCE STANDARD</span><p>GeoLens keeps the provider, original dataset, creator and licence attached to every question.</p><a href="https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia" target="_blank" rel="noreferrer">Read reuse guidance ↗</a></div>
       </section>
 
       <footer><a className="brand inverse-brand" href="#top"><span className="brand-orbit">◎</span><b>GeoLens</b></a><p>A research-backed prototype for better geographic questions.</p><div><a href="https://geoolympiad.org/guidelines/" target="_blank" rel="noreferrer">iGEO guidelines ↗</a><a href="https://worldmapper.org/" target="_blank" rel="noreferrer">Worldmapper ↗</a><a href="https://www.gapminder.org/data/" target="_blank" rel="noreferrer">Gapminder ↗</a></div></footer>
