@@ -40,6 +40,13 @@ if (!url || !secretKey) {
   fail("set SUPABASE_URL and SUPABASE_SECRET_KEY in .env.local before seeding.");
 }
 
+if (!secretKey.startsWith("sb_secret_") && !secretKey.startsWith("eyJ")) {
+  fail(
+    "SUPABASE_SECRET_KEY is not a Supabase secret key. Copy the sb_secret_ key " +
+      "from this project's API Keys page (or use its legacy service_role JWT).",
+  );
+}
+
 try {
   new URL(url);
 } catch {
