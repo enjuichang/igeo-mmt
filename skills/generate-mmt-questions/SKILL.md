@@ -101,7 +101,11 @@ Reject the item if the answer depends on:
 
 Create distractors from likely geographic misconceptions or misreadings, not random alternatives.
 
-- Keep all four options in the same semantic category and at similar specificity.
+- Make each option represent a meaningfully different conceptual category, causal pathway, implication, process, or evidence pattern.
+- Keep the options grammatically parallel and at similar specificity even though their concepts differ.
+- Do not distinguish options only by year ranges, small numerical boundaries, sex labels, trend direction, or neighboring subtypes in one taxonomy.
+- Reject sets such as "tweets in 2016-2019" versus "tweets in 2016-2020"; the year is not a meaningful conceptual distinction.
+- For population pyramids and similar classification visuals, ask what the structure implies for growth, services, dependency, migration, cohort history, or planning rather than merely asking learners to name the shape.
 - Use parallel grammar and roughly similar length.
 - Make quantitative options use consistent units and non-overlapping ranges.
 - Tie distractors to errors such as reversing a trend, confusing total with rate, misreading an axis, overlooking seasonality, mistaking correlation for causation, or applying the wrong process.
@@ -159,6 +163,8 @@ Run every item through all gates below. Revise or reject any item that fails.
 - Test every option as if arguing it is correct.
 - Confirm exactly one option survives the wording, scale, date, and evidence.
 - Ask whether any reasonable expert interpretation makes a distractor correct; revise if so.
+- Name the conceptual category represented by each option during review and confirm all four categories are distinct.
+- Remove years, sex labels, and trend words mentally; if two options then become equivalent, rewrite them.
 
 ### Assessment gate
 
@@ -203,9 +209,9 @@ Return every generated question with exactly these keys and nesting unless the u
   ],
   "Options": [
     "Sunflower seed production",
-    "Pumpkin production",
-    "Cotton production",
-    "Barley production"
+    "Earthquake-related displacement",
+    "Adult literacy",
+    "Mobile phone subscriptions"
   ],
   "Answer": "Sunflower seed production",
   "Explanation": "This cartogram shows sunflower seed production in 2016. Territory area is resized according to national production; the greatly enlarged parts of eastern Europe and Russia, together with Argentina, match the geography of major sunflower producers."

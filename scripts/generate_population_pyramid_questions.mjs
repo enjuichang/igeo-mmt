@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { assertDistinctConcepts } from "./question_option_taxonomy.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = path.join(projectRoot, "data/population-pyramids/pyramids.json");
@@ -67,11 +68,13 @@ function primaryQuestionContent(item, index) {
       questionType: "special-structure",
       prompt: `Which demographic feature is most evident in ${possessive(item.country)} ${item.year} population pyramid?`,
       answer: "A pronounced surplus of males aged 20–49",
+      answerCategory: "working-age-male-surplus",
       distractors: [
-        "A pronounced surplus of females aged 20–49",
-        "Nearly equal numbers of males and females at every age",
-        "A population concentrated mainly above age 80",
+        "Children form the largest share of the population",
+        "Older adults create the main age-related support pressure",
+        "One unusually small cohort suggests a past demographic disruption",
       ],
+      distractorCategories: ["youthful-growth", "population-aging", "cohort-disruption"],
       explanation: `The male-to-female ratio at ages 20–49 is ${item.male_to_female_20_49.toFixed(2)} to 1, producing visibly wider male bars through the working ages. A large, male-skewed temporary labour force is a plausible explanation in some economies, but the chart alone cannot establish migration history or employment status.`,
       skillTag: "Sex-structure interpretation",
     };
@@ -80,12 +83,14 @@ function primaryQuestionContent(item, index) {
     return {
       questionType: "special-structure",
       prompt: `Which feature of ${possessive(item.country)} ${item.year} pyramid is a useful lead for further demographic investigation?`,
-      answer: "A working-age male deficit",
+      answer: "A relative deficit of men aged 20–49",
+      answerCategory: "working-age-male-deficit",
       distractors: [
-        "A large working-age male surplus",
-        "An absence of children under age 15",
-        "Equal-sized cohorts from birth to age 100",
+        "A broad base indicates rapidly expanding child cohorts",
+        "A narrow base points to long-term population aging",
+        "A female surplus appears mainly in the oldest cohorts",
       ],
+      distractorCategories: ["youthful-growth", "population-aging", "female-longevity"],
       explanation: `There are ${item.male_to_female_20_49.toFixed(2)} men per woman at ages 20–49. The country is also on the World Bank FY2027 Public FCV List, so conflict, displacement, mortality and migration are reasonable hypotheses to investigate; the pyramid by itself does not establish which process produced the pattern.`,
       skillTag: "Demographic anomaly investigation",
     };
@@ -95,11 +100,13 @@ function primaryQuestionContent(item, index) {
       questionType: "cause-interpretation",
       prompt: `Which demographic combination could most plausibly contribute to ${possessive(item.country)} narrow base and aging-heavy ${item.year} profile?`,
       answer: "Sustained low fertility together with long life expectancy",
+      answerCategory: "population-aging",
       distractors: [
-        "Rapidly rising fertility and very low adult survival",
         "A sudden arrival of mostly young male workers",
-        "A recent doubling of births with no change in survival",
+        "A brief past disruption affecting one narrow age cohort",
+        "A survey that omits most people above age 65",
       ],
+      distractorCategories: ["worker-migration", "cohort-disruption", "data-coverage"],
       explanation: `People aged 65+ account for ${item.older_share.toFixed(1)}% of the population, while children under 15 account for ${item.children_share.toFixed(1)}%. Long survival and sustained low fertility can generate this structure; housing costs, later family formation and family policy may influence fertility, but those mechanisms require separate evidence.`,
       skillTag: "Demographic-process reasoning",
     };
@@ -109,11 +116,13 @@ function primaryQuestionContent(item, index) {
       questionType: "cause-interpretation",
       prompt: `What is the clearest interpretation of the broad base in ${possessive(item.country)} ${item.year} population pyramid?`,
       answer: "Children form a very large share of the population",
+      answerCategory: "youthful-growth",
       distractors: [
-        "Older adults form the largest share of the population",
-        "The population has experienced no recent births",
-        "Women greatly outnumber men at all ages",
+        "Working-age men greatly outnumber women",
+        "One middle-aged cohort records a temporary past disruption",
+        "Women outnumber men mainly among the oldest cohorts",
       ],
+      distractorCategories: ["worker-migration", "cohort-disruption", "female-longevity"],
       explanation: `Children under age 15 make up ${item.children_share.toFixed(1)}% of the population. Successively narrower older cohorts create the classic broad-based pyramid associated with a very young and generally fast-growing population. Income, health care, education and fertility can all matter, so the pyramid is evidence of structure rather than proof of one cause.`,
       skillTag: "Age-structure interpretation",
     };
@@ -124,13 +133,49 @@ function primaryQuestionContent(item, index) {
       questionType: "cause-interpretation",
       prompt: `Why is the notch in ${possessive(item.country)} ${item.year} pyramid demographically interesting?`,
       answer: "It may record an earlier change in births, deaths or migration",
+      answerCategory: "cohort-disruption",
       distractors: [
-        "It proves that every person in that cohort emigrated",
-        "It means the population total was measured in the wrong unit",
-        "It shows that male and female life expectancy are identical",
+        "It indicates that children dominate the entire population",
+        "It reveals a broad working-age male surplus",
+        "It shows that older women outnumber older men",
       ],
+      distractorCategories: ["youthful-growth", "worker-migration", "female-longevity"],
       explanation: `The ${cohorts} cohort${item.notched_cohorts.length > 1 ? "s are" : " is"} at least 17% smaller than the average of the adjacent cohorts. A notch can preserve the imprint of a birth decline, migration wave, conflict, epidemic or measurement issue, but identifying the cause requires historical and statistical context.`,
       skillTag: "Cohort anomaly interpretation",
+    };
+  }
+
+  if (hasTag(item, "female-longevity-skew")) {
+    return {
+      questionType: "special-structure",
+      prompt: `Which demographic implication is best supported by the upper ages of ${possessive(item.country)} ${item.year} pyramid?`,
+      answer: "Women increasingly outnumber men among the oldest cohorts",
+      answerCategory: "female-longevity",
+      distractors: [
+        "Children form a rapidly expanding share of the population",
+        "Temporary male labour migration dominates the working ages",
+        "One unusually small cohort records a past demographic disruption",
+      ],
+      distractorCategories: ["youthful-growth", "worker-migration", "cohort-disruption"],
+      explanation: `The female-to-male ratio at ages 65+ is ${item.female_to_male_65_plus.toFixed(2)} to 1, and the female bars become wider at older ages. Longer female survival is a plausible interpretation, although migration and cohort history can also affect the imbalance.`,
+      skillTag: "Sex-structure interpretation",
+    };
+  }
+
+  if (hasTag(item, "working-age-bulge")) {
+    return {
+      questionType: "demographic-implication",
+      prompt: `Which demographic implication is best supported by ${possessive(item.country)} working-age bulge in ${item.year}?`,
+      answer: "A large share of the population is currently in the potential labour force",
+      answerCategory: "working-age-concentration",
+      distractors: [
+        "Rapidly expanding child cohorts will dominate near-term school demand",
+        "A growing elderly share is the main dependency pressure",
+        "One unusually small cohort records a temporary past disruption",
+      ],
+      distractorCategories: ["youthful-growth", "population-aging", "cohort-disruption"],
+      explanation: `${item.working_age_share.toFixed(1)}% of the population is aged 15–64 and the base-to-core ratio is ${item.base_to_core_ratio.toFixed(2)}. This can create a demographic-dividend opportunity, but employment, productivity and dependency outcomes require separate economic evidence.`,
+      skillTag: "Demographic-process reasoning",
     };
   }
 
@@ -139,11 +184,13 @@ function primaryQuestionContent(item, index) {
       questionType: "cause-interpretation",
       prompt: `Which demographic setting could most plausibly produce ${possessive(item.country)} broad-based ${item.year} pyramid?`,
       answer: "Relatively high fertility and a large share of children",
+      answerCategory: "youthful-growth",
       distractors: [
-        "Very low fertility sustained for several decades",
-        "An older population with deaths exceeding births",
-        "A temporary inflow consisting almost entirely of retired women",
+        "A temporary inflow dominated by working-age men",
+        "A single past disruption affecting one age cohort",
+        "Longer female survival concentrated at older ages",
       ],
+      distractorCategories: ["worker-migration", "cohort-disruption", "female-longevity"],
       explanation: `The base-to-core ratio is ${item.base_to_core_ratio.toFixed(2)} and children account for ${item.children_share.toFixed(1)}% of the population. That structure is consistent with comparatively high recent fertility and rapid growth, although development level, mortality and migration should be examined before drawing a causal conclusion.`,
       skillTag: "Demographic-process reasoning",
     };
@@ -153,38 +200,65 @@ function primaryQuestionContent(item, index) {
       questionType: "cause-interpretation",
       prompt: `Which process is most consistent with the narrow base of ${possessive(item.country)} ${item.year} pyramid?`,
       answer: "Birth cohorts have become smaller than the main working-age cohorts",
+      answerCategory: "population-aging",
       distractors: [
-        "Birth cohorts are much larger than every adult cohort",
-        "Only males are counted below age 15",
-        "Every older cohort has recently immigrated",
+        "Temporary male labour migration has widened one side of the pyramid",
+        "A single past disruption has created one narrow cohort",
+        "Longer female survival appears only among the oldest ages",
       ],
+      distractorCategories: ["worker-migration", "cohort-disruption", "female-longevity"],
       explanation: `The average width of cohorts aged 0–14 is ${item.base_to_core_ratio.toFixed(2)} times that of cohorts aged 25–49. A ratio below one indicates smaller recent birth cohorts, often associated with low fertility and possible future aging; economic costs may contribute but cannot be inferred from the chart alone.`,
       skillTag: "Demographic-process reasoning",
     };
   }
 
-  const shapeAnswers = {
-    "high-growth-pyramid": "A high-growth pyramid with a broad base",
-    "bullet-column": "A bullet/column profile with similar cohort widths",
-    "low-growth-constrictive": "A low-growth, constrictive profile with a narrow base",
+  const implications = {
+    "high-growth-pyramid": {
+      answer: "School enrollment and future job-market entrants are likely to grow rapidly",
+      category: "youthful-growth",
+      explanation: "The broad base indicates large child cohorts, so education demand and later labour-market entry are likely to expand if the pattern persists.",
+    },
+    "bullet-column": {
+      answer: "Demand is likely to remain comparatively even across child and working-age services",
+      category: "stable-age-structure",
+      explanation: "Similar cohort widths suggest slower turnover between child and working ages than in a sharply expansive or constrictive profile.",
+    },
+    "low-growth-constrictive": {
+      answer: "A smaller future workforce may need to support a growing older population",
+      category: "population-aging",
+      explanation: "The narrow base indicates smaller recent cohorts, which can increase aging and workforce-replacement pressure if the pattern persists.",
+    },
   };
-  const answer = shapeAnswers[item.shape_class];
-  const distractors = [
-    ...Object.entries(shapeAnswers).filter(([key]) => key !== item.shape_class).map(([, value]) => value),
-    "A profile dominated by one sex at every age",
+  const implication = implications[item.shape_class];
+  const distractorPool = [
+    { text: "Temporary male labour migration is creating a strong working-age sex imbalance", category: "worker-migration" },
+    { text: "A past disruption has left one unusually small cohort moving upward through the pyramid", category: "cohort-disruption" },
+    { text: "Longer female survival is visible mainly as a female surplus at older ages", category: "female-longevity" },
+    { text: "The chart appears to omit a large part of the elderly population", category: "data-coverage" },
   ];
+  const selectedDistractors = distractorPool.filter(({ category }) => category !== implication.category).slice(0, 3);
   return {
-    questionType: "shape-classification",
-    prompt: `Which population-pyramid type best describes ${item.country} in ${item.year}?`,
-    answer,
-    distractors,
-    explanation: `The average width of the three cohorts aged 0–14 is ${item.base_to_core_ratio.toFixed(2)} times the average width of the cohorts aged 25–49. Under this dataset's documented thresholds, that is classified as “${item.shape_label}.” The classification is a reproducible screening heuristic rather than an official UN category.`,
-    skillTag: "Population-pyramid classification",
+    questionType: "demographic-implication",
+    prompt: `Which planning implication is most consistent with ${possessive(item.country)} ${item.year} age structure?`,
+    answer: implication.answer,
+    answerCategory: implication.category,
+    distractors: selectedDistractors.map(({ text }) => text),
+    distractorCategories: selectedDistractors.map(({ category }) => category),
+    explanation: `The average width of cohorts aged 0–14 is ${item.base_to_core_ratio.toFixed(2)} times that of cohorts aged 25–49. ${implication.explanation} The pyramid supports an age-structure inference, not a complete forecast of policy outcomes.`,
+    skillTag: "Demographic implication",
   };
 }
 
 function baseQuestion(item, index, answerPosition) {
   const content = primaryQuestionContent(item, index);
+  const choices = insertAt(
+    content.distractors.map((text, choiceIndex) => ({ text, category: content.distractorCategories[choiceIndex] })),
+    { text: content.answer, category: content.answerCategory },
+    answerPosition,
+  );
+  if (new Set(choices.map(({ category }) => category)).size !== 4) {
+    throw new Error(`Base question options must represent four conceptual categories: ${item.country}`);
+  }
   return {
     "Question Name": content.prompt,
     "Question ID": `population-pyramid-${item.year}-${String(item.location_code).padStart(3, "0")}-${slugify(item.slug)}`,
@@ -192,7 +266,7 @@ function baseQuestion(item, index, answerPosition) {
     "Image/Media source": mediaFor(item),
     "Source URL": item.map_page_url,
     "Category/Tags": questionTags(item, content.skillTag),
-    Options: insertAt(content.distractors, content.answer, answerPosition),
+    Options: choices.map(({ text }) => text),
     Answer: content.answer,
     Explanation: content.explanation,
   };
@@ -292,7 +366,11 @@ function contrastingItems(target, seed) {
 }
 
 function orderedChoices(target, seed, answerPosition) {
-  return insertAt(contrastingItems(target, seed), target, answerPosition);
+  const choices = insertAt(contrastingItems(target, seed), target, answerPosition);
+  if (new Set(choices.map(archetype)).size !== 4) {
+    throw new Error(`Pyramid choices must represent four contrasting demographic structures: ${target.country}`);
+  }
+  return choices;
 }
 
 function identificationQuestion(item, index, answerPosition) {
@@ -411,6 +489,7 @@ function validateQuestion(question, index, ids) {
   if (!Array.isArray(question["Category/Tags"]) || question["Category/Tags"].length < 5) throw new Error(`Insufficient tags: ${question["Question ID"]}`);
   if (!Array.isArray(question.Options) || question.Options.length !== 4 || new Set(question.Options).size !== 4) throw new Error(`Question must have four unique options: ${question["Question ID"]}`);
   if (question.Options.filter((option) => option === question.Answer).length !== 1) throw new Error(`Answer must match exactly one option: ${question["Question ID"]}`);
+  assertDistinctConcepts(question.Options, question["Question ID"]);
   if (question.Explanation.length < 140) throw new Error(`Explanation is too short: ${question["Question ID"]}`);
 
   if (question["Question Type"] === "country-identification" && question["Hide media identity"] !== true) {

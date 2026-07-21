@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  assertDistinctConcepts,
+  normalizeOptionText,
+  optionConceptKey,
+  worldmapperOptionCategories,
+  worldmapperOptionCategory,
+} from "./question_option_taxonomy.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = path.join(projectRoot, "data/worldmapper/maps.json");
@@ -9,7 +16,7 @@ const outputPath = path.join(projectRoot, "data/questions/worldmapper-draft-ques
 const checkOnly = process.argv.includes("--check");
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-const reviewedQuestions = JSON.parse(fs.readFileSync(reviewedPath, "utf8"));
+let reviewedQuestions = JSON.parse(fs.readFileSync(reviewedPath, "utf8"));
 const expectedKeys = [
   "Question Name",
   "Question ID",
@@ -20,6 +27,7 @@ const expectedKeys = [
   "Answer",
   "Explanation",
 ];
+const rewriteReviewedOptions = process.argv.includes("--rewrite-reviewed-options");
 
 const promptPatterns = [
   "Which variable is represented by this Worldmapper cartogram?",
@@ -57,51 +65,16 @@ function normalizeUrl(value) {
   return url.toString();
 }
 
-function normalizeText(value) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
-
 function tokens(value) {
   return new Set(
-    normalizeText(value)
+    normalizeOptionText(value)
       .split(/\s+/)
       .filter((token) => token && !stopWords.has(token)),
   );
 }
 
 function slugify(value) {
-  return normalizeText(value).replace(/\s+/g, "-").slice(0, 72).replace(/-+$/, "");
-}
-
-function familyFor(name) {
-  const normalized = normalizeText(name);
-  const families = [
-    ["migration-to", /^migration to\b/],
-    ["migration-from", /^migration from\b/],
-    ["gridded-population", /gridded population/],
-    ["language", /\blanguage\b/],
-    ["covid", /\bcovid\b|coronavirus/],
-    ["earthquake", /\bearthquake/],
-    ["nobel-prize", /nobel prize/],
-    ["olympic", /\bolympic/],
-    ["football", /football|world cup/],
-    ["production", /\bproduction\b/],
-    ["import", /\bimports?\b/],
-    ["export", /\bexports?\b/],
-    ["energy", /\bpower\b|electricity|energy/],
-    ["emissions", /emissions?|carbon|co2/],
-    ["population", /population|births?|deaths?|fertility|mortality/],
-    ["education", /education|literacy|school|university/],
-    ["health", /health|disease|malaria|cancer|hiv|aids/],
-    ["agriculture", /crop|livestock|cattle|chicken|fish|forest/],
-    ["connectivity", /internet|mobile|telephone|transport|shipping/],
-  ];
-  return families.find(([, pattern]) => pattern.test(normalized))?.[0] ?? "general";
+  return normalizeOptionText(value).replace(/\s+/g, "-").slice(0, 72).replace(/-+$/, "");
 }
 
 function categoryOverlap(left, right) {
@@ -121,60 +94,66 @@ function titleSimilarity(left, right) {
 
 function distractorScore(item, candidate) {
   return (
-    categoryOverlap(item, candidate) * 100 +
-    (familyFor(item.name) === familyFor(candidate.name) ? 70 : 0) +
+    categoryOverlap(item, candidate) * -100 -
     titleSimilarity(item, candidate) * 18 -
     Math.min(Math.abs(item.index - candidate.index), 1000) / 1000
   );
 }
 
 function chooseDistractors(item, items) {
-  const seen = new Set([normalizeText(item.name)]);
-  const ranked = items
-    .filter((candidate) => candidate.map_page_url !== item.map_page_url)
-    .sort((left, right) => {
-      const scoreDifference = distractorScore(item, right) - distractorScore(item, left);
-      return scoreDifference || left.index - right.index;
-    });
-
+  const answerCategory = worldmapperOptionCategory(item);
+  const seenConcepts = new Set([optionConceptKey(item.name)]);
+  const usedCategories = new Set([answerCategory]);
+  const categoryOrder = worldmapperOptionCategories.filter((category) => category !== answerCategory);
+  const offset = item.index % categoryOrder.length;
+  const rotatedCategories = [...categoryOrder.slice(offset), ...categoryOrder.slice(0, offset)];
   const distractors = [];
-  for (const candidate of ranked) {
-    const normalized = normalizeText(candidate.name);
-    if (!normalized || seen.has(normalized)) continue;
-    seen.add(normalized);
+  for (const category of rotatedCategories) {
+    if (usedCategories.has(category)) continue;
+    const pool = items
+      .filter((candidate) => candidate.map_page_url !== item.map_page_url && worldmapperOptionCategory(candidate) === category)
+      .filter((candidate) => {
+        const concept = optionConceptKey(candidate.name);
+        return concept && !seenConcepts.has(concept);
+      })
+      .sort((left, right) => {
+        const scoreDifference = distractorScore(item, right) - distractorScore(item, left);
+        return scoreDifference || left.index - right.index;
+      });
+    if (!pool.length) continue;
+    const candidate = pool[(item.index * 17 + distractors.length * 23) % pool.length];
     distractors.push(candidate.name);
+    seenConcepts.add(optionConceptKey(candidate.name));
+    usedCategories.add(category);
     if (distractors.length === 3) break;
   }
   if (distractors.length !== 3) {
-    throw new Error(`Unable to find three unique distractors for ${item.map_page_url}`);
+    throw new Error(`Unable to find three cross-category distractors for ${item.map_page_url}`);
   }
   return distractors;
 }
 
 function specificTag(name) {
   const labels = {
-    "migration-to": "International migration",
-    "migration-from": "International migration",
-    "gridded-population": "Population distribution",
-    language: "Language geography",
-    covid: "Public health",
-    earthquake: "Natural hazards",
-    "nobel-prize": "Education and achievement",
-    olympic: "Sport geography",
-    football: "Sport geography",
-    production: "Production geography",
-    import: "International trade",
-    export: "International trade",
-    energy: "Energy",
-    emissions: "Environmental change",
-    population: "Population geography",
-    education: "Education",
+    hazards: "Natural hazards",
     health: "Health geography",
-    agriculture: "Agriculture and resources",
-    connectivity: "Connectivity",
-    general: "Thematic geography",
+    migration: "International migration",
+    "culture-identity": "Cultural geography",
+    "education-knowledge": "Education and knowledge",
+    "sport-leisure": "Sport and leisure geography",
+    "agriculture-food": "Agriculture and food",
+    "energy-resources": "Energy and resources",
+    "environment-climate": "Environmental change",
+    "population-demography": "Population geography",
+    "economy-work-trade": "Economic geography",
+    "politics-conflict": "Political geography",
+    "connectivity-transport": "Connectivity and transport",
+    "settlement-services": "Settlement and services",
+    "tourism-heritage": "Tourism and heritage",
+    "general-society": "Thematic geography",
   };
-  return labels[familyFor(name)];
+  const category = worldmapperOptionCategory(name);
+  return labels[category] ?? "Thematic geography";
 }
 
 function unique(values) {
@@ -253,6 +232,34 @@ function validateQuestion(question, index, ids, sourceUrls) {
   if (question.Options.filter((option) => option === question.Answer).length !== 1) {
     throw new Error(`Answer must match exactly one option: ${question["Question ID"]}`);
   }
+  assertDistinctConcepts(question.Options, question["Question ID"]);
+
+  const sourceItem = manifest.items.find((item) => normalizeUrl(item.map_page_url) === sourceUrl);
+  if (!sourceItem) throw new Error(`Missing source item for ${question["Question ID"]}`);
+  const optionCategories = question.Options.map((option) => {
+    if (option === question.Answer) return worldmapperOptionCategory(sourceItem);
+    const candidate = manifest.items.find((item) => normalizeOptionText(item.name) === normalizeOptionText(option));
+    if (!candidate) throw new Error(`Option is not tied to a Worldmapper concept: ${question["Question ID"]}: ${option}`);
+    return worldmapperOptionCategory(candidate);
+  });
+  if (new Set(optionCategories).size !== 4) {
+    throw new Error(`Options must represent four distinct conceptual categories: ${question["Question ID"]}: ${optionCategories.join(", ")}`);
+  }
+}
+
+function rewriteReviewedQuestionOptions() {
+  const manifestByUrl = new Map(manifest.items.map((item) => [normalizeUrl(item.map_page_url), item]));
+  reviewedQuestions = reviewedQuestions.map((question) => {
+    const item = manifestByUrl.get(normalizeUrl(question["Source URL"]));
+    if (!item) throw new Error(`Reviewed question is missing from the manifest: ${question["Question ID"]}`);
+    const answerPosition = question.Options.indexOf(question.Answer);
+    if (answerPosition < 0) throw new Error(`Reviewed answer is invalid: ${question["Question ID"]}`);
+    return {
+      ...question,
+      Options: insertAt(chooseDistractors(item, manifest.items), question.Answer, answerPosition),
+    };
+  });
+  fs.writeFileSync(reviewedPath, `${JSON.stringify(reviewedQuestions, null, 2)}\n`);
 }
 
 function buildQuestionBank() {
@@ -299,6 +306,8 @@ function buildQuestionBank() {
   for (const question of questions) finalAnswerCounts[question.Options.indexOf(question.Answer)] += 1;
   return { questions, generatedCount, finalAnswerCounts };
 }
+
+if (rewriteReviewedOptions) rewriteReviewedQuestionOptions();
 
 const { questions, generatedCount, finalAnswerCounts } = buildQuestionBank();
 const serialized = `${JSON.stringify(questions, null, 2)}\n`;

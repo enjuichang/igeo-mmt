@@ -47,6 +47,10 @@ Supabase. Existing publication decisions are preserved across later seed runs. T
 production `/api/questions` route uses the RLS-restricted publishable key and
 returns published records only.
 
+After an editor has reviewed the complete generated banks, run
+`npm run supabase:publish-all` to upsert every question as published. This
+explicit command keeps the routine seed's draft-preserving behavior intact.
+
 The intended generation path is:
 
 1. A signed-in user requests a batch from a server route or server action.

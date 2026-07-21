@@ -25,6 +25,7 @@
     "supabase:push:dry": "supabase db push --linked --dry-run",
     "supabase:push": "supabase db push --linked",
     "supabase:seed": "node scripts/seed_supabase.mjs",
+    "supabase:publish-all": "node scripts/seed_supabase.mjs --publish-all",
     "supabase:seed:local": "node scripts/seed_supabase.mjs --local",
     "supabase:start": "supabase start",
     "supabase:reset": "supabase db reset --local"

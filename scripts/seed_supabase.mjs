@@ -16,6 +16,7 @@ const reviewedQuestions = readJson("../data/questions/questions.json");
 const worldmapperQuestions = readJson(
   "../data/questions/worldmapper-draft-questions.json",
 );
+const publishAll = process.argv.includes("--publish-all");
 
 let url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
 let secretKey = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -84,8 +85,8 @@ const rows = rawQuestions.map((item, index) => {
     fail(`the answer does not match an option for ${item["Question ID"]}.`);
   }
 
-  const reviewed =
-    reviewedIds.has(item["Question ID"]) || existingPublishedIds.has(item["Question ID"]);
+  const editorAuthored = reviewedIds.has(item["Question ID"]);
+  const published = publishAll || editorAuthored || existingPublishedIds.has(item["Question ID"]);
   const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
   const localMediaPath = item["Image/Media source"]["Local path"];
   const hasAnomalyTag = item["Category/Tags"].some((tag) =>
@@ -115,8 +116,8 @@ const rows = rawQuestions.map((item, index) => {
     tags: item["Category/Tags"],
     skill: isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",
     difficulty: isPopulationPyramid && hasAnomalyTag ? "intermediate" : "foundation",
-    status: reviewed ? "published" : "draft",
-    origin: reviewed ? "editor" : "generated",
+    status: published ? "published" : "draft",
+    origin: editorAuthored ? "editor" : "generated",
     visual_variant: index,
     generation_run_id: null,
     metadata: {
