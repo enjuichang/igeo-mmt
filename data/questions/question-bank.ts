@@ -1,14 +1,15 @@
 import { toPracticeQuestion } from "@/lib/questions/repository";
 import type { QuestionRecord } from "@/lib/questions/types";
-import rawQuestions from "./worldmapper-draft-questions.json";
+import populationPyramidQuestions from "./population-pyramid-draft-questions.json";
 import reviewedQuestions from "./questions.json";
 import { sourceRegistry } from "./sources";
+import worldmapperQuestions from "./worldmapper-draft-questions.json";
 
 type JsonQuestion = {
   "Question Name": string;
   "Question ID": string;
   "Image/Media source": {
-    Provider: "Worldmapper";
+    Provider: "Worldmapper" | "PopulationPyramid.net";
     "Local path": string;
     "Image URL": string;
   };
@@ -19,9 +20,16 @@ type JsonQuestion = {
   Explanation: string;
 };
 
-const questions = rawQuestions as JsonQuestion[];
+const questions = [
+  ...(worldmapperQuestions as JsonQuestion[]),
+  ...(populationPyramidQuestions as JsonQuestion[]),
+];
 const reviewedIds = new Set((reviewedQuestions as JsonQuestion[]).map((item) => item["Question ID"]));
 const SEED_TIMESTAMP = "2026-07-20T00:00:00.000Z";
+
+function publicPopulationPyramidPath(localPath: string) {
+  return localPath.replace(/^data\/population-pyramids\/images\//, "/population-pyramids/");
+}
 
 /**
  * The JSON file is the editorial source of truth. This adapter only projects
@@ -30,6 +38,15 @@ const SEED_TIMESTAMP = "2026-07-20T00:00:00.000Z";
 export const questionRecords: QuestionRecord[] = questions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
   const reviewed = reviewedIds.has(item["Question ID"]);
+  const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
+  const sourceDefinition = isPopulationPyramid ? sourceRegistry.pyramid : sourceRegistry.worldmapper;
+  const hasAnomalyTag = item["Category/Tags"].some((tag) =>
+    [
+      "Sex-structure interpretation",
+      "Demographic anomaly investigation",
+      "Cohort anomaly interpretation",
+    ].includes(tag),
+  );
   if (answerIndex < 0 || answerIndex > 3) {
     throw new Error(`Answer is not one of the four options: ${item["Question ID"]}`);
   }
@@ -37,7 +54,7 @@ export const questionRecords: QuestionRecord[] = questions.map((item, index) => 
   return {
     id: item["Question ID"],
     source: {
-      ...sourceRegistry.worldmapper,
+      ...sourceDefinition,
       url: item["Source URL"],
     },
     question: item["Question Name"],
@@ -47,13 +64,17 @@ export const questionRecords: QuestionRecord[] = questions.map((item, index) => 
       value: item.Answer,
     },
     reasoning: item.Explanation,
-    mediaLink: item["Image/Media source"]["Image URL"],
-    mediaKind: "cartogram",
-    mediaAlt: `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
+    mediaLink: isPopulationPyramid
+      ? publicPopulationPyramidPath(item["Image/Media source"]["Local path"])
+      : item["Image/Media source"]["Image URL"],
+    mediaKind: isPopulationPyramid ? "chart" : "cartogram",
+    mediaAlt: isPopulationPyramid
+      ? "Population pyramid showing the selected country or area's 2026 population by age group and sex"
+      : `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
     category: item["Category/Tags"][0] ?? "Uncategorized",
     tags: item["Category/Tags"],
-    skill: "Cartogram interpretation",
-    difficulty: "foundation",
+    skill: isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",
+    difficulty: isPopulationPyramid && hasAnomalyTag ? "intermediate" : "foundation",
     status: reviewed ? "published" : "draft",
     origin: reviewed ? "editor" : "generated",
     visualVariant: index,

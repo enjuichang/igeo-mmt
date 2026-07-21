@@ -32,6 +32,18 @@ export const sourceRegistry: Record<SourceKey, SourceDefinition> = {
     defaultMediaKind: "cartogram",
     mediaAlt: "Worldmapper CO2 emissions per capita 2020 cartogram",
   },
+  pyramid: {
+    key: "pyramid",
+    name: "PopulationPyramid.net",
+    url: "https://www.populationpyramid.net/",
+    short: "Population pyramids",
+    description: "Age-sex structures based on United Nations World Population Prospects 2024.",
+    license: "CC BY 3.0 IGO as stated by PopulationPyramid.net",
+    attribution: "PopulationPyramid.net; United Nations World Population Prospects 2024",
+    defaultMediaLink: "https://www.populationpyramid.net/",
+    defaultMediaKind: "chart",
+    mediaAlt: "Population pyramid showing population by age group and sex",
+  },
   usgs: {
     key: "usgs",
     name: "USGS",

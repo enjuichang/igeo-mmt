@@ -23,18 +23,39 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /Read the world/);
   assert.match(html, /Build your test/);
   assert.match(html, /Worldmapper cartograms/);
+  assert.match(html, /Population pyramids/);
   assert.match(html, /Mock test/);
   assert.match(html, /40 questions/);
   assert.match(html, /Category you’re curious about/);
   assert.match(html, /Surprise me — balanced mix/);
   assert.match(html, /option value="People">People.*568/s);
   assert.match(html, /Include real iGEO past questions/);
-  assert.match(html, /Real data.*Carefully made questions/s);
-  assert.match(html, /verified by a human/i);
+  assert.match(html, /From real-world evidence to a question you can trust/);
+  assert.match(html, /HUMAN VERIFIED/);
   assert.match(html, /PopulationPyramid\.net/);
-  assert.match(html, /FEATURED SOURCE/);
+  assert.match(html, /ACTIVE SOURCE/);
   assert.match(html, /COMING SOON/);
+  assert.doesNotMatch(html, /LICENSING RULE|SOURCE STANDARD|Read reuse guidance/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
+});
+
+test("Population-pyramid bank contains 200 valid locally hosted questions", async () => {
+  const raw = await readFile(new URL("../data/questions/population-pyramid-draft-questions.json", import.meta.url), "utf8");
+  const questions = JSON.parse(raw);
+  assert.equal(questions.length, 200);
+  assert.equal(new Set(questions.map((question) => question["Question ID"])).size, 200);
+  assert.equal(new Set(questions.map((question) => question["Source URL"])).size, 200);
+
+  for (const question of questions) {
+    assert.equal(question["Image/Media source"].Provider, "PopulationPyramid.net", question["Question ID"]);
+    assert.equal(question.Options.length, 4, question["Question ID"]);
+    assert.equal(new Set(question.Options).size, 4, question["Question ID"]);
+    assert.ok(question.Options.includes(question.Answer), question["Question ID"]);
+    assert.ok(Array.isArray(question["Category/Tags"]), question["Question ID"]);
+    await access(new URL(`../${question["Image/Media source"]["Local path"]}`, import.meta.url));
+    assert.ok(question["Source URL"], question["Question ID"]);
+    assert.ok(question.Explanation.length > 80, question["Question ID"]);
+  }
 });
 
 test("Worldmapper bank contains all 1,222 valid source-linked questions", async () => {

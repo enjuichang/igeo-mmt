@@ -129,6 +129,8 @@ app/
   globals.css         Responsive visual system and resource renderers
 data/questions/
   questions.json      Human-readable reviewed question records
+  population-pyramid-draft-questions.json
+                      Generated PopulationPyramid.net question bank
   igeo-source.json    Official archive availability and reuse status
   question-bank.ts    JSON-to-application adapter
   sources.ts          Provider, licence and media defaults
@@ -143,9 +145,15 @@ docs/
   v2-auth-and-leaderboard-plan.md
                       V2 accounts, attempt history and leaderboard plan
 supabase/migrations/
-  20260720_create_question_bank.sql
+  20260720000000_create_question_bank.sql
                       Sources, generation runs, questions and RLS
+  20260720120000_add_question_source_url.sql
+                      Per-question verification links
+  20260720130000_grant_question_bank_service_role.sql
+                      Administrative import permissions
 public/
+  population-pyramids/
+                      Locally hosted 2026 population-pyramid images
   worldmapper-co2-2020.png
 .openai/
   hosting.json        Sites hosting metadata
@@ -170,11 +178,46 @@ drafts in the domain model until an educator verifies the visible evidence,
 accessibility, licensing, and answer quality. Check that the generated file is
 current and valid with `npm run questions:check-worldmapper`.
 
-## Supabase-ready storage
+### Generate the PopulationPyramid.net dataset and draft bank
 
-The migration normalizes source attribution, questions and generation-run audit records. It enforces exactly four unique options, a matching answer, difficulty/status enums and public read access only for published items. Generated questions are designed to be inserted server-side as drafts and reviewed before publication; no browser insert policy is granted.
+The PopulationPyramid pipeline follows the Worldmapper layout: a reproducible
+source manifest, canonical images stored under `data/`, public image copies for
+the web app, and a generated question bank. Rebuild the manifest and its 200
+draft questions with:
 
-Copy `.env.example` when connecting a Supabase project. Keep `SUPABASE_SERVICE_ROLE_KEY` on the server only. Full integration notes and the planned generation flow are in [`docs/question-data-model.md`](docs/question-data-model.md).
+```bash
+npm run data:generate-population-pyramid-manifest -- --year=2026
+npm run questions:generate-population-pyramids
+npm run questions:check-population-pyramids
+```
+
+The manifest is written to `data/population-pyramids/pyramids.json` and `.csv`.
+It includes pyramid shape, World Bank income group, age shares, sex ratios, and
+cautious anomaly tags such as working-age male surplus, conflict/fragility
+signals, cohort notches, youth bulges, and aging-heavy structures. These tags
+are screening heuristics, not proof of a particular historical cause.
+
+## Supabase storage
+
+The production question API reads published records from Supabase and the browser
+falls back to the bundled question bank when Supabase is unavailable. The
+migrations normalize source attribution, questions and generation-run audit
+records. They enforce exactly four unique options, a matching answer,
+difficulty/status enums and public read access only for published items. Drafts
+remain private under row-level security; administrative writes require a
+server-only secret key.
+
+For a complete local database test:
+
+```bash
+npm run supabase:start
+npm run supabase:seed:local
+npm run deploy:check:local
+```
+
+This requires Docker. The reset command, `npm run supabase:reset`, rebuilds the
+local database from every migration. Full integration notes are in
+[`docs/question-data-model.md`](docs/question-data-model.md).
 
 ## Local development
 
@@ -198,18 +241,33 @@ npm run build
 
 ### Deploy to Netlify
 
-The repository includes `netlify.toml`, so Netlify will use the native Next.js
-build and its automatically managed OpenNext adapter. Import the repository in
-Netlify and accept the settings detected from the configuration file:
+1. Create a Supabase project and copy `.env.example` to `.env.local`. Use the
+   project URL plus a publishable and secret API key from Supabase's Connect
+   dialog.
+2. Link the project, preview the migrations, apply them, and seed the question
+   bank:
 
-- Build command: `npm run build:netlify`
+```bash
+npm run supabase:link -- --project-ref YOUR_PROJECT_REF
+npm run supabase:push:dry
+npm run supabase:push
+npm run supabase:seed
+npm run deploy:check
+```
+
+3. Import the repository in Netlify. Add `SUPABASE_URL` and
+   `SUPABASE_PUBLISHABLE_KEY` as Netlify environment variables with both
+   **Builds** and **Functions** scope. Do not add `SUPABASE_SECRET_KEY` to
+   Netlify unless a future server-only administrative feature needs it.
+
+The repository's `netlify.toml` runs the public database/RLS check before the
+native Next.js build. A deployment stops before publishing when variables,
+migrations, seeded published records or row-level security are incorrect.
+Netlify then uses its automatically managed OpenNext adapter with these settings:
+
+- Build command: `npm run deploy:check && npm run build:netlify`
 - Publish directory: `.next`
 - Node.js: `22.13.0`
-
-If Supabase is enabled later, add the values from `.env.example` in Netlify at
-**Project configuration → Environment variables**. Keep
-`SUPABASE_SERVICE_ROLE_KEY` server-only and never expose it as a `NEXT_PUBLIC_`
-variable.
 
 Run the render smoke test:
 
@@ -231,12 +289,11 @@ npm test
 
 See [`docs/v2-auth-and-leaderboard-plan.md`](docs/v2-auth-and-leaderboard-plan.md) for the proposed V2 account, saved-attempt and leaderboard release plan.
 
-1. Create a Supabase project, apply the included migration and add `@supabase/supabase-js`.
-2. Add a server-only generation endpoint that writes an audit run and draft questions through the repository.
-3. Add frozen Gapminder CSV snapshots and generate charts directly from the cited values.
-4. Build reviewed server-side adapters for USGS, World Bank, NASA GIBS, NOAA and GBIF.
-5. Add an editorial queue with licence, provenance and answer-key checks before publication.
-6. Add item analytics (difficulty and discrimination) without collecting unnecessary student data.
+1. Add a server-only generation endpoint that writes an audit run and draft questions through the repository.
+2. Add frozen Gapminder CSV snapshots and generate charts directly from the cited values.
+3. Build reviewed server-side adapters for USGS, World Bank, NASA GIBS, NOAA and GBIF.
+4. Add an editorial queue with licence, provenance and answer-key checks before publication.
+5. Add item analytics (difficulty and discrimination) without collecting unnecessary student data.
 
 ## Attribution
 

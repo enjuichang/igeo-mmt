@@ -1,6 +1,7 @@
 export type SourceKey =
   | "gapminder"
   | "worldmapper"
+  | "pyramid"
   | "usgs"
   | "noaa"
   | "nasa"

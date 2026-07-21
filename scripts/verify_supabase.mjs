@@ -1,6 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { loadEnvFile } from "./load_env_file.mjs";
+
+loadEnvFile();
 
 let url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
 let publishableKey =
@@ -38,33 +40,27 @@ if (!parsedUrl || !["http:", "https:"].includes(parsedUrl.protocol)) {
   fail("SUPABASE_URL must use http or https.");
 }
 
-const supabase = createClient(url, publishableKey, {
-  auth: { autoRefreshToken: false, persistSession: false },
-});
-
-const { data, error } = await supabase
-  .from("questions")
-  .select("id, source_url, question_sources(key)")
-  .eq("status", "published")
-  .limit(1);
-
-if (error) {
-  fail(`the schema or public read policy is unavailable (${error.message}).`);
+async function publicQuery(query) {
+  const response = await fetch(`${url}/rest/v1/questions?${query}`, {
+    headers: { apikey: publishableKey },
+  });
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    const message = body?.message ?? body?.error ?? `HTTP ${response.status}`;
+    fail(`the schema or public read policy is unavailable (${message}).`);
+  }
+  return body;
 }
+
+const data = await publicQuery(
+  "select=id,source_url,question_sources(key)&status=eq.published&limit=1",
+);
 
 if (!data?.length) {
   fail("the database contains no publicly readable published questions; run npm run supabase:seed.");
 }
 
-const { data: drafts, error: draftError } = await supabase
-  .from("questions")
-  .select("id")
-  .eq("status", "draft")
-  .limit(1);
-
-if (draftError) {
-  fail(`the draft privacy check could not run (${draftError.message}).`);
-}
+const drafts = await publicQuery("select=id&status=eq.draft&limit=1");
 
 if (drafts?.length) {
   fail("row-level security is exposing draft questions to the public key.");

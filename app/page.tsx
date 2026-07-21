@@ -8,6 +8,7 @@ import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/ty
 
 const sourceModes = {
   worldmapper: { label: "Worldmapper cartograms", keys: ["worldmapper"] as SourceKey[] },
+  pyramid: { label: "Population pyramids", keys: ["pyramid"] as SourceKey[] },
 };
 
 const featuredSources = [
@@ -15,6 +16,8 @@ const featuredSources = [
     name: "Worldmapper",
     url: "https://worldmapper.org/",
     short: "Cartograms",
+    description: "Real global datasets transformed into cartograms that make geographic patterns visible at a glance.",
+    detail: "Thematic world maps",
     mark: "W",
     className: "worldmapper",
   },
@@ -22,13 +25,15 @@ const featuredSources = [
     name: "PopulationPyramid.net",
     url: "https://www.populationpyramid.net/",
     short: "Population pyramids",
+    description: "Age-and-sex profiles built from UN population data for comparing demographic structure across places.",
+    detail: "200 country profiles",
     mark: "P",
     className: "pyramid",
   },
 ];
 
 const comingSoonSources = (Object.entries(sourceInfo) as [SourceKey, typeof sourceInfo.gapminder][])
-  .filter(([key]) => key !== "worldmapper");
+  .filter(([key]) => key !== "worldmapper" && key !== "pyramid");
 
 function shuffled<T>(items: T[]) {
   const result = [...items];
@@ -162,6 +167,14 @@ function ResourceVisual({ question }: { question: Question }) {
       </figure>
     );
   }
+  if (question.source === "pyramid") {
+    return (
+      <figure className="worldmapper-figure population-pyramid-figure">
+        <img src={question.mediaLink} alt={question.mediaAlt} />
+        <figcaption>PopulationPyramid.net · age-sex structure · CC BY 3.0 IGO</figcaption>
+      </figure>
+    );
+  }
   if (question.source === "gapminder" || question.source === "usgs") return <Scatter source={question.source} variant={question.variant} />;
   if (question.source === "noaa") return <Bars variant={question.variant} />;
   if (question.source === "nasa") return <Satellite variant={question.variant} />;
@@ -170,7 +183,7 @@ function ResourceVisual({ question }: { question: Question }) {
 }
 
 function SourceMark({ source }: { source: SourceKey }) {
-  const initials: Record<SourceKey, string> = { gapminder: "G", worldmapper: "W", usgs: "U", noaa: "N", nasa: "N", worldbank: "WB", gbif: "GB", openmaps: "OM" };
+  const initials: Record<SourceKey, string> = { gapminder: "G", worldmapper: "W", pyramid: "P", usgs: "U", noaa: "N", nasa: "N", worldbank: "WB", gbif: "GB", openmaps: "OM" };
   return <span className={`source-mark ${source}`}>{initials[source]}</span>;
 }
 
@@ -219,7 +232,8 @@ export default function Home() {
 
         const payload = await response.json() as { questions?: Question[] };
         if (Array.isArray(payload.questions) && payload.questions.length > 0) {
-          setQuestionBank(payload.questions);
+          const localPopulationPyramids = localQuestionBank.filter((question) => question.source === "pyramid");
+          setQuestionBank([...payload.questions, ...localPopulationPyramids]);
           setCategory("all");
         }
       } catch (error) {
@@ -344,7 +358,7 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <div className="kicker"><span>iGEO-style practice lab</span><span>{questionBank.length.toLocaleString("en-US")} Worldmapper questions</span></div>
+          <div className="kicker"><span>iGEO-style practice lab</span><span>{questionBank.length.toLocaleString("en-US")} source-linked questions</span></div>
           <h1>Read the world.<br /><em>Question</em> the evidence.</h1>
           <p>Generate fast, visual geography practice from trusted global datasets—with every map, chart and answer tied back to its source.</p>
           <div className="hero-actions"><a className="primary-button" href="#builder">Generate a practice test <span>↗</span></a><a className="text-button" href="#method">See how it works <span>↓</span></a></div>
@@ -355,11 +369,11 @@ export default function Home() {
           <div className="pulse-dot" />
           <div className="hero-label label-a">CARTOGRAM</div><div className="hero-label label-b">CLIMATE</div><div className="hero-label label-c">CHANGE</div>
         </div>
-        <div className="hero-stats"><div><strong>{questionBank.length.toLocaleString("en-US")}</strong><span>source-linked questions</span></div><div><strong>{categoryOptions.length}</strong><span>curiosity categories</span></div><div><strong>1</strong><span>verified source</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
+        <div className="hero-stats"><div><strong>{questionBank.length.toLocaleString("en-US")}</strong><span>source-linked questions</span></div><div><strong>{categoryOptions.length}</strong><span>curiosity categories</span></div><div><strong>2</strong><span>verified sources</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
       </section>
 
       <section className="builder-section" id="builder">
-        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Follow your curiosity into one category, or draw a balanced random mix from the complete Worldmapper collection.</p></div>
+        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Choose a trusted source, then follow your curiosity into one category or draw a balanced random mix.</p></div>
         <div className="builder-grid">
           <div className="controls-card">
             <div className="control-group"><label>Test format</label><div className="test-type-list">
@@ -408,34 +422,43 @@ export default function Home() {
       </section>
 
       <section className="method-section" id="method">
-        <div className="section-heading inverse"><div><span className="section-index">02 / METHOD</span><h2>Real data.<br />Carefully made questions.</h2></div><p>Every item uses real geographic data, curated from trusted sources and verified by a human before it reaches learners.</p></div>
-        <div className="method-grid">
-          <article><span>01</span><div className="method-icon">⌁</div><h3>Start with real data</h3><p>Every map, chart and population pyramid comes from a named, traceable source—not invented examples.</p></article>
-          <article><span>02</span><div className="method-icon">◎</div><h3>Curate for learning</h3><p>Source material is selected and shaped into questions that test interpretation, comparison and geographic reasoning.</p></article>
-          <article><span>03</span><div className="method-icon">✓</div><h3>Verified by a human</h3><p>A human reviewer checks the evidence, answer choices, explanation and attribution before publication.</p></article>
+        <div className="method-layout">
+          <div className="method-lead">
+            <span className="section-index">02 / METHOD</span>
+            <h2>From real-world evidence to a question you can trust.</h2>
+            <p>Every item uses real geographic data, deliberately curated from trusted sources and verified by a human before it reaches learners.</p>
+            <div className="method-seal"><span>HUMAN VERIFIED</span><strong>Nothing is published without a final evidence check.</strong></div>
+          </div>
+          <div className="method-grid" aria-label="Three-stage question method">
+            <article><div className="method-step"><span>01</span><i>REAL INPUT</i></div><div className="method-icon">⌁</div><div><h3>Start with real data</h3><p>Every map, chart and population pyramid comes from a named, traceable source—not an invented example.</p></div></article>
+            <article><div className="method-step"><span>02</span><i>EDITORIAL CRAFT</i></div><div className="method-icon">◎</div><div><h3>Curate for learning</h3><p>We select useful evidence and shape it into a focused question that tests interpretation, comparison and reasoning.</p></div></article>
+            <article><div className="method-step"><span>03</span><i>QUALITY GATE</i></div><div className="method-icon">✓</div><div><h3>Verify with a human</h3><p>A human checks the evidence, answer choices, explanation and attribution before the question is published.</p></div></article>
+          </div>
         </div>
-        <div className="sample-insight"><div><span>QUALITY STANDARD</span><strong>Real × Curated × Verified</strong><small>Source-linked from evidence to answer</small></div><p>Each question keeps its original source and supporting evidence attached, so reviewers can verify the answer and learners can follow the data back to where it came from.</p></div>
+        <div className="method-proof"><span>REAL SOURCE ATTACHED</span><span>ANSWER CHECKED</span><span>ATTRIBUTION PRESERVED</span></div>
       </section>
 
       <section className="sources-section" id="sources">
-        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Trusted sources,<br />clearly credited</h2></div><p>Worldmapper and PopulationPyramid.net are our featured sources. More trusted data collections are coming soon.</p></div>
-        <div className="source-grid">
+        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Two sources.<br />Fully in focus.</h2></div><p>Worldmapper and PopulationPyramid.net power the current question library. The next collections are visible on our roadmap.</p></div>
+        <div className="featured-source-grid">
           {featuredSources.map((source, index) => (
-            <a className="featured-source" href={source.url} target="_blank" rel="noreferrer" key={source.name}>
-              <span className={`source-mark ${source.className}`}>{source.mark}</span>
-              <span><b>{source.name}</b><small>{source.short}</small><strong>FEATURED SOURCE</strong></span>
-              <em>{String(index + 1).padStart(2, "0")}</em><i>↗</i>
+            <a className={`featured-source-card ${source.className}`} href={source.url} target="_blank" rel="noreferrer" key={source.name}>
+              <div className="featured-source-top"><span className={`source-mark ${source.className}`}>{source.mark}</span><strong>ACTIVE SOURCE</strong><em>0{index + 1}</em></div>
+              <div className="featured-source-copy"><small>{source.short}</small><h3>{source.name}</h3><p>{source.description}</p></div>
+              <div className="featured-source-bottom"><span>{source.detail}</span><b>Explore source ↗</b></div>
             </a>
           ))}
-          {comingSoonSources.map(([key, info], index) => (
-            <div className="coming-soon-source" key={key} aria-label={`${info.name}, coming soon`}>
-              <SourceMark source={key} />
-              <span><b>{info.name}</b><small>{info.short}</small><strong>COMING SOON</strong></span>
-              <em>{String(index + featuredSources.length + 1).padStart(2, "0")}</em>
-            </div>
-          ))}
         </div>
-        <div className="source-note"><span>SOURCE STANDARD</span><p>GeoLens keeps the provider, original dataset, creator and licence attached to every question.</p><a href="https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia" target="_blank" rel="noreferrer">Read reuse guidance ↗</a></div>
+        <div className="source-roadmap">
+          <div className="source-roadmap-heading"><span>NEXT IN THE LIBRARY</span><p>Additional trusted geographic datasets are coming soon.</p></div>
+          <div className="source-roadmap-grid">
+            {comingSoonSources.map(([key, info]) => (
+              <div className="coming-soon-source" key={key} aria-label={`${info.name}, coming soon`}>
+                <SourceMark source={key} /><span><b>{info.name}</b><small>{info.short}</small></span><strong>COMING SOON</strong>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <footer><a className="brand inverse-brand" href="#top"><span className="brand-orbit">◎</span><b>GeoLens</b></a><p>A research-backed prototype for better geographic questions.</p><div><a href="https://geoolympiad.org/guidelines/" target="_blank" rel="noreferrer">iGEO guidelines ↗</a><a href="https://worldmapper.org/" target="_blank" rel="noreferrer">Worldmapper ↗</a><a href="https://www.gapminder.org/data/" target="_blank" rel="noreferrer">Gapminder ↗</a></div></footer>

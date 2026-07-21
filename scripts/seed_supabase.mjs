@@ -1,8 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import rawQuestions from "../data/questions/worldmapper-draft-questions.json" with { type: "json" };
+import populationPyramidQuestions from "../data/questions/population-pyramid-draft-questions.json" with { type: "json" };
 import reviewedQuestions from "../data/questions/questions.json" with { type: "json" };
+import worldmapperQuestions from "../data/questions/worldmapper-draft-questions.json" with { type: "json" };
+import { loadEnvFile } from "./load_env_file.mjs";
+
+loadEnvFile();
 
 let url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
 let secretKey = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -34,6 +38,7 @@ try {
 }
 
 const reviewedIds = new Set(reviewedQuestions.map((item) => item["Question ID"]));
+const rawQuestions = [...worldmapperQuestions, ...populationPyramidQuestions];
 const rows = rawQuestions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
   if (answerIndex < 0 || answerIndex > 3) {
@@ -41,29 +46,42 @@ const rows = rawQuestions.map((item, index) => {
   }
 
   const reviewed = reviewedIds.has(item["Question ID"]);
+  const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
+  const localMediaPath = item["Image/Media source"]["Local path"];
+  const hasAnomalyTag = item["Category/Tags"].some((tag) =>
+    [
+      "Sex-structure interpretation",
+      "Demographic anomaly investigation",
+      "Cohort anomaly interpretation",
+    ].includes(tag),
+  );
   return {
     id: item["Question ID"],
-    source_key: "worldmapper",
+    source_key: isPopulationPyramid ? "pyramid" : "worldmapper",
     source_url: item["Source URL"],
     question: item["Question Name"],
     options: item.Options,
     answer_index: answerIndex,
     answer: item.Answer,
     reasoning: item.Explanation,
-    media_link: item["Image/Media source"]["Image URL"],
-    media_kind: "cartogram",
-    media_alt: `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
+    media_link: isPopulationPyramid
+      ? localMediaPath.replace(/^data\/population-pyramids\/images\//, "/population-pyramids/")
+      : item["Image/Media source"]["Image URL"],
+    media_kind: isPopulationPyramid ? "chart" : "cartogram",
+    media_alt: isPopulationPyramid
+      ? "Population pyramid showing the selected country or area's 2026 population by age group and sex"
+      : `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
     category: item["Category/Tags"][0] ?? "Uncategorized",
     tags: item["Category/Tags"],
-    skill: "Cartogram interpretation",
-    difficulty: "foundation",
+    skill: isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",
+    difficulty: isPopulationPyramid && hasAnomalyTag ? "intermediate" : "foundation",
     status: reviewed ? "published" : "draft",
     origin: reviewed ? "editor" : "generated",
     visual_variant: index,
     generation_run_id: null,
     metadata: {
       provider: item["Image/Media source"].Provider,
-      localPath: item["Image/Media source"]["Local path"],
+      localPath: localMediaPath,
       seededBy: "scripts/seed_supabase.mjs",
     },
   };
