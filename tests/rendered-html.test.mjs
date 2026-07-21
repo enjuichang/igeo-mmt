@@ -24,6 +24,8 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /Build your test/);
   assert.match(html, /Worldmapper cartograms/);
   assert.match(html, /Population pyramids/);
+  assert.match(html, /Select all sources/);
+  assert.match(html, /All available sources selected/);
   assert.match(html, /Mock test/);
   assert.match(html, /40 questions/);
   assert.match(html, /Category you’re curious about/);
@@ -39,12 +41,16 @@ test("server-renders the GeoLens generator", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
 });
 
-test("Population-pyramid bank contains 200 valid locally hosted questions", async () => {
+test("Population-pyramid bank contains 300 varied, locally hosted questions", async () => {
   const raw = await readFile(new URL("../data/questions/population-pyramid-draft-questions.json", import.meta.url), "utf8");
   const questions = JSON.parse(raw);
-  assert.equal(questions.length, 200);
-  assert.equal(new Set(questions.map((question) => question["Question ID"])).size, 200);
+  assert.equal(questions.length, 300);
+  assert.equal(new Set(questions.map((question) => question["Question ID"])).size, 300);
   assert.equal(new Set(questions.map((question) => question["Source URL"])).size, 200);
+  assert.equal(questions.filter((question) => question["Question Type"] === "country-identification").length, 50);
+  assert.equal(questions.filter((question) => question["Question Type"] === "scenario-match").length, 50);
+
+  const answerPositions = [0, 0, 0, 0];
 
   for (const question of questions) {
     assert.equal(question["Image/Media source"].Provider, "PopulationPyramid.net", question["Question ID"]);
@@ -55,7 +61,21 @@ test("Population-pyramid bank contains 200 valid locally hosted questions", asyn
     await access(new URL(`../${question["Image/Media source"]["Local path"]}`, import.meta.url));
     assert.ok(question["Source URL"], question["Question ID"]);
     assert.ok(question.Explanation.length > 80, question["Question ID"]);
+    answerPositions[question.Options.indexOf(question.Answer)] += 1;
+
+    if (question["Question Type"] === "country-identification") {
+      assert.equal(question["Hide media identity"], true, question["Question ID"]);
+    }
+    if (question["Question Type"] === "scenario-match") {
+      assert.equal(question["Option media"].length, 4, question["Question ID"]);
+      for (const [index, media] of question["Option media"].entries()) {
+        assert.equal(media.Country, question.Options[index], question["Question ID"]);
+        await access(new URL(`../${media["Local path"]}`, import.meta.url));
+      }
+    }
   }
+
+  assert.deepEqual(answerPositions, [75, 75, 75, 75]);
 });
 
 test("Worldmapper bank contains all 1,222 valid source-linked questions", async () => {

@@ -37,6 +37,11 @@ type DatabaseRow = {
   media_link: string;
   media_kind: MediaKind;
   media_alt: string;
+  metadata: {
+    optionMedia?: QuestionRecord["optionMedia"];
+    hideMediaIdentity?: boolean;
+    questionType?: string;
+  };
   category: string;
   tags: string[];
   skill: string;
@@ -74,6 +79,9 @@ function toRecord(value: unknown): QuestionRecord {
     mediaLink: row.media_link,
     mediaKind: row.media_kind,
     mediaAlt: row.media_alt,
+    optionMedia: row.metadata?.optionMedia,
+    hideMediaIdentity: row.metadata?.hideMediaIdentity,
+    questionType: row.metadata?.questionType,
     category: row.category,
     tags: row.tags,
     skill: row.skill,
@@ -100,6 +108,11 @@ function toDatabaseRow(input: CreateQuestionInput) {
     media_link: input.mediaLink,
     media_kind: input.mediaKind,
     media_alt: input.mediaAlt,
+    metadata: {
+      optionMedia: input.optionMedia,
+      hideMediaIdentity: input.hideMediaIdentity,
+      questionType: input.questionType,
+    },
     category: input.category,
     tags: input.tags,
     skill: input.skill,

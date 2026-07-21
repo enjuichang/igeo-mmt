@@ -11,6 +11,7 @@ The project is independent and educational. It is not affiliated with, endorsed 
 - Closely related distractors within the same agricultural product family
 - Configurable 5 or 10-question practice tests with per-item pacing
 - A 40-question mock exam with a 30-minute default and adjustable 20-60 minute countdown
+- A checkbox-based source multiselect that includes every available question collection by default
 - An official iGEO past-question source option with live availability and reuse-status messaging
 - 45, 60 or 75-second pacing per question
 - Four-option answer selection, scoring, explanations and source verification links
@@ -182,7 +183,7 @@ current and valid with `npm run questions:check-worldmapper`.
 
 The PopulationPyramid pipeline follows the Worldmapper layout: a reproducible
 source manifest, canonical images stored under `data/`, public image copies for
-the web app, and a generated question bank. Rebuild the manifest and its 200
+the web app, and a generated question bank. Rebuild the manifest and its 300
 draft questions with:
 
 ```bash
@@ -196,6 +197,13 @@ It includes pyramid shape, World Bank income group, age shares, sex ratios, and
 cautious anomaly tags such as working-age male surplus, conflict/fragility
 signals, cohort notches, youth bulges, and aging-heavy structures. These tags
 are screening heuristics, not proof of a particular historical cause.
+
+The 300-item bank contains one interpretation question for every pyramid, 50
+country-identification questions with the country label visually hidden, and 50
+scenario questions with four pyramid images as answer choices. A country may
+therefore support several question types. Generated explanations distinguish
+visible evidence from hypotheses about migration, conflict, fertility, living
+costs, development and mortality.
 
 ## Supabase storage
 

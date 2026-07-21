@@ -14,10 +14,26 @@ type JsonQuestion = {
     "Image URL": string;
   };
   "Source URL": string;
+  "Question Type"?: string;
+  "Hide media identity"?: boolean;
+  "Option media"?: [
+    JsonOptionMedia,
+    JsonOptionMedia,
+    JsonOptionMedia,
+    JsonOptionMedia,
+  ];
   "Category/Tags": string[];
   Options: [string, string, string, string];
   Answer: string;
   Explanation: string;
+};
+
+type JsonOptionMedia = {
+  Label: string;
+  Country: string;
+  "Local path": string;
+  "Image URL": string;
+  "Source URL": string;
 };
 
 const questions = [
@@ -71,6 +87,14 @@ export const questionRecords: QuestionRecord[] = questions.map((item, index) => 
     mediaAlt: isPopulationPyramid
       ? "Population pyramid showing the selected country or area's 2026 population by age group and sex"
       : `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
+    optionMedia: item["Option media"]?.map((media) => ({
+      label: media.Label,
+      mediaLink: publicPopulationPyramidPath(media["Local path"]),
+      mediaAlt: `${media.Country} population pyramid, 2026`,
+      sourceUrl: media["Source URL"],
+    })) as QuestionRecord["optionMedia"],
+    hideMediaIdentity: item["Hide media identity"],
+    questionType: item["Question Type"],
     category: item["Category/Tags"][0] ?? "Uncategorized",
     tags: item["Category/Tags"],
     skill: isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",

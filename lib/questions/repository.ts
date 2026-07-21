@@ -28,6 +28,9 @@ export function toPracticeQuestion(record: QuestionRecord): PracticeQuestion {
     difficulty: record.difficulty,
     mediaLink: record.mediaLink,
     mediaAlt: record.mediaAlt,
+    optionMedia: record.optionMedia,
+    hideMediaIdentity: record.hideMediaIdentity,
+    questionType: record.questionType,
     variant: record.visualVariant,
   };
 }

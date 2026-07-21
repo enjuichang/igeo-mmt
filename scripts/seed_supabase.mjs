@@ -1,12 +1,21 @@
-import { createClient } from "@supabase/supabase-js";
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import populationPyramidQuestions from "../data/questions/population-pyramid-draft-questions.json" with { type: "json" };
-import reviewedQuestions from "../data/questions/questions.json" with { type: "json" };
-import worldmapperQuestions from "../data/questions/worldmapper-draft-questions.json" with { type: "json" };
 import { loadEnvFile } from "./load_env_file.mjs";
 
 loadEnvFile();
+
+function readJson(relativePath) {
+  return JSON.parse(readFileSync(new URL(relativePath, import.meta.url), "utf8"));
+}
+
+const populationPyramidQuestions = readJson(
+  "../data/questions/population-pyramid-draft-questions.json",
+);
+const reviewedQuestions = readJson("../data/questions/questions.json");
+const worldmapperQuestions = readJson(
+  "../data/questions/worldmapper-draft-questions.json",
+);
 
 let url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
 let secretKey = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -82,21 +91,40 @@ const rows = rawQuestions.map((item, index) => {
     metadata: {
       provider: item["Image/Media source"].Provider,
       localPath: localMediaPath,
+      optionMedia: item["Option media"]?.map((media) => ({
+        label: media.Label,
+        mediaLink: media["Local path"].replace(/^data\/population-pyramids\/images\//, "/population-pyramids/"),
+        mediaAlt: `${media.Country} population pyramid, 2026`,
+        sourceUrl: media["Source URL"],
+      })),
+      hideMediaIdentity: item["Hide media identity"],
+      questionType: item["Question Type"],
       seededBy: "scripts/seed_supabase.mjs",
     },
   };
 });
 
-const supabase = createClient(url, secretKey, {
-  auth: { autoRefreshToken: false, persistSession: false },
-});
-
 const chunkSize = 100;
 for (let offset = 0; offset < rows.length; offset += chunkSize) {
   const chunk = rows.slice(offset, offset + chunkSize);
-  const { error } = await supabase.from("questions").upsert(chunk, { onConflict: "id" });
-  if (error) {
-    fail(`batch ${offset / chunkSize + 1} could not be stored (${error.message}).`);
+  const headers = {
+    apikey: secretKey,
+    "Content-Type": "application/json",
+    Prefer: "resolution=merge-duplicates,return=minimal",
+  };
+  if (secretKey.startsWith("eyJ")) {
+    headers.Authorization = `Bearer ${secretKey}`;
+  }
+
+  const response = await fetch(`${url}/rest/v1/questions?on_conflict=id`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(chunk),
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? body?.error ?? `HTTP ${response.status}`;
+    fail(`batch ${offset / chunkSize + 1} could not be stored (${message}).`);
   }
 }
 

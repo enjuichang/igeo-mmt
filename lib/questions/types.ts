@@ -23,6 +23,13 @@ export type QuestionSource = {
   attribution: string;
 };
 
+export type QuestionOptionMedia = {
+  label: string;
+  mediaLink: string;
+  mediaAlt: string;
+  sourceUrl: string;
+};
+
 /**
  * Canonical storage model. Its field names intentionally mirror the planned
  * Supabase table so UI components never become the source of truth.
@@ -40,6 +47,9 @@ export type QuestionRecord = {
   mediaLink: string;
   mediaKind: MediaKind;
   mediaAlt: string;
+  optionMedia?: [QuestionOptionMedia, QuestionOptionMedia, QuestionOptionMedia, QuestionOptionMedia];
+  hideMediaIdentity?: boolean;
+  questionType?: string;
   category: string;
   tags: string[];
   skill: string;
@@ -68,6 +78,9 @@ export type PracticeQuestion = {
   difficulty: QuestionDifficulty;
   mediaLink: string;
   mediaAlt: string;
+  optionMedia?: QuestionOptionMedia[];
+  hideMediaIdentity?: boolean;
+  questionType?: string;
   variant: number;
 };
 

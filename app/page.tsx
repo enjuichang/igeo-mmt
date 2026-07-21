@@ -6,10 +6,10 @@ import igeoSource from "@/data/questions/igeo-source.json";
 import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
 
-const sourceModes = {
-  worldmapper: { label: "Worldmapper cartograms", keys: ["worldmapper"] as SourceKey[] },
-  pyramid: { label: "Population pyramids", keys: ["pyramid"] as SourceKey[] },
-};
+const selectableSources: { key: SourceKey; label: string }[] = [
+  { key: "worldmapper", label: "Worldmapper cartograms" },
+  { key: "pyramid", label: "Population pyramids" },
+];
 
 const featuredSources = [
   {
@@ -45,10 +45,20 @@ function shuffled<T>(items: T[]) {
 }
 
 function randomizeOptions(question: Question): Question {
-  const options = shuffled(question.options.map((value, index) => ({ value, correct: index === question.correct })));
+  const options = shuffled(question.options.map((value, index) => ({
+    value,
+    correct: index === question.correct,
+    media: question.optionMedia?.[index],
+  })));
   return {
     ...question,
     options: options.map((option) => option.value),
+    optionMedia: question.optionMedia
+      ? options.map((option, index) => ({
+          ...option.media!,
+          label: String.fromCharCode(65 + index),
+        }))
+      : undefined,
     correct: options.findIndex((option) => option.correct),
   };
 }
@@ -159,6 +169,15 @@ function Satellite({ variant }: { variant: number }) {
 }
 
 function ResourceVisual({ question }: { question: Question }) {
+  if (question.optionMedia) {
+    return (
+      <div className="comparison-resource" aria-label="Four population-pyramid answer choices are shown with the question">
+        <span>VISUAL COMPARISON</span>
+        <strong>Four population pyramids</strong>
+        <p>Read the scenario, then compare the age structure and sex balance in choices A–D.</p>
+      </div>
+    );
+  }
   if (question.source === "worldmapper") {
     return (
       <figure className="worldmapper-figure">
@@ -169,9 +188,9 @@ function ResourceVisual({ question }: { question: Question }) {
   }
   if (question.source === "pyramid") {
     return (
-      <figure className="worldmapper-figure population-pyramid-figure">
+      <figure className={`worldmapper-figure population-pyramid-figure ${question.hideMediaIdentity ? "identity-hidden" : ""}`}>
         <img src={question.mediaLink} alt={question.mediaAlt} />
-        <figcaption>PopulationPyramid.net · age-sex structure · CC BY 3.0 IGO</figcaption>
+        <figcaption>{question.hideMediaIdentity ? "Country label hidden · infer from structure" : "PopulationPyramid.net · age-sex structure · CC BY 3.0 IGO"}</figcaption>
       </figure>
     );
   }
@@ -189,7 +208,7 @@ function SourceMark({ source }: { source: SourceKey }) {
 
 export default function Home() {
   const [questionBank, setQuestionBank] = useState<Question[]>(localQuestionBank);
-  const [mode, setMode] = useState<keyof typeof sourceModes>("worldmapper");
+  const [selectedSources, setSelectedSources] = useState<SourceKey[]>(() => selectableSources.map(({ key }) => key));
   const [testType, setTestType] = useState<"practice" | "mock">("practice");
   const [length, setLength] = useState(10);
   const [seconds, setSeconds] = useState(60);
@@ -203,8 +222,8 @@ export default function Home() {
   const [finished, setFinished] = useState(false);
 
   const sourceQuestions = useMemo(
-    () => questionBank.filter((question) => sourceModes[mode].keys.includes(question.source)),
-    [mode, questionBank],
+    () => questionBank.filter((question) => selectedSources.includes(question.source)),
+    [selectedSources, questionBank],
   );
   const categoryOptions = useMemo(() => {
     const counts = new Map<string, number>();
@@ -215,9 +234,10 @@ export default function Home() {
     () => category === "all" ? sourceQuestions : sourceQuestions.filter((question) => question.topic === category),
     [category, sourceQuestions],
   );
-  const preview = available[1] ?? available[0] ?? sourceQuestions[0];
+  const preview = available[1] ?? available[0] ?? sourceQuestions[0] ?? questionBank[0];
   const targetLength = testType === "mock" ? 40 : length;
   const testQuestionCount = Math.min(targetLength, available.length);
+  const allSourcesSelected = selectableSources.every(({ key }) => selectedSources.includes(key));
 
   useEffect(() => {
     const controller = new AbortController();
@@ -266,11 +286,24 @@ export default function Home() {
   function generateTest() {
     const selected = selectRandomQuestions(available, targetLength, category === "all")
       .map(randomizeOptions);
+    window.scrollTo({ top: 0, behavior: "auto" });
     setTest(selected);
     setIndex(0);
     setAnswers({});
     setFinished(false);
     setRemaining(testType === "mock" ? mockMinutes * 60 : seconds);
+  }
+
+  function toggleSource(source: SourceKey) {
+    setSelectedSources((current) => current.includes(source)
+      ? current.filter((item) => item !== source)
+      : [...current, source]);
+    setCategory("all");
+  }
+
+  function toggleAllSources() {
+    setSelectedSources(allSourcesSelected ? [] : selectableSources.map(({ key }) => key));
+    setCategory("all");
   }
 
   function chooseAnswer(answer: number) {
@@ -282,6 +315,7 @@ export default function Home() {
     if (!test) return;
     if (index === test.length - 1) setFinished(true);
     else {
+      window.scrollTo({ top: 0, behavior: "auto" });
       setIndex((current) => current + 1);
       if (testType === "practice") setRemaining(seconds);
     }
@@ -336,8 +370,10 @@ export default function Home() {
             <h1><span>Q{index + 1}</span>{question.prompt}</h1>
             <div className="answers">
               {question.options.map((option, optionIndex) => (
-                <button key={option} className={answers[index] === optionIndex ? "selected" : ""} onClick={() => chooseAnswer(optionIndex)}>
-                  <span>{String.fromCharCode(65 + optionIndex)}</span>{option}
+                <button key={option} className={`${answers[index] === optionIndex ? "selected" : ""} ${question.optionMedia ? "has-option-media" : ""}`} onClick={() => chooseAnswer(optionIndex)}>
+                  <span>{String.fromCharCode(65 + optionIndex)}</span>
+                  {question.optionMedia?.[optionIndex] && <img src={question.optionMedia[optionIndex].mediaLink} alt={question.optionMedia[optionIndex].mediaAlt} />}
+                  <b>{option}</b>
                 </button>
               ))}
             </div>
@@ -373,16 +409,24 @@ export default function Home() {
       </section>
 
       <section className="builder-section" id="builder">
-        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Choose a trusted source, then follow your curiosity into one category or draw a balanced random mix.</p></div>
+        <div className="section-heading"><div><span className="section-index">01 / GENERATOR</span><h2>Build your test</h2></div><p>Combine trusted sources, then follow your curiosity into one category or draw a balanced random mix.</p></div>
         <div className="builder-grid">
           <div className="controls-card">
             <div className="control-group"><label>Test format</label><div className="test-type-list">
               <button className={testType === "practice" ? "active" : ""} onClick={() => setTestType("practice")}><b>Practice test</b><span>5 or 10 questions</span><small>Adjustable time per item</small></button>
               <button className={testType === "mock" ? "active" : ""} onClick={() => setTestType("mock")}><b>Mock test</b><span>40 questions</span><small>One exam countdown</small></button>
             </div></div>
-            <div className="control-group"><label>Source collection</label><div className="mode-list">
-              {(Object.entries(sourceModes) as [keyof typeof sourceModes, (typeof sourceModes)[keyof typeof sourceModes]][]).map(([key, item]) => (
-                <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)}><span>{item.label}</span><small>{questionBank.filter((q) => item.keys.includes(q.source)).length.toLocaleString("en-US")} source-linked questions</small><i>{mode === key ? "●" : "○"}</i></button>
+            <div className="control-group"><label>Source collection</label><div className="source-checklist">
+              <label className="source-choice select-all">
+                <input type="checkbox" checked={allSourcesSelected} onChange={toggleAllSources} />
+                <span><b>Select all sources</b><small>{allSourcesSelected ? "All available sources selected" : `${selectedSources.length} of ${selectableSources.length} selected`}</small></span>
+              </label>
+              {selectableSources.map(({ key, label }) => (
+                <label className="source-choice" key={key}>
+                  <input type="checkbox" checked={selectedSources.includes(key)} onChange={() => toggleSource(key)} />
+                  <SourceMark source={key} />
+                  <span><b>{label}</b><small>{questionBank.filter((question) => question.source === key).length.toLocaleString("en-US")} source-linked questions</small></span>
+                </label>
               ))}
             </div></div>
             <div className="control-group category-control"><label htmlFor="category">Category you’re curious about</label><div className="select-wrap">
@@ -407,7 +451,7 @@ export default function Home() {
               <a href={igeoSource.sourceUrl} target="_blank" rel="noreferrer">Official library ↗</a>
               {!igeoSource.available && <p>{igeoSource.notice}</p>}
             </div>
-            <div className="coverage"><div><span>Coverage</span><b>{category === "all" ? `Balanced across ${categoryOptions.length} categories` : category} · {testQuestionCount} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (testQuestionCount / available.length) * 100 : 0}%` }} /></div></div>
+            <div className="coverage"><div><span>Coverage</span><b>{selectedSources.length} sources · {category === "all" ? `balanced across ${categoryOptions.length} categories` : category} · {testQuestionCount} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (testQuestionCount / available.length) * 100 : 0}%` }} /></div></div>
             <button className="generate-button" onClick={generateTest} disabled={available.length === 0}><span>Generate {testType === "mock" ? "mock test" : "practice test"}</span><b>↗</b></button>
             <small className="not-affiliated">Independent educational prototype. Not an official iGEO test.</small>
           </div>
@@ -415,7 +459,7 @@ export default function Home() {
           <div className="preview-card">
             <div className="preview-header"><span>QUESTION PREVIEW</span><div><i /> SOURCE-LINKED</div></div>
             <div className="preview-resource"><ResourceVisual question={preview} /></div>
-            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span><span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className="preview-options">{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{option}</span>)}</div></div>
+            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span><span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className={`preview-options ${preview.optionMedia ? "with-media" : ""}`}>{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{preview.optionMedia?.[i] && <img src={preview.optionMedia[i].mediaLink} alt="" />}{option}</span>)}</div></div>
             <div className="preview-credit"><SourceMark source={preview.source} /><span>Question evidence from <b>{preview.sourceName}</b></span><a href={preview.sourceUrl} target="_blank" rel="noreferrer">View ↗</a></div>
           </div>
         </div>
