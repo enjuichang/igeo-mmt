@@ -252,8 +252,12 @@ export default function Home() {
 
         const payload = await response.json() as { questions?: Question[] };
         if (Array.isArray(payload.questions) && payload.questions.length > 0) {
+          const remoteQuestionIds = new Set(payload.questions.map((question) => question.id));
           const localPopulationPyramids = localQuestionBank.filter((question) => question.source === "pyramid");
-          setQuestionBank([...payload.questions, ...localPopulationPyramids]);
+          setQuestionBank([
+            ...payload.questions,
+            ...localPopulationPyramids.filter((question) => !remoteQuestionIds.has(question.id)),
+          ]);
           setCategory("all");
         }
       } catch (error) {

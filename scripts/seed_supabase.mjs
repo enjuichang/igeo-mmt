@@ -53,7 +53,30 @@ try {
   fail("SUPABASE_URL is not a valid URL.");
 }
 
+const adminHeaders = { apikey: secretKey };
+if (secretKey.startsWith("eyJ")) {
+  adminHeaders.Authorization = `Bearer ${secretKey}`;
+}
+
 const reviewedIds = new Set(reviewedQuestions.map((item) => item["Question ID"]));
+const existingPublishedIds = new Set();
+const pageSize = 1000;
+for (let offset = 0; ; offset += pageSize) {
+  const response = await fetch(
+    `${url}/rest/v1/questions?select=id&status=eq.published&order=id&offset=${offset}&limit=${pageSize}`,
+    { headers: adminHeaders },
+  );
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? body?.error ?? `HTTP ${response.status}`;
+    fail(`existing publication status could not be read (${message}).`);
+  }
+
+  const page = await response.json();
+  for (const row of page) existingPublishedIds.add(row.id);
+  if (page.length < pageSize) break;
+}
+
 const rawQuestions = [...worldmapperQuestions, ...populationPyramidQuestions];
 const rows = rawQuestions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
@@ -61,7 +84,8 @@ const rows = rawQuestions.map((item, index) => {
     fail(`the answer does not match an option for ${item["Question ID"]}.`);
   }
 
-  const reviewed = reviewedIds.has(item["Question ID"]);
+  const reviewed =
+    reviewedIds.has(item["Question ID"]) || existingPublishedIds.has(item["Question ID"]);
   const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
   const localMediaPath = item["Image/Media source"]["Local path"];
   const hasAnomalyTag = item["Category/Tags"].some((tag) =>
@@ -115,13 +139,10 @@ const chunkSize = 100;
 for (let offset = 0; offset < rows.length; offset += chunkSize) {
   const chunk = rows.slice(offset, offset + chunkSize);
   const headers = {
-    apikey: secretKey,
+    ...adminHeaders,
     "Content-Type": "application/json",
     Prefer: "resolution=merge-duplicates,return=minimal",
   };
-  if (secretKey.startsWith("eyJ")) {
-    headers.Authorization = `Bearer ${secretKey}`;
-  }
 
   const response = await fetch(`${url}/rest/v1/questions?on_conflict=id`, {
     method: "POST",

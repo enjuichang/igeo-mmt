@@ -42,7 +42,8 @@ four unique choices and an answer that matches the selected option.
 
 `npm run supabase:seed` idempotently upserts the complete Worldmapper and
 PopulationPyramid.net banks in batches. Reviewed records are published;
-generated records remain drafts. The
+generated records remain drafts unless an editor has already published them in
+Supabase. Existing publication decisions are preserved across later seed runs. The
 production `/api/questions` route uses the RLS-restricted publishable key and
 returns published records only.
 
