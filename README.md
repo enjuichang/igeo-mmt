@@ -280,6 +280,18 @@ npm run supabase:seed
 npm run deploy:check
 ```
 
+Pushes to `main` also run `.github/workflows/sync-supabase.yml`. The workflow
+links the production project, applies pending migrations, upserts the complete
+question bank and verifies public access plus row-level security. Configure
+these GitHub Actions repository secrets before enabling the workflow:
+
+- `SUPABASE_ACCESS_TOKEN`: a Supabase personal access token allowed to link and migrate the project
+- `SUPABASE_SECRET_KEY`: the project's server-only secret key used for question upserts
+- `SUPABASE_PUBLISHABLE_KEY`: the project's public key used for the final RLS verification
+
+The project reference and Supabase URL are non-secret and are pinned in the
+workflow. The same workflow can be rerun manually with `workflow_dispatch`.
+
 3. Import the repository in Netlify. Add `SUPABASE_URL` and
    `SUPABASE_PUBLISHABLE_KEY` as Netlify environment variables with both
    **Builds** and **Functions** scope. Do not add `SUPABASE_SECRET_KEY` to

@@ -66,4 +66,18 @@ if (drafts?.length) {
   fail("row-level security is exposing draft questions to the public key.");
 }
 
+const pastIgeo = await publicQuery(
+  "select=id,igeo_year,location,question_number&source_key=eq.igeo&status=eq.published&limit=5000",
+);
+
+if (pastIgeo?.length !== 422) {
+  fail(`expected 422 published iGeo questions, found ${pastIgeo?.length ?? 0}.`);
+}
+
+if (pastIgeo.some((question) =>
+  !question.igeo_year || !question.location || !question.question_number
+)) {
+  fail("published iGeo questions are missing edition metadata.");
+}
+
 console.log(`Supabase deployment check passed for ${parsedUrl.host}.`);
