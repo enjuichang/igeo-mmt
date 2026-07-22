@@ -8,6 +8,7 @@ The project is independent and educational. It is not affiliated with, endorsed 
 
 - A polished responsive generator and timed test-taking experience
 - 40 reviewed Worldmapper crop-cartogram questions stored as JSON
+- 422 multiple-choice questions from 12 past iGeo MMT editions, aligned to 450 normalized archive records
 - Closely related distractors within the same agricultural product family
 - Configurable 5 or 10-question practice tests with per-item pacing
 - A 40-question mock exam with a 30-minute default and adjustable 20-60 minute countdown
@@ -39,9 +40,9 @@ The guidelines list 12 broad content areas: climate and climate change; hazards;
 
 The required skills are map skills, inquiry and problem solving, and graphicacy. A 2023 content analysis by Artvinli and Dönmez similarly identifies spatial analysis and interpretation, map skills, GIS, data analysis, field observation, critical thinking, cultural and human geography, and environmental sustainability as recurring iGEO skill families: [DOI 10.59409/ojer.1213392](https://doi.org/10.59409/ojer.1213392).
 
-The [iGEO document library](https://geoolympiad.org/document-library/) provides past questions, reports and a 2025 MMT sample. At the time of this research, the library also notes that some MMT files are temporarily unavailable.
+The [iGEO document library](https://geoolympiad.org/document-library/) provides past questions, reports and MMT samples. The locally supplied archive has been normalized into 450 source records from 12 editions. Its 422 four-option questions are enabled in GeoLens, with the original year, host location, answer key and question-aligned media attached. The 28 open-response records remain available in the archive but are not included in the current multiple-choice generator.
 
-The official library currently states that MMT files are temporarily unavailable. Its [2025 MMT sample](https://geoolympiad.org/wp-content/uploads/2026/01/MMT-Sample-Questions.pdf) also says that the included third-party multimedia is for viewing within that assessment and is not intended for redistribution or publication. GeoLens therefore exposes the official-source option and links to the archive, but does not copy protected iGEO multimedia into the local bank. The option can be enabled when iGEO provides reusable assets or explicit permission.
+Past tests contain media from multiple contributors. GeoLens preserves the official source link and attribution metadata for each question; anyone redistributing the archive should review the rights attached to the original test material.
 
 ### Analysis of the provided 2013 sample
 
@@ -134,6 +135,8 @@ data/questions/
                       Generated PopulationPyramid.net question bank
   igeo-source.json    Official archive availability and reuse status
   question-bank.ts    JSON-to-application adapter
+  igeo-past-questions.json
+                      Past MMT questions, official answers, year, host location and media provenance
   sources.ts          Provider, licence and media defaults
 lib/questions/
   types.ts            Storage and UI types
@@ -153,6 +156,7 @@ supabase/migrations/
   20260720130000_grant_question_bank_service_role.sql
                       Administrative import permissions
 public/
+  igeo-mmt/           Question-aligned WebP renders for each past MMT edition
   population-pyramids/
                       Locally hosted 2026 population-pyramid images
   worldmapper-co2-2020.png
@@ -161,6 +165,19 @@ public/
 ```
 
 The website no longer contains question content. It imports a UI projection from the question domain. The 40 educator-reviewed records remain in `data/questions/questions.json`; the live generator reads the complete `data/questions/worldmapper-draft-questions.json` bank and retains reviewed-versus-generated workflow metadata in `question-bank.ts`. Practice mode samples 5 or 10 items; mock mode samples up to 40 items with a single exam countdown.
+
+### Import the past iGeo MMT archive
+
+The past-MMT importer handles legacy Word question/answer sheets, separate picture decks, slide-export PDFs, response-frequency answer slides, and the later Socrative exports. It keeps all 450 source questions in the normalized JSON; the 28 open-response questions from 2002 remain in the archive but are not projected into the four-option practice UI.
+
+It requires Python 3 with the packages in `requirements-past-mmt.txt` and Poppler's `pdftotext`/`pdftoppm` commands. Legacy Word files use LibreOffice when available, with a macOS `textutil` fallback.
+
+```bash
+npm run data:import-past-mmt
+npm run data:check-past-mmt
+```
+
+Records are sorted by iGeo year, topic tags, host location and question number. Generated media records retain their original source-page numbers, and the canonical question model exposes `igeoYear`, `location` and `questionNumber`.
 
 ### Generate the full Worldmapper draft bank
 

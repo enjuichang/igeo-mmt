@@ -31,6 +31,9 @@ export function toPracticeQuestion(record: QuestionRecord): PracticeQuestion {
     optionMedia: record.optionMedia,
     hideMediaIdentity: record.hideMediaIdentity,
     questionType: record.questionType,
+    igeoYear: record.igeoYear,
+    location: record.location,
+    questionNumber: record.questionNumber,
     variant: record.visualVariant,
   };
 }
@@ -43,6 +46,9 @@ export class LocalQuestionRepository implements QuestionRepository {
       if (filters.sources && !filters.sources.includes(record.source.key)) return false;
       if (filters.categories && !filters.categories.includes(record.category)) return false;
       if (filters.difficulties && !filters.difficulties.includes(record.difficulty)) return false;
+      if (filters.igeoYears && (!record.igeoYear || !filters.igeoYears.includes(record.igeoYear))) return false;
+      if (filters.locations && (!record.location || !filters.locations.includes(record.location))) return false;
+      if (filters.tags && !filters.tags.every((tag) => record.tags.includes(tag))) return false;
       if (filters.status && record.status !== filters.status) return false;
       return true;
     });

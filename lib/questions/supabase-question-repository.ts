@@ -15,6 +15,7 @@ type SupabaseQuery = PromiseLike<QueryResult> & {
   select(columns?: string): SupabaseQuery;
   eq(column: string, value: unknown): SupabaseQuery;
   in(column: string, values: unknown[]): SupabaseQuery;
+  contains(column: string, value: unknown): SupabaseQuery;
   limit(value: number): SupabaseQuery;
   insert(rows: unknown[]): SupabaseQuery;
   maybeSingle(): Promise<QueryResult>;
@@ -37,6 +38,9 @@ type DatabaseRow = {
   media_link: string;
   media_kind: MediaKind;
   media_alt: string;
+  igeo_year: number | null;
+  location: string | null;
+  question_number: number | null;
   metadata: {
     optionMedia?: QuestionRecord["optionMedia"];
     hideMediaIdentity?: boolean;
@@ -82,6 +86,9 @@ function toRecord(value: unknown): QuestionRecord {
     optionMedia: row.metadata?.optionMedia,
     hideMediaIdentity: row.metadata?.hideMediaIdentity,
     questionType: row.metadata?.questionType,
+    igeoYear: row.igeo_year ?? undefined,
+    location: row.location ?? undefined,
+    questionNumber: row.question_number ?? undefined,
     category: row.category,
     tags: row.tags,
     skill: row.skill,
@@ -108,6 +115,9 @@ function toDatabaseRow(input: CreateQuestionInput) {
     media_link: input.mediaLink,
     media_kind: input.mediaKind,
     media_alt: input.mediaAlt,
+    igeo_year: input.igeoYear,
+    location: input.location,
+    question_number: input.questionNumber,
     metadata: {
       optionMedia: input.optionMedia,
       hideMediaIdentity: input.hideMediaIdentity,
@@ -136,6 +146,9 @@ export class SupabaseQuestionRepository implements QuestionRepository {
     if (filters.sources) query = query.in("source_key", filters.sources);
     if (filters.categories) query = query.in("category", filters.categories);
     if (filters.difficulties) query = query.in("difficulty", filters.difficulties);
+    if (filters.igeoYears) query = query.in("igeo_year", filters.igeoYears);
+    if (filters.locations) query = query.in("location", filters.locations);
+    if (filters.tags) query = query.contains("tags", filters.tags);
     if (filters.status) query = query.eq("status", filters.status);
     if (filters.limit) query = query.limit(filters.limit);
 

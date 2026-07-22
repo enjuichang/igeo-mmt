@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { practiceQuestionBank as localQuestionBank } from "@/data/questions/question-bank";
-import igeoSource from "@/data/questions/igeo-source.json";
 import { sourceInfo } from "@/data/questions/sources";
 import type { PracticeQuestion as Question, SourceKey } from "@/lib/questions/types";
 
 const selectableSources: { key: SourceKey; label: string }[] = [
   { key: "worldmapper", label: "Worldmapper cartograms" },
   { key: "pyramid", label: "Population pyramids" },
+  { key: "igeo", label: "Past iGeo Multimedia Tests" },
 ];
 
 const featuredSources = [
@@ -30,10 +30,19 @@ const featuredSources = [
     mark: "P",
     className: "pyramid",
   },
+  {
+    name: "International Geography Olympiad",
+    url: "https://geoolympiad.org/document-library/",
+    short: "Past Multimedia Tests",
+    description: "Official past MMT questions aligned with their original visual evidence, answer keys, year and host location.",
+    detail: "12 iGeo editions",
+    mark: "iG",
+    className: "igeo",
+  },
 ];
 
 const comingSoonSources = (Object.entries(sourceInfo) as [SourceKey, typeof sourceInfo.gapminder][])
-  .filter(([key]) => key !== "worldmapper" && key !== "pyramid");
+  .filter(([key]) => key !== "worldmapper" && key !== "pyramid" && key !== "igeo");
 
 function shuffled<T>(items: T[]) {
   const result = [...items];
@@ -194,6 +203,14 @@ function ResourceVisual({ question }: { question: Question }) {
       </figure>
     );
   }
+  if (question.source === "igeo") {
+    return (
+      <figure className="worldmapper-figure igeo-figure">
+        <img src={question.mediaLink} alt={question.mediaAlt} />
+        <figcaption>{question.igeoYear} iGeo · {question.location} · official MMT source page</figcaption>
+      </figure>
+    );
+  }
   if (question.source === "gapminder" || question.source === "usgs") return <Scatter source={question.source} variant={question.variant} />;
   if (question.source === "noaa") return <Bars variant={question.variant} />;
   if (question.source === "nasa") return <Satellite variant={question.variant} />;
@@ -202,7 +219,7 @@ function ResourceVisual({ question }: { question: Question }) {
 }
 
 function SourceMark({ source }: { source: SourceKey }) {
-  const initials: Record<SourceKey, string> = { gapminder: "G", worldmapper: "W", pyramid: "P", usgs: "U", noaa: "N", nasa: "N", worldbank: "WB", gbif: "GB", openmaps: "OM" };
+  const initials: Record<SourceKey, string> = { gapminder: "G", worldmapper: "W", pyramid: "P", igeo: "iG", usgs: "U", noaa: "N", nasa: "N", worldbank: "WB", gbif: "GB", openmaps: "OM" };
   return <span className={`source-mark ${source}`}>{initials[source]}</span>;
 }
 
@@ -214,7 +231,7 @@ export default function Home() {
   const [seconds, setSeconds] = useState(60);
   const [mockMinutes, setMockMinutes] = useState(30);
   const [category, setCategory] = useState("all");
-  const [includePastQuestions, setIncludePastQuestions] = useState(false);
+  const [igeoEdition, setIgeoEdition] = useState("all");
   const [test, setTest] = useState<Question[] | null>(null);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -225,16 +242,36 @@ export default function Home() {
     () => questionBank.filter((question) => selectedSources.includes(question.source)),
     [selectedSources, questionBank],
   );
+  const editionOptions = useMemo(() => {
+    const counts = new Map<string, { year: number; location: string; count: number }>();
+    for (const question of sourceQuestions) {
+      if (!question.igeoYear || !question.location) continue;
+      const key = String(question.igeoYear);
+      const current = counts.get(key);
+      counts.set(key, {
+        year: question.igeoYear,
+        location: question.location,
+        count: (current?.count ?? 0) + 1,
+      });
+    }
+    return [...counts.entries()].sort(([, left], [, right]) => left.year - right.year);
+  }, [sourceQuestions]);
+  const editionQuestions = useMemo(
+    () => igeoEdition === "all"
+      ? sourceQuestions
+      : sourceQuestions.filter((question) => String(question.igeoYear) === igeoEdition),
+    [igeoEdition, sourceQuestions],
+  );
   const categoryOptions = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const question of sourceQuestions) counts.set(question.topic, (counts.get(question.topic) ?? 0) + 1);
+    for (const question of editionQuestions) counts.set(question.topic, (counts.get(question.topic) ?? 0) + 1);
     return [...counts].sort(([left], [right]) => left.localeCompare(right));
-  }, [sourceQuestions]);
+  }, [editionQuestions]);
   const available = useMemo(
-    () => category === "all" ? sourceQuestions : sourceQuestions.filter((question) => question.topic === category),
-    [category, sourceQuestions],
+    () => category === "all" ? editionQuestions : editionQuestions.filter((question) => question.topic === category),
+    [category, editionQuestions],
   );
-  const preview = available[1] ?? available[0] ?? sourceQuestions[0] ?? questionBank[0];
+  const preview = available[1] ?? available[0] ?? editionQuestions[0] ?? questionBank[0];
   const targetLength = testType === "mock" ? 40 : length;
   const testQuestionCount = Math.min(targetLength, available.length);
   const allSourcesSelected = selectableSources.every(({ key }) => selectedSources.includes(key));
@@ -253,12 +290,15 @@ export default function Home() {
         const payload = await response.json() as { questions?: Question[] };
         if (Array.isArray(payload.questions) && payload.questions.length > 0) {
           const remoteQuestionIds = new Set(payload.questions.map((question) => question.id));
-          const localPopulationPyramids = localQuestionBank.filter((question) => question.source === "pyramid");
+          const localFallbackQuestions = localQuestionBank.filter(
+            (question) => question.source === "pyramid" || question.source === "igeo",
+          );
           setQuestionBank([
             ...payload.questions,
-            ...localPopulationPyramids.filter((question) => !remoteQuestionIds.has(question.id)),
+            ...localFallbackQuestions.filter((question) => !remoteQuestionIds.has(question.id)),
           ]);
           setCategory("all");
+          setIgeoEdition("all");
         }
       } catch (error) {
         if (!(error instanceof DOMException && error.name === "AbortError")) {
@@ -303,11 +343,13 @@ export default function Home() {
       ? current.filter((item) => item !== source)
       : [...current, source]);
     setCategory("all");
+    setIgeoEdition("all");
   }
 
   function toggleAllSources() {
     setSelectedSources(allSourcesSelected ? [] : selectableSources.map(({ key }) => key));
     setCategory("all");
+    setIgeoEdition("all");
   }
 
   function chooseAnswer(answer: number) {
@@ -370,7 +412,7 @@ export default function Home() {
             <div className="resource-credit"><SourceMark source={question.source} /><span><b>{question.sourceName}</b>{sourceInfo[question.source].short}</span><span className="licence-chip">Attribution attached</span></div>
           </div>
           <div className="question-panel">
-            <div className="question-meta"><span>{question.topic}</span><span>•</span><span>{question.skill}</span><span>•</span><span>{question.difficulty}</span></div>
+            <div className="question-meta"><span>{question.topic}</span><span>•</span><span>{question.skill}</span>{question.igeoYear && <><span>•</span><span>{question.igeoYear} · {question.location}</span></>}<span>•</span><span>{question.difficulty}</span></div>
             <h1><span>Q{index + 1}</span>{question.prompt}</h1>
             <div className="answers">
               {question.options.map((option, optionIndex) => (
@@ -409,7 +451,7 @@ export default function Home() {
           <div className="pulse-dot" />
           <div className="hero-label label-a">CARTOGRAM</div><div className="hero-label label-b">CLIMATE</div><div className="hero-label label-c">CHANGE</div>
         </div>
-        <div className="hero-stats"><div><strong>{questionBank.length.toLocaleString("en-US")}</strong><span>source-linked questions</span></div><div><strong>{categoryOptions.length}</strong><span>curiosity categories</span></div><div><strong>2</strong><span>verified sources</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
+        <div className="hero-stats"><div><strong>{questionBank.length.toLocaleString("en-US")}</strong><span>source-linked questions</span></div><div><strong>{categoryOptions.length}</strong><span>curiosity categories</span></div><div><strong>{selectableSources.length}</strong><span>verified sources</span></div><div><strong>4</strong><span>close choices per question</span></div></div>
       </section>
 
       <section className="builder-section" id="builder">
@@ -439,6 +481,14 @@ export default function Home() {
                 {categoryOptions.map(([name, count]) => <option key={name} value={name}>{name} ({count})</option>)}
               </select><span aria-hidden="true">⌄</span>
             </div><small className="category-hint">Each generation reshuffles both questions and answer choices.</small></div>
+            {selectedSources.includes("igeo") && editionOptions.length > 0 && (
+              <div className="control-group category-control"><label htmlFor="igeo-edition">iGeo year and host location</label><div className="select-wrap">
+                <select id="igeo-edition" value={igeoEdition} onChange={(event) => { setIgeoEdition(event.target.value); setCategory("all"); }}>
+                  <option value="all">All iGeo editions ({editionOptions.reduce((total, [, item]) => total + item.count, 0)})</option>
+                  {editionOptions.map(([key, item]) => <option key={key} value={key}>{item.year} · {item.location} ({item.count})</option>)}
+                </select><span aria-hidden="true">⌄</span>
+              </div><small className="category-hint">Edition metadata is stored separately from topic tags.</small></div>
+            )}
             {testType === "practice" ? (
               <div className="control-row"><div className="control-group"><label>Questions</label><div className="segmented">
                 {[5, 10].map((value) => <button key={value} disabled={value > available.length} className={length === value ? "active" : ""} onClick={() => setLength(value)}>{value}</button>)}
@@ -450,11 +500,6 @@ export default function Home() {
                 {[20, 30, 40, 50, 60].map((value) => <button key={value} className={mockMinutes === value ? "active" : ""} onClick={() => setMockMinutes(value)}>{value}m</button>)}
               </div></div></div>
             )}
-            <div className={`past-source-option ${!igeoSource.available ? "unavailable" : ""}`}>
-              <label><input type="checkbox" checked={includePastQuestions} disabled={!igeoSource.available} onChange={(event) => setIncludePastQuestions(event.target.checked)} /><span><b>{igeoSource.label}</b><small>{igeoSource.status}</small></span></label>
-              <a href={igeoSource.sourceUrl} target="_blank" rel="noreferrer">Official library ↗</a>
-              {!igeoSource.available && <p>{igeoSource.notice}</p>}
-            </div>
             <div className="coverage"><div><span>Coverage</span><b>{selectedSources.length} sources · {category === "all" ? `balanced across ${categoryOptions.length} categories` : category} · {testQuestionCount} questions</b></div><div className="coverage-bar"><span style={{ width: `${available.length ? (testQuestionCount / available.length) * 100 : 0}%` }} /></div></div>
             <button className="generate-button" onClick={generateTest} disabled={available.length === 0}><span>Generate {testType === "mock" ? "mock test" : "practice test"}</span><b>↗</b></button>
             <small className="not-affiliated">Independent educational prototype. Not an official iGEO test.</small>
@@ -463,7 +508,7 @@ export default function Home() {
           <div className="preview-card">
             <div className="preview-header"><span>QUESTION PREVIEW</span><div><i /> SOURCE-LINKED</div></div>
             <div className="preview-resource"><ResourceVisual question={preview} /></div>
-            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span><span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className={`preview-options ${preview.optionMedia ? "with-media" : ""}`}>{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{preview.optionMedia?.[i] && <img src={preview.optionMedia[i].mediaLink} alt="" />}{option}</span>)}</div></div>
+            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span>{preview.igeoYear && <><span>•</span><span>{preview.igeoYear} · {preview.location}</span></>}<span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className={`preview-options ${preview.optionMedia ? "with-media" : ""}`}>{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{preview.optionMedia?.[i] && <img src={preview.optionMedia[i].mediaLink} alt="" />}{option}</span>)}</div></div>
             <div className="preview-credit"><SourceMark source={preview.source} /><span>Question evidence from <b>{preview.sourceName}</b></span><a href={preview.sourceUrl} target="_blank" rel="noreferrer">View ↗</a></div>
           </div>
         </div>
@@ -487,7 +532,7 @@ export default function Home() {
       </section>
 
       <section className="sources-section" id="sources">
-        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Two sources.<br />Fully in focus.</h2></div><p>Worldmapper and PopulationPyramid.net power the current question library. The next collections are visible on our roadmap.</p></div>
+        <div className="section-heading"><div><span className="section-index">03 / SOURCE LIBRARY</span><h2>Three sources.<br />Fully in focus.</h2></div><p>Worldmapper, PopulationPyramid.net and the official past iGeo MMT archive power the current question library. The next collections are visible on our roadmap.</p></div>
         <div className="featured-source-grid">
           {featuredSources.map((source, index) => (
             <a className={`featured-source-card ${source.className}`} href={source.url} target="_blank" rel="noreferrer" key={source.name}>

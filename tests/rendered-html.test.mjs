@@ -32,6 +32,7 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /Build your test/);
   assert.match(html, /Worldmapper cartograms/);
   assert.match(html, /Population pyramids/);
+  assert.match(html, /Past iGeo Multimedia Tests/);
   assert.match(html, /Select all sources/);
   assert.match(html, /All available sources selected/);
   assert.match(html, /Mock test/);
@@ -39,13 +40,17 @@ test("server-renders the GeoLens generator", async () => {
   assert.match(html, /Category you’re curious about/);
   assert.match(html, /Surprise me — balanced mix/);
   assert.match(html, /option value="People">People.*568/s);
-  assert.match(html, /Include real iGEO past questions/);
+  assert.match(html, /iGeo year and host location/);
+  assert.match(html, /All iGeo editions.*422/s);
+  assert.match(html, /2022.*Paris, France.*40/s);
+  assert.match(html, /International Geography Olympiad/);
   assert.match(html, /From real-world evidence to a question you can trust/);
   assert.match(html, /HUMAN VERIFIED/);
   assert.match(html, /PopulationPyramid\.net/);
   assert.match(html, /ACTIVE SOURCE/);
   assert.match(html, /COMING SOON/);
   assert.doesNotMatch(html, /LICENSING RULE|SOURCE STANDARD|Read reuse guidance/);
+  assert.doesNotMatch(html, /Include real iGEO past questions/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/);
 });
 
@@ -88,6 +93,49 @@ test("Population-pyramid bank contains 300 varied, locally hosted questions", as
   }
 
   assert.deepEqual(answerPositions, [75, 75, 75, 75]);
+});
+
+test("Past iGeo MMT bank exposes 422 playable questions across 12 editions", async () => {
+  const raw = await readFile(new URL("../data/questions/igeo-past-questions.json", import.meta.url), "utf8");
+  const questions = JSON.parse(raw);
+  const multipleChoice = questions.filter((question) => question["Question Type"] === "multiple-choice");
+  const openResponse = questions.filter((question) => question["Question Type"] === "open-response");
+
+  assert.equal(questions.length, 450);
+  assert.equal(multipleChoice.length, 422);
+  assert.equal(openResponse.length, 28);
+  assert.equal(new Set(questions.map((question) => question["Question ID"])).size, 450);
+  assert.equal(new Set(questions.map((question) => question["iGeo Year"])).size, 12);
+  assert.equal(new Set(questions.map((question) => question.Location)).size, 12);
+
+  for (const question of questions) {
+    assert.equal(question["Image/Media source"].Provider, "International Geography Olympiad");
+    assert.ok(question["iGeo Year"], question["Question ID"]);
+    assert.ok(question.Location, question["Question ID"]);
+    assert.ok(question["Question Number"], question["Question ID"]);
+    assert.ok(question["Category/Tags"].length > 0, question["Question ID"]);
+    await access(new URL(`../${question["Image/Media source"]["Local path"]}`, import.meta.url));
+
+    if (question["Question Type"] === "multiple-choice") {
+      assert.equal(question.Options.length, 4, question["Question ID"]);
+      assert.equal(new Set(question.Options).size, 4, question["Question ID"]);
+      assert.equal(question.Answer, question.Options[question["Answer Index"]], question["Question ID"]);
+    } else {
+      assert.deepEqual(question.Options, [], question["Question ID"]);
+      assert.equal(question["Answer Index"], null, question["Question ID"]);
+    }
+  }
+
+  const sorted = [...questions].sort((left, right) =>
+    left["iGeo Year"] - right["iGeo Year"]
+      || left["Category/Tags"].join("|").localeCompare(right["Category/Tags"].join("|"))
+      || left.Location.localeCompare(right.Location)
+      || left["Question Number"] - right["Question Number"],
+  );
+  assert.deepEqual(
+    questions.map((question) => question["Question ID"]),
+    sorted.map((question) => question["Question ID"]),
+  );
 });
 
 test("Worldmapper bank contains all 1,222 valid source-linked questions", async () => {

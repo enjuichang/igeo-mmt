@@ -2,6 +2,7 @@ export type SourceKey =
   | "gapminder"
   | "worldmapper"
   | "pyramid"
+  | "igeo"
   | "usgs"
   | "noaa"
   | "nasa"
@@ -50,6 +51,9 @@ export type QuestionRecord = {
   optionMedia?: [QuestionOptionMedia, QuestionOptionMedia, QuestionOptionMedia, QuestionOptionMedia];
   hideMediaIdentity?: boolean;
   questionType?: string;
+  igeoYear?: number;
+  location?: string;
+  questionNumber?: number;
   category: string;
   tags: string[];
   skill: string;
@@ -81,6 +85,9 @@ export type PracticeQuestion = {
   optionMedia?: QuestionOptionMedia[];
   hideMediaIdentity?: boolean;
   questionType?: string;
+  igeoYear?: number;
+  location?: string;
+  questionNumber?: number;
   variant: number;
 };
 
@@ -88,6 +95,9 @@ export type QuestionFilters = {
   sources?: SourceKey[];
   categories?: string[];
   difficulties?: QuestionDifficulty[];
+  igeoYears?: number[];
+  locations?: string[];
+  tags?: string[];
   status?: QuestionStatus;
   limit?: number;
 };

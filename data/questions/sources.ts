@@ -44,6 +44,18 @@ export const sourceRegistry: Record<SourceKey, SourceDefinition> = {
     defaultMediaKind: "chart",
     mediaAlt: "Population pyramid showing population by age group and sex",
   },
+  igeo: {
+    key: "igeo",
+    name: "International Geography Olympiad",
+    url: "https://geoolympiad.org/document-library/",
+    short: "Past Multimedia Tests",
+    description: "Official past iGeo Multimedia Test questions and answer sheets.",
+    license: "Official iGeo test material; third-party media rights vary by question",
+    attribution: "International Geography Olympiad and the contributors named in each test",
+    defaultMediaLink: "https://geoolympiad.org/document-library/",
+    defaultMediaKind: "photo",
+    mediaAlt: "Original iGeo Multimedia Test question media",
+  },
   usgs: {
     key: "usgs",
     name: "USGS",

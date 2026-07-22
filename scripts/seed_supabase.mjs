@@ -12,6 +12,8 @@ function readJson(relativePath) {
 const populationPyramidQuestions = readJson(
   "../data/questions/population-pyramid-draft-questions.json",
 );
+const pastIgeoQuestions = readJson("../data/questions/igeo-past-questions.json")
+  .filter((item) => item["Question Type"] === "multiple-choice" && item.Options.length === 4);
 const reviewedQuestions = readJson("../data/questions/questions.json");
 const worldmapperQuestions = readJson(
   "../data/questions/worldmapper-draft-questions.json",
@@ -78,14 +80,15 @@ for (let offset = 0; ; offset += pageSize) {
   if (page.length < pageSize) break;
 }
 
-const rawQuestions = [...worldmapperQuestions, ...populationPyramidQuestions];
+const rawQuestions = [...worldmapperQuestions, ...populationPyramidQuestions, ...pastIgeoQuestions];
 const rows = rawQuestions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
   if (answerIndex < 0 || answerIndex > 3) {
     fail(`the answer does not match an option for ${item["Question ID"]}.`);
   }
 
-  const editorAuthored = reviewedIds.has(item["Question ID"]);
+  const isPastIgeo = item["Image/Media source"].Provider === "International Geography Olympiad";
+  const editorAuthored = isPastIgeo || reviewedIds.has(item["Question ID"]);
   const published = publishAll || editorAuthored || existingPublishedIds.has(item["Question ID"]);
   const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
   const localMediaPath = item["Image/Media source"]["Local path"];
@@ -98,24 +101,33 @@ const rows = rawQuestions.map((item, index) => {
   );
   return {
     id: item["Question ID"],
-    source_key: isPopulationPyramid ? "pyramid" : "worldmapper",
+    source_key: isPastIgeo ? "igeo" : isPopulationPyramid ? "pyramid" : "worldmapper",
     source_url: item["Source URL"],
     question: item["Question Name"],
     options: item.Options,
     answer_index: answerIndex,
     answer: item.Answer,
     reasoning: item.Explanation,
-    media_link: isPopulationPyramid
+    media_link: isPastIgeo
+      ? item["Image/Media source"]["Image URL"]
+      : isPopulationPyramid
       ? localMediaPath.replace(/^data\/population-pyramids\/images\//, "/population-pyramids/")
       : item["Image/Media source"]["Image URL"],
-    media_kind: isPopulationPyramid ? "chart" : "cartogram",
-    media_alt: isPopulationPyramid
+    media_kind: isPastIgeo ? "photo" : isPopulationPyramid ? "chart" : "cartogram",
+    media_alt: isPastIgeo
+      ? `${item["iGeo Year"]} iGeo MMT question ${item["Question Number"]} source page`
+      : isPopulationPyramid
       ? "Population pyramid showing the selected country or area's 2026 population by age group and sex"
       : `Worldmapper cartogram representing ${item.Answer.toLowerCase()}`,
+    igeo_year: item["iGeo Year"] ?? null,
+    location: item.Location ?? null,
+    question_number: item["Question Number"] ?? null,
     category: item["Category/Tags"][0] ?? "Uncategorized",
     tags: item["Category/Tags"],
-    skill: isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",
-    difficulty: isPopulationPyramid && hasAnomalyTag ? "intermediate" : "foundation",
+    skill: isPastIgeo
+      ? item.Skill
+      : isPopulationPyramid ? "Population-pyramid interpretation" : "Cartogram interpretation",
+    difficulty: isPastIgeo ? "advanced" : isPopulationPyramid && hasAnomalyTag ? "intermediate" : "foundation",
     status: published ? "published" : "draft",
     origin: editorAuthored ? "editor" : "generated",
     visual_variant: index,
@@ -131,6 +143,7 @@ const rows = rawQuestions.map((item, index) => {
       })),
       hideMediaIdentity: item["Hide media identity"],
       questionType: item["Question Type"],
+      sourcePages: item["Image/Media source"]["Source pages"],
       seededBy: "scripts/seed_supabase.mjs",
     },
   };

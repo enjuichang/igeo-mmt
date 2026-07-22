@@ -1,5 +1,6 @@
 import { toPracticeQuestion } from "@/lib/questions/repository";
 import type { QuestionRecord } from "@/lib/questions/types";
+import pastIgeoQuestions from "./igeo-past-questions.json";
 import populationPyramidQuestions from "./population-pyramid-draft-questions.json";
 import reviewedQuestions from "./questions.json";
 import { sourceRegistry } from "./sources";
@@ -36,6 +37,28 @@ type JsonOptionMedia = {
   "Source URL": string;
 };
 
+type PastIgeoQuestion = {
+  "Question Name": string;
+  "Question ID": string;
+  "iGeo Year": number;
+  Location: string;
+  "Question Number": number;
+  "Question Type": "multiple-choice" | "open-response";
+  "Image/Media source": {
+    Provider: "International Geography Olympiad";
+    "Local path": string;
+    "Image URL": string;
+    "Source pages": number[];
+  };
+  "Source URL": string;
+  "Category/Tags": string[];
+  Options: string[];
+  Answer: string;
+  "Answer Index": number | null;
+  Explanation: string;
+  Skill: string;
+};
+
 const questions = [
   ...(worldmapperQuestions as JsonQuestion[]),
   ...(populationPyramidQuestions as JsonQuestion[]),
@@ -51,7 +74,7 @@ function publicPopulationPyramidPath(localPath: string) {
  * The JSON file is the editorial source of truth. This adapter only projects
  * its human-readable field names into the application's canonical model.
  */
-export const questionRecords: QuestionRecord[] = questions.map((item, index) => {
+const generatedQuestionRecords: QuestionRecord[] = questions.map((item, index) => {
   const answerIndex = item.Options.indexOf(item.Answer);
   const reviewed = reviewedIds.has(item["Question ID"]);
   const isPopulationPyramid = item["Image/Media source"].Provider === "PopulationPyramid.net";
@@ -106,6 +129,58 @@ export const questionRecords: QuestionRecord[] = questions.map((item, index) => 
     updatedAt: SEED_TIMESTAMP,
     generationRunId: null,
   };
+});
+
+const pastIgeoQuestionRecords: QuestionRecord[] = (pastIgeoQuestions as PastIgeoQuestion[])
+  .filter((item) => item["Question Type"] === "multiple-choice" && item.Options.length === 4)
+  .map((item, index) => {
+    const answerIndex = item["Answer Index"];
+    if (answerIndex === null || answerIndex < 0 || answerIndex > 3) {
+      throw new Error(`Past iGeo answer index is invalid: ${item["Question ID"]}`);
+    }
+    const options = item.Options as [string, string, string, string];
+    return {
+      id: item["Question ID"],
+      source: {
+        ...sourceRegistry.igeo,
+        url: item["Source URL"],
+      },
+      question: item["Question Name"],
+      options,
+      answer: {
+        index: answerIndex as 0 | 1 | 2 | 3,
+        value: item.Answer,
+      },
+      reasoning: item.Explanation,
+      mediaLink: item["Image/Media source"]["Image URL"],
+      mediaKind: "photo",
+      mediaAlt: `${item["iGeo Year"]} iGeo MMT question ${item["Question Number"]} source page`,
+      questionType: item["Question Type"],
+      igeoYear: item["iGeo Year"],
+      location: item.Location,
+      questionNumber: item["Question Number"],
+      category: item["Category/Tags"][0] ?? "Uncategorized",
+      tags: item["Category/Tags"],
+      skill: item.Skill,
+      difficulty: "advanced",
+      status: "published",
+      origin: "editor",
+      visualVariant: index,
+      createdAt: SEED_TIMESTAMP,
+      updatedAt: SEED_TIMESTAMP,
+      generationRunId: null,
+    };
+  });
+
+export const questionRecords: QuestionRecord[] = [
+  ...generatedQuestionRecords,
+  ...pastIgeoQuestionRecords,
+].sort((left, right) => {
+  if (left.source.key !== "igeo" || right.source.key !== "igeo") return 0;
+  return (left.igeoYear ?? 0) - (right.igeoYear ?? 0)
+    || left.tags.join("|").localeCompare(right.tags.join("|"))
+    || (left.location ?? "").localeCompare(right.location ?? "")
+    || (left.questionNumber ?? 0) - (right.questionNumber ?? 0);
 });
 
 export const practiceQuestionBank = questionRecords.map(toPracticeQuestion);
