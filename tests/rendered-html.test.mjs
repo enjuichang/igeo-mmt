@@ -120,6 +120,17 @@ test("Past iGeo MMT bank exposes 422 playable questions across 12 editions", asy
       assert.equal(question.Options.length, 4, question["Question ID"]);
       assert.equal(new Set(question.Options).size, 4, question["Question ID"]);
       assert.equal(question.Answer, question.Options[question["Answer Index"]], question["Question ID"]);
+      const displayedText = [question["Question Name"], ...question.Options].join(" ");
+      assert.doesNotMatch(
+        displayedText,
+        /https?:\/\/|www\.|※\s*a short film|\bQ(?:uestion)?\.\s*\d+\b|diagram of a qanat|population \(in millions\)|\bQQ\.\.\d+|low\/small values|high\/big values|satellite image of Betsiboka|\bpoint C START\b/i,
+        question["Question ID"],
+      );
+      assert.doesNotMatch(
+        question["Question Name"],
+        /\s+(?:[A-D]\s+){3}[A-D]\s*$/,
+        question["Question ID"],
+      );
     } else {
       assert.deepEqual(question.Options, [], question["Question ID"]);
       assert.equal(question["Answer Index"], null, question["Question ID"]);
@@ -136,6 +147,46 @@ test("Past iGeo MMT bank exposes 422 playable questions across 12 editions", asy
     questions.map((question) => question["Question ID"]),
     sorted.map((question) => question["Question ID"]),
   );
+
+  const questionsById = new Map(questions.map((question) => [question["Question ID"], question]));
+  assert.deepEqual(questionsById.get("igeo-2010-mmt-q29").Options, ["Greece", "Albania", "Iraq", "Bangladesh"]);
+  assert.match(questionsById.get("igeo-2002-mmt-q28").Explanation, /answer key: 4 \(Jerusalem\)/);
+  assert.deepEqual(questionsById.get("igeo-2012-mmt-q27").Options, ["Spring", "Monsoon", "Snow melt", "Autumn"]);
+  assert.deepEqual(questionsById.get("igeo-2014-mmt-q16").Options, ["Beijing", "Dhaka", "Mexico City", "Mumbai"]);
+  assert.equal(
+    questionsById.get("igeo-2015-mmt-q38").Options[3],
+    "Its underground channels minimise evaporation.",
+  );
+  assert.equal(
+    questionsById.get("igeo-2014-mmt-q28")["Question Name"],
+    "Which of the following concepts does NOT directly relate to this picture?",
+  );
+  assert.equal(
+    questionsById.get("igeo-2018-mmt-q05")["Question Name"],
+    "A world of clouds. Where is the city of Québec (Canada) located?",
+  );
+  assert.match(questionsById.get("igeo-2021-mmt-q28")["Question Name"], /Barcelona \(Spain\)/);
+  assert.match(questionsById.get("igeo-2022-mmt-q06")["Question Name"], /Sicily \(Italy\)/);
+  assert.deepEqual(questionsById.get("igeo-2017-mmt-q11").Options, ["Africa", "Asia", "Europe", "Oceania"]);
+  assert.equal(
+    questionsById.get("igeo-2017-mmt-q11")["Question Name"],
+    "Which area is expected to have the highest population growth rate from 2015 to 2030?",
+  );
+  assert.deepEqual(questionsById.get("igeo-2018-mmt-q26").Options, [
+    "annual rainfall",
+    "forest fires",
+    "methane (CH₄) emission",
+    "lightning strikes",
+  ]);
+});
+
+test("Test UI keeps iGeo choices aligned and exposes backward review navigation", async () => {
+  const source = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  assert.match(source, /question\.source === "igeo" \? question : randomizeOptions\(question\)/);
+  assert.match(source, /question\.igeoYear === 2002/);
+  assert.match(source, /← Previous/);
+  assert.match(source, /Review question →/);
+  assert.match(source, /← Back to results/);
 });
 
 test("Worldmapper bank contains all 1,222 valid source-linked questions", async () => {

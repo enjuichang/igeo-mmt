@@ -62,7 +62,7 @@
     ],
     "Answer": "peanuts",
     "Answer Index": 1,
-    "Explanation": "Official 2002 iGeo MMT answer key: B (peanuts).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 2 (peanuts).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -99,7 +99,7 @@
     ],
     "Answer": "Bangladesh",
     "Answer Index": 2,
-    "Explanation": "Official 2002 iGeo MMT answer key: C (Bangladesh).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 3 (Bangladesh).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -198,7 +198,7 @@
     ],
     "Answer": "Jerusalem",
     "Answer Index": 3,
-    "Explanation": "Official 2002 iGeo MMT answer key: D (Jerusalem).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 4 (Jerusalem).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -476,7 +476,7 @@
     ],
     "Answer": "Baghdad",
     "Answer Index": 3,
-    "Explanation": "Official 2002 iGeo MMT answer key: D (Baghdad).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 4 (Baghdad).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -511,7 +511,7 @@
     ],
     "Answer": "Minsk",
     "Answer Index": 3,
-    "Explanation": "Official 2002 iGeo MMT answer key: D (Minsk).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 4 (Minsk).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -577,7 +577,7 @@
     ],
     "Answer": "Africa",
     "Answer Index": 0,
-    "Explanation": "Official 2002 iGeo MMT answer key: A (Africa).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 1 (Africa).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -615,7 +615,7 @@
     ],
     "Answer": "Subtropical belts of high atmospheric pressure over the oceans",
     "Answer Index": 0,
-    "Explanation": "Official 2002 iGeo MMT answer key: A (Subtropical belts of high atmospheric pressure over the oceans).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 1 (Subtropical belts of high atmospheric pressure over the oceans).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -650,7 +650,7 @@
     ],
     "Answer": "winter",
     "Answer Index": 3,
-    "Explanation": "Official 2002 iGeo MMT answer key: D (winter).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 4 (winter).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -686,7 +686,7 @@
     ],
     "Answer": "sorghum",
     "Answer Index": 0,
-    "Explanation": "Official 2002 iGeo MMT answer key: A (sorghum).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 1 (sorghum).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -722,7 +722,7 @@
     ],
     "Answer": "Sirocco",
     "Answer Index": 1,
-    "Explanation": "Official 2002 iGeo MMT answer key: B (Sirocco).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 2 (Sirocco).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -1030,7 +1030,7 @@
     ],
     "Answer": "Senegal",
     "Answer Index": 0,
-    "Explanation": "Official 2002 iGeo MMT answer key: A (Senegal).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 1 (Senegal).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -1067,7 +1067,7 @@
     ],
     "Answer": "located farther from the oceans than any other city in the world",
     "Answer Index": 1,
-    "Explanation": "Official 2002 iGeo MMT answer key: B (located farther from the oceans than any other city in the world).",
+    "Explanation": "Official 2002 iGeo MMT answer key: 2 (located farther from the oceans than any other city in the world).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -4102,17 +4102,17 @@
     ],
     "Options": [
       "Greece",
-      "Albania ※ a short film：",
-      "Iraq http://www.youtube.com/watch?v",
-      "Bangladesh =cMGpBmiKEyc&feature=related"
+      "Albania",
+      "Iraq",
+      "Bangladesh"
     ],
-    "Answer": "Iraq http://www.youtube.com/watch?v",
+    "Answer": "Iraq",
     "Answer Index": 2,
-    "Explanation": "Official 2010 iGeo MMT answer key: C (Iraq http://www.youtube.com/watch?v).",
+    "Explanation": "Official 2010 iGeo MMT answer key: C (Iraq).",
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Only one country (Congo Dem. Rep.) among the 5 shown does not follow the typical development path. What is the main reason for this? ※ a short film from Gapminder World：http://0rz.tw/WVdHq",
+    "Question Name": "Only one country (Congo Dem. Rep.) among the 5 shown does not follow the typical development path. What is the main reason for this?",
     "Question ID": "igeo-2010-mmt-q37",
     "iGeo Year": 2010,
     "Location": "Taipei, Taiwan",
@@ -4580,14 +4580,14 @@
       "Geology and tectonics"
     ],
     "Options": [
-      "a strato volcano erupting ※ a short film：",
-      "the formation of a caldera http://www.youtube.com/watch?v=488",
-      "a shield volcano erupting BkTUsMa4&feature=related",
+      "a strato volcano erupting",
+      "the formation of a caldera",
+      "a shield volcano erupting",
       "pyroclastic clouds"
     ],
-    "Answer": "a shield volcano erupting BkTUsMa4&feature=related",
+    "Answer": "a shield volcano erupting",
     "Answer Index": 2,
-    "Explanation": "Official 2010 iGeo MMT answer key: C (a shield volcano erupting BkTUsMa4&feature=related).",
+    "Explanation": "Official 2010 iGeo MMT answer key: C (a shield volcano erupting).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -4691,14 +4691,14 @@
       "Population and migration"
     ],
     "Options": [
-      "annual migration of Orca whales ※ a short film：",
-      "ocean surface currents http://www.youtube.com/watch?v=3niR_",
-      "thermo-haline circulation Kv4SM&feature=player_embedded",
+      "annual migration of Orca whales",
+      "ocean surface currents",
+      "thermo-haline circulation",
       "major global wind systems"
     ],
-    "Answer": "thermo-haline circulation Kv4SM&feature=player_embedded",
+    "Answer": "thermo-haline circulation",
     "Answer Index": 2,
-    "Explanation": "Official 2010 iGeo MMT answer key: C (thermo-haline circulation Kv4SM&feature=player_embedded).",
+    "Explanation": "Official 2010 iGeo MMT answer key: C (thermo-haline circulation).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -4776,7 +4776,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "What do we call this phenomenon? ※ a short film：",
+    "Question Name": "What do we call this phenomenon?",
     "Question ID": "igeo-2010-mmt-q39",
     "iGeo Year": 2010,
     "Location": "Taipei, Taiwan",
@@ -4800,14 +4800,14 @@
       "Geomorphology"
     ],
     "Options": [
-      "mud flow http://www.youtube.com/watch?v=JJudA7Mbz98",
+      "mud flow",
       "landslide",
       "creep",
       "solifluction"
     ],
-    "Answer": "mud flow http://www.youtube.com/watch?v=JJudA7Mbz98",
+    "Answer": "mud flow",
     "Answer Index": 0,
-    "Explanation": "Official 2010 iGeo MMT answer key: A (mud flow http://www.youtube.com/watch?v=JJudA7Mbz98).",
+    "Explanation": "Official 2010 iGeo MMT answer key: A (mud flow).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -4904,8 +4904,8 @@
       "Regional geography"
     ],
     "Options": [
-      "global warming ※ a short film：",
-      "leaking gas pipelines http://www.youtube.com/watch?v=B36EoEuKjVg",
+      "global warming",
+      "leaking gas pipelines",
       "methane bubbles in the ice",
       "gelifluction"
     ],
@@ -5560,7 +5560,42 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "E W Which of the figures explains the phenomenon of clouds in the mountains as shown on the photograph? A A, B, C or D ? B C D",
+    "Question Name": "Which word is missing in the text below?",
+    "Question ID": "igeo-2012-mmt-q27",
+    "iGeo Year": 2012,
+    "Location": "Cologne, Germany",
+    "Question Number": 27,
+    "Question Type": "multiple-choice",
+    "Image/Media source": {
+      "Provider": "International Geography Olympiad",
+      "Local path": "public/igeo-mmt/2012/2012-q27.webp",
+      "Image URL": "/igeo-mmt/2012/2012-q27.webp",
+      "Source pages": [
+        29
+      ]
+    },
+    "Source URL": "https://geoolympiad.org/document-library/",
+    "Source files": {
+      "Questions": "data/Past MMT/2012/2012MMT.pdf",
+      "Answers": "data/Past MMT/2012/2012MMTAnswers.doc"
+    },
+    "Category/Tags": [
+      "Physical geography",
+      "Climate and weather"
+    ],
+    "Options": [
+      "Spring",
+      "Monsoon",
+      "Snow melt",
+      "Autumn"
+    ],
+    "Answer": "Monsoon",
+    "Answer Index": 1,
+    "Explanation": "Official 2012 iGeo MMT answer key: B (Monsoon).",
+    "Skill": "Physical-process interpretation"
+  },
+  {
+    "Question Name": "Which of the figures explains the phenomenon of clouds in the mountains as shown on the photograph?",
     "Question ID": "igeo-2012-mmt-q05",
     "iGeo Year": 2012,
     "Location": "Cologne, Germany",
@@ -5619,54 +5654,17 @@
     "Category/Tags": [
       "Physical geography",
       "Climate and weather",
-      "Environmental change",
-      "Hydrology and oceans"
+      "Environmental change"
     ],
     "Options": [
       "1 = climate change and 2 = is not broken down",
-      "1= wave pattern and 2 = accumulates",
+      "1 = wave pattern and 2 = accumulates",
       "1 = rotation of the earth and 2 = accumulates",
-      "1 = distance to the equator and 2 = is not broken down The oceans are dynamic systems, made up of complex networks of currents that keep water circulating around the World. The direction of the currents is determined by wind, variations in water density and ……………………(1). Sometimes this creates ocean currents that take on enormous circular motion. These are called gyres. Due to the deflection of ocean currents at the centre of the gyre, plastic debris .……………………………. (2)."
+      "1 = distance to the equator and 2 = is not broken down"
     ],
     "Answer": "1 = rotation of the earth and 2 = accumulates",
     "Answer Index": 2,
     "Explanation": "Official 2012 iGeo MMT answer key: C (1 = rotation of the earth and 2 = accumulates).",
-    "Skill": "Physical-process interpretation"
-  },
-  {
-    "Question Name": "Which word is missing in the text below?",
-    "Question ID": "igeo-2012-mmt-q27",
-    "iGeo Year": 2012,
-    "Location": "Cologne, Germany",
-    "Question Number": 27,
-    "Question Type": "multiple-choice",
-    "Image/Media source": {
-      "Provider": "International Geography Olympiad",
-      "Local path": "public/igeo-mmt/2012/2012-q27.webp",
-      "Image URL": "/igeo-mmt/2012/2012-q27.webp",
-      "Source pages": [
-        29
-      ]
-    },
-    "Source URL": "https://geoolympiad.org/document-library/",
-    "Source files": {
-      "Questions": "data/Past MMT/2012/2012MMT.pdf",
-      "Answers": "data/Past MMT/2012/2012MMTAnswers.doc"
-    },
-    "Category/Tags": [
-      "Physical geography",
-      "Climate and weather",
-      "Hydrology and oceans"
-    ],
-    "Options": [
-      "Spring",
-      "Monsoon",
-      "Snow melt",
-      "Autumn The Tonle Sap remains relatively small for most of the year, measuring about a metre in depth and covering around 2,700 km2. However, the river connected to the lake starts to swell during the …………… season as water that flows from the Mekong River reverses, helping to expand the Tonle Sap to an area of up to 16,000 km2 with a depth of up to 9 metres."
-    ],
-    "Answer": "Monsoon",
-    "Answer Index": 1,
-    "Explanation": "Official 2012 iGeo MMT answer key: B (Monsoon).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -6092,7 +6090,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "Which of the following concepts does NOT QQ..238 directly relate to this picture?",
+    "Question Name": "Which of the following concepts does NOT directly relate to this picture?",
     "Question ID": "igeo-2014-mmt-q28",
     "iGeo Year": 2014,
     "Location": "Kraków, Poland",
@@ -6224,7 +6222,7 @@
       "1 - 2 - 3",
       "2 - 3 - 1",
       "3 - 1 - 2",
-      "3 - 2 - 1 Q.34"
+      "3 - 2 - 1"
     ],
     "Answer": "2 - 3 - 1",
     "Answer Index": 1,
@@ -6260,11 +6258,11 @@
       "psychocentric",
       "near psychocentric",
       "mid-centric",
-      "near allocentric ) 1 0 0 2 ( g o lP m o r f d e t p a d A"
+      "near allocentric"
     ],
-    "Answer": "near allocentric ) 1 0 0 2 ( g o lP m o r f d e t p a d A",
+    "Answer": "near allocentric",
     "Answer Index": 3,
-    "Explanation": "Official 2014 iGeo MMT answer key: D (near allocentric ) 1 0 0 2 ( g o lP m o r f d e t p a d A).",
+    "Explanation": "Official 2014 iGeo MMT answer key: D (near allocentric).",
     "Skill": "Map and data interpretation"
   },
   {
@@ -6366,7 +6364,7 @@
       "Bahai Faith",
       "Christian- Orthodox",
       "Jainism",
-      "Zoroastrianism Q.14"
+      "Zoroastrianism"
     ],
     "Answer": "Christian- Orthodox",
     "Answer Index": 1,
@@ -6404,11 +6402,11 @@
       "agricultural",
       "industrial",
       "residential",
-      "retail Q.39"
+      "retail"
     ],
-    "Answer": "retail Q.39",
+    "Answer": "retail",
     "Answer Index": 3,
-    "Explanation": "Official 2014 iGeo MMT answer key: D (retail Q.39).",
+    "Explanation": "Official 2014 iGeo MMT answer key: D (retail).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -6440,7 +6438,7 @@
       "gas",
       "hydropower",
       "nuclear",
-      "other renewables Q.11"
+      "other renewables"
     ],
     "Answer": "hydropower",
     "Answer Index": 1,
@@ -6476,7 +6474,7 @@
       "India",
       "Russia",
       "United Arab Emirates",
-      "U.S.A. Q.6"
+      "U.S.A."
     ],
     "Answer": "Russia",
     "Answer Index": 1,
@@ -6619,7 +6617,7 @@
       "aeroponics",
       "geoponics",
       "hydroponics",
-      "in vitro SPRAY SPRAY NUTRIENT SOLUTION PUMP GROWING CHAMBER"
+      "in vitro"
     ],
     "Answer": "aeroponics",
     "Answer Index": 0,
@@ -6758,14 +6756,13 @@
     },
     "Category/Tags": [
       "Human geography",
-      "Population and migration",
       "Urban geography"
     ],
     "Options": [
       "Beijing",
       "Dhaka",
       "Mexico City",
-      "Mumbai Population (in millions) 2011 2025 Beijing 16 23 Dhaka 15 23 Mexico City 20 25 Mumbai 20 27"
+      "Mumbai"
     ],
     "Answer": "Dhaka",
     "Answer Index": 1,
@@ -6800,11 +6797,11 @@
       "Africa",
       "Asia",
       "Europe",
-      "U.S.A. Q.29"
+      "U.S.A."
     ],
-    "Answer": "U.S.A. Q.29",
+    "Answer": "U.S.A.",
     "Answer Index": 3,
-    "Explanation": "Official 2014 iGeo MMT answer key: D (U.S.A. Q.29).",
+    "Explanation": "Official 2014 iGeo MMT answer key: D (U.S.A.).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -6909,7 +6906,7 @@
       "coffee",
       "tea",
       "bottled water",
-      "wine Q.24"
+      "wine"
     ],
     "Answer": "coffee",
     "Answer Index": 0,
@@ -7200,7 +7197,7 @@
       "lava dome, acid, high",
       "lava dome, acid, low",
       "scoria cone, basic, high",
-      "scoria cone, basic, low Q.15"
+      "scoria cone, basic, low"
     ],
     "Answer": "lava dome, acid, high",
     "Answer Index": 0,
@@ -7235,7 +7232,7 @@
       "Hawaiian",
       "phreatic",
       "Plinian",
-      "Strombolian Q.38"
+      "Strombolian"
     ],
     "Answer": "phreatic",
     "Answer Index": 1,
@@ -7243,7 +7240,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which Q.5 soil type contains 20% clay, 40% silt and 40% sand?",
+    "Question Name": "Which soil type contains 20% clay, 40% silt and 40% sand?",
     "Question ID": "igeo-2014-mmt-q05",
     "iGeo Year": 2014,
     "Location": "Kraków, Poland",
@@ -7512,7 +7509,7 @@
       "Australia",
       "Canada",
       "Europe",
-      "U.S.A. Q.25"
+      "U.S.A."
     ],
     "Answer": "Europe",
     "Answer Index": 2,
@@ -7624,7 +7621,7 @@
       "Costa Rica",
       "Libya",
       "Norway",
-      "Vietnam Q.29"
+      "Vietnam"
     ],
     "Answer": "Libya",
     "Answer Index": 1,
@@ -7660,7 +7657,7 @@
       "About 94% of all South Asian tourists did not travel to Country X.",
       "About half the tourists travelling to Country X came from East Asia.",
       "African tourists like travelling to Country Y more than to Country X.",
-      "In 2011, the number of European tourists dropped. Q.13"
+      "In 2011, the number of European tourists dropped."
     ],
     "Answer": "About half the tourists travelling to Country X came from East Asia.",
     "Answer Index": 1,
@@ -8286,44 +8283,6 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which statement about the qanat system, traditionally used in areas of West Asia, is incorrect?",
-    "Question ID": "igeo-2015-mmt-q38",
-    "iGeo Year": 2015,
-    "Location": "Tver, Russia",
-    "Question Number": 38,
-    "Question Type": "multiple-choice",
-    "Image/Media source": {
-      "Provider": "International Geography Olympiad",
-      "Local path": "public/igeo-mmt/2015/2015-q38.webp",
-      "Image URL": "/igeo-mmt/2015/2015-q38.webp",
-      "Source pages": [
-        40
-      ]
-    },
-    "Source URL": "https://geoolympiad.org/document-library/",
-    "Source files": {
-      "Questions": "data/Past MMT/2015/2015MMtest.pdf",
-      "Answers": "data/Past MMT/2015/2015MManswercode.pdf"
-    },
-    "Category/Tags": [
-      "Physical geography",
-      "Data interpretation",
-      "Economic geography",
-      "Environmental change",
-      "Hydrology and oceans"
-    ],
-    "Options": [
-      "It can only draw sustainable amounts from the aquifer.",
-      "It is energy efficient, using gravity to transport water.",
-      "It uses readily available surface water.",
-      "Its underground channels minimise evaporation. Diagram of a qanat system"
-    ],
-    "Answer": "It uses readily available surface water.",
-    "Answer Index": 2,
-    "Explanation": "Official 2015 iGeo MMT answer key: C (It uses readily available surface water.).",
-    "Skill": "Physical-process interpretation"
-  },
-  {
     "Question Name": "The altimeter in the photograph indicates metres. Where was the picture taken?",
     "Question ID": "igeo-2015-mmt-q12",
     "iGeo Year": 2015,
@@ -8361,6 +8320,43 @@
     "Skill": "Physical-process interpretation"
   },
   {
+    "Question Name": "Which statement about the qanat system, traditionally used in areas of West Asia, is incorrect?",
+    "Question ID": "igeo-2015-mmt-q38",
+    "iGeo Year": 2015,
+    "Location": "Tver, Russia",
+    "Question Number": 38,
+    "Question Type": "multiple-choice",
+    "Image/Media source": {
+      "Provider": "International Geography Olympiad",
+      "Local path": "public/igeo-mmt/2015/2015-q38.webp",
+      "Image URL": "/igeo-mmt/2015/2015-q38.webp",
+      "Source pages": [
+        40
+      ]
+    },
+    "Source URL": "https://geoolympiad.org/document-library/",
+    "Source files": {
+      "Questions": "data/Past MMT/2015/2015MMtest.pdf",
+      "Answers": "data/Past MMT/2015/2015MManswercode.pdf"
+    },
+    "Category/Tags": [
+      "Physical geography",
+      "Economic geography",
+      "Environmental change",
+      "Hydrology and oceans"
+    ],
+    "Options": [
+      "It can only draw sustainable amounts from the aquifer.",
+      "It is energy efficient, using gravity to transport water.",
+      "It uses readily available surface water.",
+      "Its underground channels minimise evaporation."
+    ],
+    "Answer": "It uses readily available surface water.",
+    "Answer Index": 2,
+    "Explanation": "Official 2015 iGeo MMT answer key: C (It uses readily available surface water.).",
+    "Skill": "Physical-process interpretation"
+  },
+  {
     "Question Name": "According to the current global value chain, Nutella® would stop production without input from which of these countries",
     "Question ID": "igeo-2015-mmt-q20",
     "iGeo Year": 2015,
@@ -8389,7 +8385,7 @@
       "Colombia",
       "Germany",
       "Malaysia",
-      "South Africa Q.20"
+      "South Africa"
     ],
     "Answer": "Malaysia",
     "Answer Index": 2,
@@ -9072,7 +9068,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "A Which of the aerial images (A, B, C or D) corresponds to the photograph? B C D",
+    "Question Name": "Which of the aerial images (A, B, C or D) corresponds to the photograph?",
     "Question ID": "igeo-2016-mmt-q37",
     "iGeo Year": 2016,
     "Location": "Beijing, China",
@@ -9468,7 +9464,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "A B In which type of climate (A, B, C or D) do rubber plantations grow? C D",
+    "Question Name": "In which type of climate (A, B, C or D) do rubber plantations grow?",
     "Question ID": "igeo-2016-mmt-q25",
     "iGeo Year": 2016,
     "Location": "Beijing, China",
@@ -10338,7 +10334,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "Which image relates best to this dot-map? A B C D",
+    "Question Name": "Which image relates best to this dot-map?",
     "Question ID": "igeo-2017-mmt-q33",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10374,7 +10370,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "Economist.com via scoopnest.com What should be the unit of the horizontal axis for all three graphs?",
+    "Question Name": "What should be the unit of the horizontal axis for all three graphs?",
     "Question ID": "igeo-2017-mmt-q20",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10444,7 +10440,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "New Caledonia counts for about 25% of the world's nickel resources. Which image is showing a nickel mine? A B C D",
+    "Question Name": "New Caledonia counts for about 25% of the world's nickel resources. Which image is showing a nickel mine?",
     "Question ID": "igeo-2017-mmt-q21",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10661,7 +10657,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Urban-rural country profiles of: Egypt, Kenya, Tunisia and Zambia (in alphabetic order). Which diagram corresponds to Kenya? graph A graph B graph C graph D",
+    "Question Name": "Urban-rural country profiles of: Egypt, Kenya, Tunisia and Zambia (in alphabetic order). Which diagram corresponds to Kenya?",
     "Question ID": "igeo-2017-mmt-q05",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10695,6 +10691,42 @@
     "Answer": "graph B",
     "Answer Index": 1,
     "Explanation": "Official 2017 iGeo MMT answer key: B (graph B).",
+    "Skill": "Human-geography interpretation"
+  },
+  {
+    "Question Name": "The figure shows Ramadan fasting hours around the world for the first full day of Ramadan in 2017 and the Muslim population in 2010. Which bar represents Morocco?",
+    "Question ID": "igeo-2017-mmt-q08",
+    "iGeo Year": 2017,
+    "Location": "Belgrade, Serbia",
+    "Question Number": 8,
+    "Question Type": "multiple-choice",
+    "Image/Media source": {
+      "Provider": "International Geography Olympiad",
+      "Local path": "public/igeo-mmt/2017/2017-q08.webp",
+      "Image URL": "/igeo-mmt/2017/2017-q08.webp",
+      "Source pages": [
+        11
+      ]
+    },
+    "Source URL": "https://geoolympiad.org/document-library/",
+    "Source files": {
+      "Questions": "data/Past MMT/2017/MULTIMEDIA TEST_2017iGeo.pdf",
+      "Answers": "data/Past MMT/2017/MULTIMEDIA TEST ANSWERS_2017iGeo.pdf"
+    },
+    "Category/Tags": [
+      "Human geography",
+      "Data interpretation",
+      "Population and migration"
+    ],
+    "Options": [
+      "letter A",
+      "letter B",
+      "letter C",
+      "letter D"
+    ],
+    "Answer": "letter B",
+    "Answer Index": 1,
+    "Explanation": "Official 2017 iGeo MMT answer key: B (letter B).",
     "Skill": "Human-geography interpretation"
   },
   {
@@ -10734,7 +10766,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "This population diagram shows the formation of a population chimney. What is depicted by the area shaded in blue (unit x)? population diagram Botswana",
+    "Question Name": "This population diagram shows the formation of a population chimney. What is depicted by the area shaded in blue (unit x)?",
     "Question ID": "igeo-2017-mmt-q27",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10770,7 +10802,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "These media all relate to the production of Major Producing Regions USD/kg",
+    "Question Name": "These media all relate to the production of",
     "Question ID": "igeo-2017-mmt-q39",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10805,7 +10837,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Which photo least illustrates the principles of ecotourism? A B C D",
+    "Question Name": "Which photo least illustrates the principles of ecotourism?",
     "Question ID": "igeo-2017-mmt-q12",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10841,7 +10873,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "The satellite images show the rapid growth of … 2009 2014",
+    "Question Name": "The satellite images show the rapid growth of …",
     "Question ID": "igeo-2017-mmt-q17",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10877,7 +10909,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "What is depicted on the y-axis of this country-dot-animation? ?",
+    "Question Name": "What is depicted on the y-axis of this country-dot-animation?",
     "Question ID": "igeo-2017-mmt-q31",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10913,7 +10945,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Built-up areas as seen in the picture are typically connected with 04",
+    "Question Name": "Built-up areas as seen in the picture are typically connected with",
     "Question ID": "igeo-2017-mmt-q02",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -10948,7 +10980,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "cartoon by Peter Oosterloo What is critically depicted by this cartoon?",
+    "Question Name": "What is critically depicted by this cartoon?",
     "Question ID": "igeo-2017-mmt-q22",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11055,7 +11087,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "The table shows the storage and flow in the ecosystem of inorganic nutrients for savanna, temperate mixed forest, tropical desert and tropical rainforest. What is the name of ecoregion 3? ecoregion 1 ecoregion 2 ecoregion 3 ecoregion 4 storage in soil (g/m2) 2680 40 35 2 storage in plants (above ground) (g/m2) 24 18 298 0.3 storage in plants (below ground) (g/m2) 9.7 3.5 8.0 0.5 storage in litter (g/m2) 1.5 2.0 4.0 traces flow amount in litterfall (g/m2/y) 13.0 1.1 0.3 3.6",
+    "Question Name": "The table shows the storage and flow in the ecosystem of inorganic nutrients for savanna, temperate mixed forest, tropical desert and tropical rainforest. What is the name of ecoregion 3?",
     "Question ID": "igeo-2017-mmt-q07",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11078,8 +11110,7 @@
       "Physical geography",
       "Biogeography",
       "Climate and weather",
-      "Data interpretation",
-      "Geomorphology"
+      "Data interpretation"
     ],
     "Options": [
       "savannah",
@@ -11093,7 +11124,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which pattern is this map showing for Southern America? green/blue = low yellow-red = high",
+    "Question Name": "Which pattern is this map showing for Southern America?",
     "Question ID": "igeo-2017-mmt-q19",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11131,7 +11162,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "4 maps on water, in alphabetic order: agricultural water use*, domestic water use*, industrial water use* and rainfall volume. Which map is showing domestic water use? * Territory size based on the proportion of all water used for specific purposes that was used there. A B C D",
+    "Question Name": "4 maps on water, in alphabetic order: agricultural water use*, domestic water use*, industrial water use* and rainfall volume. Which map is showing domestic water use?",
     "Question ID": "igeo-2017-mmt-q16",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11156,8 +11187,7 @@
       "Climate and weather",
       "Cultural geography",
       "Economic geography",
-      "Hydrology and oceans",
-      "Political geography"
+      "Hydrology and oceans"
     ],
     "Options": [
       "map A",
@@ -11168,45 +11198,6 @@
     "Answer": "map C",
     "Answer Index": 2,
     "Explanation": "Official 2017 iGeo MMT answer key: C (map C).",
-    "Skill": "Physical-process interpretation"
-  },
-  {
-    "Question Name": "Combining maps of Madagascar: Where is the Betsiboka River located? climate soils land use",
-    "Question ID": "igeo-2017-mmt-q15",
-    "iGeo Year": 2017,
-    "Location": "Belgrade, Serbia",
-    "Question Number": 15,
-    "Question Type": "multiple-choice",
-    "Image/Media source": {
-      "Provider": "International Geography Olympiad",
-      "Local path": "public/igeo-mmt/2017/2017-q15.webp",
-      "Image URL": "/igeo-mmt/2017/2017-q15.webp",
-      "Source pages": [
-        18
-      ]
-    },
-    "Source URL": "https://geoolympiad.org/document-library/",
-    "Source files": {
-      "Questions": "data/Past MMT/2017/MULTIMEDIA TEST_2017iGeo.pdf",
-      "Answers": "data/Past MMT/2017/MULTIMEDIA TEST ANSWERS_2017iGeo.pdf"
-    },
-    "Category/Tags": [
-      "Physical geography",
-      "Cartography",
-      "Climate and weather",
-      "Geomorphology",
-      "Hydrology and oceans",
-      "Remote sensing"
-    ],
-    "Options": [
-      "river a satellite image of Betsiboka Delta*",
-      "river b",
-      "river c",
-      "river d orientation"
-    ],
-    "Answer": "river b",
-    "Answer Index": 1,
-    "Explanation": "Official 2017 iGeo MMT answer key: B (river b).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -11319,7 +11310,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which soil picture corresponds to the green area of this soil map? A B C D",
+    "Question Name": "Which soil picture corresponds to the green area of this soil map?",
     "Question ID": "igeo-2017-mmt-q04",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11355,7 +11346,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "What instrument played a key role in solving the 'longitude problem'; the problem of finding longitude at sea before advanced GPS? A B C D",
+    "Question Name": "What instrument played a key role in solving the 'longitude problem'; the problem of finding longitude at sea before advanced GPS?",
     "Question ID": "igeo-2017-mmt-q09",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11391,7 +11382,43 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Four videos showing a religious ceremony. Which video shows a ceremony where Hindus pray for early monsoon rains? A B C D",
+    "Question Name": "Combining maps of Madagascar: Where is the Betsiboka River located?",
+    "Question ID": "igeo-2017-mmt-q15",
+    "iGeo Year": 2017,
+    "Location": "Belgrade, Serbia",
+    "Question Number": 15,
+    "Question Type": "multiple-choice",
+    "Image/Media source": {
+      "Provider": "International Geography Olympiad",
+      "Local path": "public/igeo-mmt/2017/2017-q15.webp",
+      "Image URL": "/igeo-mmt/2017/2017-q15.webp",
+      "Source pages": [
+        18
+      ]
+    },
+    "Source URL": "https://geoolympiad.org/document-library/",
+    "Source files": {
+      "Questions": "data/Past MMT/2017/MULTIMEDIA TEST_2017iGeo.pdf",
+      "Answers": "data/Past MMT/2017/MULTIMEDIA TEST ANSWERS_2017iGeo.pdf"
+    },
+    "Category/Tags": [
+      "Physical geography",
+      "Cartography",
+      "Hydrology and oceans"
+    ],
+    "Options": [
+      "river a",
+      "river b",
+      "river c",
+      "river d"
+    ],
+    "Answer": "river b",
+    "Answer Index": 1,
+    "Explanation": "Official 2017 iGeo MMT answer key: B (river b).",
+    "Skill": "Physical-process interpretation"
+  },
+  {
+    "Question Name": "Four videos showing a religious ceremony. Which video shows a ceremony where Hindus pray for early monsoon rains?",
     "Question ID": "igeo-2017-mmt-q29",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11426,7 +11453,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Many cities in the northern hemisphere have poor east end districts. What can be considered to be a generalized reason for the concentration of poor groups always ending up in the east of these cities? A list of cities with poor eastern end districts would include London Paris New York Helsinki Casablanca",
+    "Question Name": "Many cities in the northern hemisphere have poor east end districts. What can be considered to be a generalized reason for the concentration of poor groups always ending up in the east of these cities?",
     "Question ID": "igeo-2017-mmt-q30",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11502,43 +11529,6 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Economist.com Sources± PewResearch Center; timeanddate.com The figure shows Ramadan fasting hours around the world for the first full day of Ramadan in 2017 and the Muslim population in 2010. Which bar represents Morocco?",
-    "Question ID": "igeo-2017-mmt-q08",
-    "iGeo Year": 2017,
-    "Location": "Belgrade, Serbia",
-    "Question Number": 8,
-    "Question Type": "multiple-choice",
-    "Image/Media source": {
-      "Provider": "International Geography Olympiad",
-      "Local path": "public/igeo-mmt/2017/2017-q08.webp",
-      "Image URL": "/igeo-mmt/2017/2017-q08.webp",
-      "Source pages": [
-        11
-      ]
-    },
-    "Source URL": "https://geoolympiad.org/document-library/",
-    "Source files": {
-      "Questions": "data/Past MMT/2017/MULTIMEDIA TEST_2017iGeo.pdf",
-      "Answers": "data/Past MMT/2017/MULTIMEDIA TEST ANSWERS_2017iGeo.pdf"
-    },
-    "Category/Tags": [
-      "Physical geography",
-      "Data interpretation",
-      "Hydrology and oceans",
-      "Population and migration"
-    ],
-    "Options": [
-      "letter A",
-      "letter B",
-      "letter C",
-      "letter D"
-    ],
-    "Answer": "letter B",
-    "Answer Index": 1,
-    "Explanation": "Official 2017 iGeo MMT answer key: B (letter B).",
-    "Skill": "Physical-process interpretation"
-  },
-  {
     "Question Name": "The red sky in the painting 'The Scream' by the Norwegian painter Edvard Munch (1893) is most likely related to",
     "Question ID": "igeo-2017-mmt-q36",
     "iGeo Year": 2017,
@@ -11574,7 +11564,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "This phenomenon is a result of before after",
+    "Question Name": "This phenomenon is a result of",
     "Question ID": "igeo-2017-mmt-q06",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11610,7 +11600,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Microscope images (so called thin sections) from 4 different types of rocks. Which image is showing a metamorphic rock? A B C D",
+    "Question Name": "Microscope images (so called thin sections) from 4 different types of rocks. Which image is showing a metamorphic rock?",
     "Question ID": "igeo-2017-mmt-q23",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11646,7 +11636,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Pile-dwellings. For what primary purpose are these dwellings built on stilts? building 1: Norway building 2: Myanmar",
+    "Question Name": "Pile-dwellings. For what primary purpose are these dwellings built on stilts?",
     "Question ID": "igeo-2017-mmt-q25",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11717,7 +11707,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which area is expected to have the highest population growth rate from 2015 to 2030? Population of the world's major areas, 2015 and 2030. Population (millions) Major area 2015 2030 Africa 1 186 1 679 Asia 4 393 4 923 Europe 738 734 Latin America and the Caribbean 634 721 Northern America 358 396",
+    "Question Name": "Which area is expected to have the highest population growth rate from 2015 to 2030?",
     "Question ID": "igeo-2017-mmt-q11",
     "iGeo Year": 2017,
     "Location": "Belgrade, Serbia",
@@ -11742,18 +11732,53 @@
       "Population and migration"
     ],
     "Options": [
-      "Africa Oceania 39 47",
+      "Africa",
       "Asia",
       "Europe",
       "Oceania"
     ],
-    "Answer": "Africa Oceania 39 47",
+    "Answer": "Africa",
     "Answer Index": 0,
-    "Explanation": "Official 2017 iGeo MMT answer key: A (Africa Oceania 39 47).",
+    "Explanation": "Official 2017 iGeo MMT answer key: A (Africa).",
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which key corresponds to this map showing the wettest months of the year? A B C D",
+    "Question Name": "What additional information is needed to calculate the amount of CO2 emissions produced by all flights on July 13th 2018?",
+    "Question ID": "igeo-2018-mmt-q34",
+    "iGeo Year": 2018,
+    "Location": "Québec City, Canada",
+    "Question Number": 34,
+    "Question Type": "multiple-choice",
+    "Image/Media source": {
+      "Provider": "International Geography Olympiad",
+      "Local path": "public/igeo-mmt/2018/2018-q34.webp",
+      "Image URL": "/igeo-mmt/2018/2018-q34.webp",
+      "Source pages": [
+        38
+      ]
+    },
+    "Source URL": "https://geoolympiad.org/document-library/",
+    "Source files": {
+      "Questions": "data/Past MMT/2018/MMT_QUESTION_2018iGeo.pdf",
+      "Answers": "data/Past MMT/2018/MMT_ANSWERS_2018iGeo.pdf"
+    },
+    "Category/Tags": [
+      "Environmental geography",
+      "Environmental change"
+    ],
+    "Options": [
+      "average length of the flights",
+      "total amount of passengers",
+      "average length of the flights and total amount of passengers",
+      "don't need any additional information to this data"
+    ],
+    "Answer": "average length of the flights and total amount of passengers",
+    "Answer Index": 2,
+    "Explanation": "Official 2018 iGeo MMT answer key: C (average length of the flights and total amount of passengers).",
+    "Skill": "Human-environment interpretation"
+  },
+  {
+    "Question Name": "Which key corresponds to this map showing the wettest months of the year?",
     "Question ID": "igeo-2018-mmt-q02",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -11859,7 +11884,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "zealandia-finally-recognized Geologists in 2017 defined a new continent: Zealandia. What argument could be used to consider Zealandia as a new continent?",
+    "Question Name": "Geologists in 2017 defined a new continent: Zealandia. What argument could be used to consider Zealandia as a new continent?",
     "Question ID": "igeo-2018-mmt-q32",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -11929,7 +11954,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "What was the endpoint of this geographer's cycling tour? A B C D",
+    "Question Name": "What was the endpoint of this geographer's cycling tour?",
     "Question ID": "igeo-2018-mmt-q20",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -11955,7 +11980,7 @@
     "Options": [
       "point A",
       "point B",
-      "point C START",
+      "point C",
       "point D"
     ],
     "Answer": "point B",
@@ -12036,7 +12061,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "What is depicted by these food production maps on moving globes? food production gap feed vs food ? ?",
+    "Question Name": "What is depicted by these food production maps on moving globes?",
     "Question ID": "igeo-2018-mmt-q10",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12072,7 +12097,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "What is the unit of time in the legend of this map showing human migration? time in ?? years",
+    "Question Name": "What is the unit of time in the legend of this map showing human migration?",
     "Question ID": "igeo-2018-mmt-q04",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12108,7 +12133,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "These maps of religious population are, in alphabetical order,: atheist, buddhist, christian and muslim. Which map shows the atheist (non-religious) population? A B C D",
+    "Question Name": "These maps of religious population are, in alphabetical order,: atheist, buddhist, christian and muslim. Which map shows the atheist (non-religious) population?",
     "Question ID": "igeo-2018-mmt-q38",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12179,7 +12204,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "As a result of globalization, the number of spoken languages in each country MEDCs = more economically developed countries LEDCs = less economically developed countries",
+    "Question Name": "As a result of globalization, the number of spoken languages in each country",
     "Question ID": "igeo-2018-mmt-q19",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12254,7 +12279,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Service structures for 4 sites in El Raval, an inner-city area of Barcelona (Spain). What is the correct place of Site 2 in the triangular graph? El Raval Service Structure Service Site 1 Site 2 Site 3 Site 4 % gentrification 60 11.4 3 0 A % immigrant services 5 15.2 20 50 % other local services 35 73.4 76 50 B Total 100 100 100 100",
+    "Question Name": "Service structures for 4 sites in El Raval, an inner-city area of Barcelona (Spain). What is the correct place of Site 2 in the triangular graph?",
     "Question ID": "igeo-2018-mmt-q21",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12325,43 +12350,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "passenger-transport/view What additional information is needed to calculate the amount of CO2 emissions produced by all flights on July 13th 2018? July 13th 2018 record: 205.468 flights in 24 hours",
-    "Question ID": "igeo-2018-mmt-q34",
-    "iGeo Year": 2018,
-    "Location": "Québec City, Canada",
-    "Question Number": 34,
-    "Question Type": "multiple-choice",
-    "Image/Media source": {
-      "Provider": "International Geography Olympiad",
-      "Local path": "public/igeo-mmt/2018/2018-q34.webp",
-      "Image URL": "/igeo-mmt/2018/2018-q34.webp",
-      "Source pages": [
-        38
-      ]
-    },
-    "Source URL": "https://geoolympiad.org/document-library/",
-    "Source files": {
-      "Questions": "data/Past MMT/2018/MMT_QUESTION_2018iGeo.pdf",
-      "Answers": "data/Past MMT/2018/MMT_ANSWERS_2018iGeo.pdf"
-    },
-    "Category/Tags": [
-      "Human geography",
-      "Economic geography",
-      "Environmental change"
-    ],
-    "Options": [
-      "average length of the flights",
-      "total amount of passengers",
-      "average length of the flights and total amount of passengers",
-      "don't need any additional information to this data"
-    ],
-    "Answer": "average length of the flights and total amount of passengers",
-    "Answer Index": 2,
-    "Explanation": "Official 2018 iGeo MMT answer key: C (average length of the flights and total amount of passengers).",
-    "Skill": "Human-geography interpretation"
-  },
-  {
-    "Question Name": "Which image relates best to the concept of 'black tourism'? A B C D",
+    "Question Name": "Which image relates best to the concept of 'black tourism'?",
     "Question ID": "igeo-2018-mmt-q30",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12460,8 +12449,8 @@
     ],
     "Options": [
       "annual rainfall",
-      "forest fires low/small values high/big values",
-      "methane (CH ) emission",
+      "forest fires",
+      "methane (CH₄) emission",
       "lightning strikes"
     ],
     "Answer": "lightning strikes",
@@ -12622,7 +12611,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which feature makes parts of the Kosrae Island (Micronesia) capable to withstand an extreme weather event ('no severe impacts' on the map)? A B C D",
+    "Question Name": "Which feature makes parts of the Kosrae Island (Micronesia) capable to withstand an extreme weather event ('no severe impacts' on the map)?",
     "Question ID": "igeo-2018-mmt-q33",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12697,7 +12686,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which climate diagram corresponds best to this landform? B A C D",
+    "Question Name": "Which climate diagram corresponds best to this landform?",
     "Question ID": "igeo-2018-mmt-q15",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12771,7 +12760,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "A world of clouds. Where is city of Québec (Canada) located? A B C",
+    "Question Name": "A world of clouds. Where is the city of Québec (Canada) located?",
     "Question ID": "igeo-2018-mmt-q05",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12881,7 +12870,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which of these four shortcuts in the rock cycle is geologically least likely? A B",
+    "Question Name": "Which of these four shortcuts in the rock cycle is geologically least likely?",
     "Question ID": "igeo-2018-mmt-q08",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -12952,7 +12941,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Banknote Mountains. Which mountain has been shaped by karst processes? A B C D",
+    "Question Name": "Banknote Mountains. Which mountain has been shaped by karst processes?",
     "Question ID": "igeo-2018-mmt-q03",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -13059,7 +13048,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Which cause of death is indicated by the colour red? Percentage distribution of deaths by group of causes and life expectance at birth, Chile, 1952-1992 and 1995-2005. ?",
+    "Question Name": "Which cause of death is indicated by the colour red?",
     "Question ID": "igeo-2018-mmt-q27",
     "iGeo Year": 2018,
     "Location": "Québec City, Canada",
@@ -13308,7 +13297,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "Left map: satellite-image of Barcelona Right map: a Twitter*-based heat map of Barcelona rSpain). The red dots indicate photos taken by GROUP 1, while the blue dots indicate photos taken by GROUP 2 and the yellow dots might be either. rTwitter is a social media platform. Based on data from Twitter, this map shows how Barcelona is perceived by",
+    "Question Name": "Left map: satellite-image of Barcelona Right map: a Twitter*-based heat map of Barcelona (Spain). The red dots indicate photos taken by GROUP 1, while the blue dots indicate photos taken by GROUP 2 and the yellow dots might be either. *Twitter is a social media platform. Based on data from Twitter, this map shows how Barcelona is perceived by",
     "Question ID": "igeo-2021-mmt-q28",
     "iGeo Year": 2021,
     "Location": "Istanbul, Türkiye",
@@ -13336,7 +13325,7 @@
       "male and female dwellers of Barcelona",
       "local dwellers and tourists",
       "poor and rich dwellers of Barcelona",
-      "students r16r25r and eldery r65rr."
+      "students (16-25) and eldery (65+)."
     ],
     "Answer": "local dwellers and tourists",
     "Answer Index": 1,
@@ -13450,7 +13439,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "To which part of this destination image model do travel influencers on Instagram* best correspond? rInstagram is a social media platform.",
+    "Question Name": "To which part of this destination image model do travel influencers on Instagram* best correspond? *Instagram is a social media platform.",
     "Question ID": "igeo-2021-mmt-q07",
     "iGeo Year": 2021,
     "Location": "Istanbul, Türkiye",
@@ -13475,14 +13464,14 @@
       "Remote sensing"
     ],
     "Options": [
-      "representations rAr",
-      "experience rBr",
-      "own identity rCr",
-      "feedback rDr"
+      "representations (A)",
+      "experience (B)",
+      "own identity (C)",
+      "feedback (D)"
     ],
-    "Answer": "representations rAr",
+    "Answer": "representations (A)",
     "Answer Index": 0,
-    "Explanation": "Official 2021 iGeo MMT answer key: A (representations rAr).",
+    "Explanation": "Official 2021 iGeo MMT answer key: A (representations (A)).",
     "Skill": "Map and data interpretation"
   },
   {
@@ -13593,7 +13582,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "Left: street map of Buenos Aires rArgentina) Right: city street orientation radials of four different cities. Which city street orientation radial corresponds with Buenos Aires?",
+    "Question Name": "Left: street map of Buenos Aires (Argentina) Right: city street orientation radials of four different cities. Which city street orientation radial corresponds with Buenos Aires?",
     "Question ID": "igeo-2021-mmt-q35",
     "iGeo Year": 2021,
     "Location": "Istanbul, Türkiye",
@@ -13961,7 +13950,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Does it rain? Does it pour? The map shows rainfall in four categories rArDrr it rains and it pours it rains a lot but usually doens't pour it usually doesn't rain but when it does, it pours it doesn't rain or pour Which color represents the category 'it usually doesn't rain but when it does, it pours'?",
+    "Question Name": "Does it rain? Does it pour? The map shows rainfall in four categories (A-D): it rains and it pours it rains a lot but usually doens't pour it usually doesn't rain but when it does, it pours it doesn't rain or pour Which color represents the category 'it usually doesn't rain but when it does, it pours'?",
     "Question ID": "igeo-2021-mmt-q12",
     "iGeo Year": 2021,
     "Location": "Istanbul, Türkiye",
@@ -14072,7 +14061,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "Plot of migration flows between world's top 25 sending and receiving countries in 2005r2010. Axis scale in 100,000s. The countries that made the highest contribution to outwards migration in 2005r2010 are currently classified by the United Nations as",
+    "Question Name": "Plot of migration flows between world's top 25 sending and receiving countries in 2005-2010. Axis scale in 100,000s. The countries that made the highest contribution to outwards migration in 2005-2010 are currently classified by the United Nations as",
     "Question ID": "igeo-2021-mmt-q09",
     "iGeo Year": 2021,
     "Location": "Istanbul, Türkiye",
@@ -14135,14 +14124,14 @@
       "Hydrology and oceans"
     ],
     "Options": [
-      "Change in salinity r1970r1990r.",
-      "Change in biomass r1960r2020r.",
-      "Change in surface area of waterbodies r1980r2010r.",
-      "Change in average surface temperature r1990r2020r."
+      "Change in salinity (1970-1990).",
+      "Change in biomass (1960-2020).",
+      "Change in surface area of waterbodies (1980-2010).",
+      "Change in average surface temperature (1990-2020)."
     ],
-    "Answer": "Change in surface area of waterbodies r1980r2010r.",
+    "Answer": "Change in surface area of waterbodies (1980-2010).",
     "Answer Index": 2,
-    "Explanation": "Official 2021 iGeo MMT answer key: C (Change in surface area of waterbodies r1980r2010r.).",
+    "Explanation": "Official 2021 iGeo MMT answer key: C (Change in surface area of waterbodies (1980-2010).).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -14498,14 +14487,14 @@
       "Hydrology and oceans"
     ],
     "Options": [
-      "Mediterranean Sea rAr",
-      "Red Sea rBr",
-      "Persian Gulf rCr",
-      "Gulf of Aden rDr"
+      "Mediterranean Sea (A)",
+      "Red Sea (B)",
+      "Persian Gulf (C)",
+      "Gulf of Aden (D)"
     ],
-    "Answer": "Persian Gulf rCr",
+    "Answer": "Persian Gulf (C)",
     "Answer Index": 2,
-    "Explanation": "Official 2021 iGeo MMT answer key: C (Persian Gulf rCr).",
+    "Explanation": "Official 2021 iGeo MMT answer key: C (Persian Gulf (C)).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -14717,7 +14706,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "This map, based on a ZIP Code Tabulation Area rZCTAr analysis depicts",
+    "Question Name": "This map, based on a ZIP Code Tabulation Area (ZCTA) analysis depicts",
     "Question ID": "igeo-2022-mmt-q27",
     "iGeo Year": 2022,
     "Location": "Paris, France",
@@ -14788,7 +14777,7 @@
     "Skill": "Map and data interpretation"
   },
   {
-    "Question Name": "What is shown on this map of Paris rFrance)?",
+    "Question Name": "What is shown on this map of Paris (France)?",
     "Question ID": "igeo-2022-mmt-q34",
     "iGeo Year": 2022,
     "Location": "Paris, France",
@@ -15224,7 +15213,7 @@
     "Skill": "Human-geography interpretation"
   },
   {
-    "Question Name": "#instagramvsreality is used by people to show the 'image' of places on Instagram* and reality. rInstagram is a social media platform.) For which type of tourism does the #instagramvsreality especially counts?",
+    "Question Name": "#instagramvsreality is used by people to show the 'image' of places on Instagram* and reality. (*Instagram is a social media platform.) For which type of tourism does the #instagramvsreality especially counts?",
     "Question ID": "igeo-2022-mmt-q26",
     "iGeo Year": 2022,
     "Location": "Paris, France",
@@ -15431,14 +15420,14 @@
       "Hydrology and oceans"
     ],
     "Options": [
-      "northwest rNWr",
-      "northeast rNEr",
-      "southeast rSEr",
-      "southwest rSWr"
+      "northwest (NW)",
+      "northeast (NE)",
+      "southeast (SE)",
+      "southwest (SW)"
     ],
-    "Answer": "northwest rNWr",
+    "Answer": "northwest (NW)",
     "Answer Index": 0,
-    "Explanation": "Official 2022 iGeo MMT answer key: A (northwest rNWr).",
+    "Explanation": "Official 2022 iGeo MMT answer key: A (northwest (NW)).",
     "Skill": "Physical-process interpretation"
   },
   {
@@ -15514,7 +15503,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "After the eruption of the Hunga Tonga-Hunga Haʻapai volcano rTonga) a large pumice raft occured in the Pacific Ocean. What is the direct cause of the pumice raft to change position between 8 and 14 August?",
+    "Question Name": "After the eruption of the Hunga Tonga-Hunga Haʻapai volcano (Tonga) a large pumice raft occured in the Pacific Ocean. What is the direct cause of the pumice raft to change position between 8 and 14 August?",
     "Question ID": "igeo-2022-mmt-q25",
     "iGeo Year": 2022,
     "Location": "Paris, France",
@@ -15551,7 +15540,7 @@
     "Skill": "Physical-process interpretation"
   },
   {
-    "Question Name": "The Scala di Turchi rTurkish staircase) rock formation on the southern coast of Sicily rItaly) show a 21.000 year cycle of white grey-white-beige layers. To which climate variable are these cycle related?",
+    "Question Name": "The Scala di Turchi (Turkish staircase) rock formation on the southern coast of Sicily (Italy) show a 21.000 year cycle of white grey-white-beige layers. To which climate variable are these cycle related?",
     "Question ID": "igeo-2022-mmt-q06",
     "iGeo Year": 2022,
     "Location": "Paris, France",

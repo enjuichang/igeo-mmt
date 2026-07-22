@@ -104,6 +104,12 @@ function formatCountdown(totalSeconds: number) {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+function optionLabel(question: Question, optionIndex: number) {
+  return question.source === "igeo" && question.igeoYear === 2002
+    ? String(optionIndex + 1)
+    : String.fromCharCode(65 + optionIndex);
+}
+
 function Bars({ variant }: { variant: number }) {
   const sets = [
     [20, 22, 28, 34, 56, 82, 96, 90, 63, 42, 27, 21],
@@ -237,6 +243,7 @@ export default function Home() {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [remaining, setRemaining] = useState(seconds);
   const [finished, setFinished] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
 
   const sourceQuestions = useMemo(
     () => questionBank.filter((question) => selectedSources.includes(question.source)),
@@ -329,12 +336,15 @@ export default function Home() {
 
   function generateTest() {
     const selected = selectRandomQuestions(available, targetLength, category === "all")
-      .map(randomizeOptions);
+      // The official iGeo source image already prints its A-D choices. Keep
+      // those choices in their original order so the controls match the image.
+      .map((question) => question.source === "igeo" ? question : randomizeOptions(question));
     window.scrollTo({ top: 0, behavior: "auto" });
     setTest(selected);
     setIndex(0);
     setAnswers({});
     setFinished(false);
+    setReviewIndex(null);
     setRemaining(testType === "mock" ? mockMinutes * 60 : seconds);
   }
 
@@ -367,10 +377,24 @@ export default function Home() {
     }
   }
 
+  function previousQuestion() {
+    if (!test || index === 0) return;
+    window.scrollTo({ top: 0, behavior: "auto" });
+    setIndex((current) => current - 1);
+    if (testType === "practice") setRemaining(seconds);
+  }
+
+  function openResultQuestion(itemIndex: number) {
+    window.scrollTo({ top: 0, behavior: "auto" });
+    setReviewIndex(itemIndex);
+  }
+
   if (test) {
-    const question = test[index];
+    const displayedIndex = reviewIndex ?? index;
+    const question = test[displayedIndex];
+    const reviewingResults = finished && reviewIndex !== null;
     const score = test.reduce((total, item, itemIndex) => total + (answers[itemIndex] === item.correct ? 1 : 0), 0);
-    if (finished) {
+    if (finished && !reviewingResults) {
       const percent = Math.round((score / test.length) * 100);
       return (
         <main className="result-shell">
@@ -389,7 +413,14 @@ export default function Home() {
                 return (
                   <article key={item.id}>
                     <span className={correct ? "review-ok" : "review-miss"}>{correct ? "✓" : "×"}</span>
-                    <div><b>{item.prompt}</b><p>{item.explanation}</p><a href={item.sourceUrl} target="_blank" rel="noreferrer">Verify with {item.sourceName} ↗</a></div>
+                    <div>
+                      <b>{item.prompt}</b>
+                      <p>{item.explanation}</p>
+                      <div className="review-links">
+                        <button onClick={() => openResultQuestion(itemIndex)}>Review question →</button>
+                        <a href={item.sourceUrl} target="_blank" rel="noreferrer">Verify with {item.sourceName} ↗</a>
+                      </div>
+                    </div>
                   </article>
                 );
               })}
@@ -401,29 +432,53 @@ export default function Home() {
     return (
       <main className="test-shell">
         <header className="test-header">
-          <button className="brand compact" onClick={() => setTest(null)} aria-label="Exit test"><span className="brand-orbit">◎</span><b>GeoLens</b></button>
-          <div className="test-progress"><span style={{ width: `${((index + 1) / test.length) * 100}%` }} /></div>
-          <div className={`timer ${remaining < (testType === "mock" ? 60 : 15) ? "urgent" : ""}`}><span>◷</span><b>{testType === "mock" ? formatCountdown(remaining) : `${remaining}s`}</b></div>
+          <button className="brand compact" onClick={() => reviewingResults ? setReviewIndex(null) : setTest(null)} aria-label={reviewingResults ? "Back to results" : "Exit test"}><span className="brand-orbit">◎</span><b>GeoLens</b></button>
+          <div className="test-progress"><span style={{ width: `${((displayedIndex + 1) / test.length) * 100}%` }} /></div>
+          {reviewingResults
+            ? <div className="timer review-mode"><span>◉</span><b>Result review</b></div>
+            : <div className={`timer ${remaining < (testType === "mock" ? 60 : 15) ? "urgent" : ""}`}><span>◷</span><b>{testType === "mock" ? formatCountdown(remaining) : `${remaining}s`}</b></div>}
         </header>
         <section className="question-layout">
           <div className="question-resource">
-            <div className="resource-topline"><span>Resource {String(index + 1).padStart(2, "0")}</span><a href={question.sourceUrl} target="_blank" rel="noreferrer">Open source ↗</a></div>
+            <div className="resource-topline"><span>Resource {String(displayedIndex + 1).padStart(2, "0")}</span><a href={question.sourceUrl} target="_blank" rel="noreferrer">Open source ↗</a></div>
             <ResourceVisual question={question} />
             <div className="resource-credit"><SourceMark source={question.source} /><span><b>{question.sourceName}</b>{sourceInfo[question.source].short}</span><span className="licence-chip">Attribution attached</span></div>
           </div>
           <div className="question-panel">
             <div className="question-meta"><span>{question.topic}</span><span>•</span><span>{question.skill}</span>{question.igeoYear && <><span>•</span><span>{question.igeoYear} · {question.location}</span></>}<span>•</span><span>{question.difficulty}</span></div>
-            <h1><span>Q{index + 1}</span>{question.prompt}</h1>
+            <h1><span>Q{displayedIndex + 1}</span>{question.prompt}</h1>
             <div className="answers">
               {question.options.map((option, optionIndex) => (
-                <button key={option} className={`${answers[index] === optionIndex ? "selected" : ""} ${question.optionMedia ? "has-option-media" : ""}`} onClick={() => chooseAnswer(optionIndex)}>
-                  <span>{String.fromCharCode(65 + optionIndex)}</span>
+                <button
+                  key={option}
+                  className={`${answers[displayedIndex] === optionIndex ? "selected" : ""} ${reviewingResults && optionIndex === question.correct ? "correct" : ""} ${reviewingResults && answers[displayedIndex] === optionIndex && optionIndex !== question.correct ? "incorrect" : ""} ${question.optionMedia ? "has-option-media" : ""}`}
+                  onClick={() => chooseAnswer(optionIndex)}
+                  disabled={reviewingResults}
+                >
+                  <span>{optionLabel(question, optionIndex)}</span>
                   {question.optionMedia?.[optionIndex] && <img src={question.optionMedia[optionIndex].mediaLink} alt={question.optionMedia[optionIndex].mediaAlt} />}
                   <b>{option}</b>
                 </button>
               ))}
             </div>
-            <div className="question-footer"><span>{index + 1} of {test.length}</span><button onClick={nextQuestion} disabled={answers[index] === undefined}>{index === test.length - 1 ? "Finish test" : "Next question"} <span>→</span></button></div>
+            {reviewingResults ? (
+              <div className="question-footer">
+                <button className="back-to-results" onClick={() => setReviewIndex(null)}>← Back to results</button>
+                <span>{displayedIndex + 1} of {test.length}</span>
+                <div className="question-navigation">
+                  <button className="previous-button" onClick={() => setReviewIndex(displayedIndex - 1)} disabled={displayedIndex === 0}>← Previous</button>
+                  <button onClick={() => setReviewIndex(displayedIndex + 1)} disabled={displayedIndex === test.length - 1}>Next <span>→</span></button>
+                </div>
+              </div>
+            ) : (
+              <div className="question-footer">
+                <span>{index + 1} of {test.length}</span>
+                <div className="question-navigation">
+                  <button className="previous-button" onClick={previousQuestion} disabled={index === 0}>← Previous</button>
+                  <button onClick={nextQuestion} disabled={answers[index] === undefined}>{index === test.length - 1 ? "Finish test" : "Next question"} <span>→</span></button>
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </main>
@@ -480,7 +535,7 @@ export default function Home() {
                 <option value="all">Surprise me — balanced mix ({sourceQuestions.length.toLocaleString("en-US")})</option>
                 {categoryOptions.map(([name, count]) => <option key={name} value={name}>{name} ({count})</option>)}
               </select><span aria-hidden="true">⌄</span>
-            </div><small className="category-hint">Each generation reshuffles both questions and answer choices.</small></div>
+            </div><small className="category-hint">Question order changes with each generation; source-labelled choices keep their original order.</small></div>
             {selectedSources.includes("igeo") && editionOptions.length > 0 && (
               <div className="control-group category-control"><label htmlFor="igeo-edition">iGeo year and host location</label><div className="select-wrap">
                 <select id="igeo-edition" value={igeoEdition} onChange={(event) => { setIgeoEdition(event.target.value); setCategory("all"); }}>
@@ -508,7 +563,7 @@ export default function Home() {
           <div className="preview-card">
             <div className="preview-header"><span>QUESTION PREVIEW</span><div><i /> SOURCE-LINKED</div></div>
             <div className="preview-resource"><ResourceVisual question={preview} /></div>
-            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span>{preview.igeoYear && <><span>•</span><span>{preview.igeoYear} · {preview.location}</span></>}<span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className={`preview-options ${preview.optionMedia ? "with-media" : ""}`}>{preview.options.map((option, i) => <span key={option}><b>{String.fromCharCode(65 + i)}</b>{preview.optionMedia?.[i] && <img src={preview.optionMedia[i].mediaLink} alt="" />}{option}</span>)}</div></div>
+            <div className="preview-body"><div className="question-meta"><span>{preview.topic}</span><span>•</span><span>{preview.skill}</span>{preview.igeoYear && <><span>•</span><span>{preview.igeoYear} · {preview.location}</span></>}<span>•</span><span>{preview.difficulty}</span></div><h3>{preview.prompt}</h3><div className={`preview-options ${preview.optionMedia ? "with-media" : ""}`}>{preview.options.map((option, i) => <span key={option}><b>{optionLabel(preview, i)}</b>{preview.optionMedia?.[i] && <img src={preview.optionMedia[i].mediaLink} alt="" />}{option}</span>)}</div></div>
             <div className="preview-credit"><SourceMark source={preview.source} /><span>Question evidence from <b>{preview.sourceName}</b></span><a href={preview.sourceUrl} target="_blank" rel="noreferrer">View ↗</a></div>
           </div>
         </div>

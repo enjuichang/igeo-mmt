@@ -1,5 +1,28 @@
 # Question Review Changelog
 
+## 2026-07-22 - Past iGeo visual/text alignment audit
+
+### Scope
+
+- Reparsed all 450 archived questions across 12 official iGeo Multimedia Test editions and checked all 422 playable multiple-choice records against their source-page extraction, media path, four choices, and answer-key position.
+- Kept the original A-D order for every iGeo question in the test UI because the official source-page image already prints those labels.
+- Preserved the original 1-4 choice labels for the playable 2002 questions instead of relabeling them A-D.
+
+### Corrections
+
+- Removed video URLs and short-film annotations that had leaked into five 2010 option sets and two prompts.
+- Removed slide numbers, chart text, diagram captions, and a reversed source citation that had been appended to options in the 2012, 2014, and 2015 editions.
+- Removed standalone A-D image labels that had been appended to 15 prompts from the 2017 and 2018 survey-style editions, plus six diagram labels or malformed slide numbers embedded in other prompts.
+- Re-extracted all 80 prompts from the official green question banner in the 2017 and 2018 slides, leaving tables, legends, captions, and other supporting evidence in the source image instead of duplicating them in the prompt field.
+- Removed table rows, legends, map annotations, and captions that had leaked into five option sets from the 2017 and 2018 editions.
+- Repaired encoded parentheses, date ranges, map labels, and footnote markers in 13 questions from the 2021 and 2022 Socrative exports.
+- Added importer validation and regression tests that reject these extraction artifacts if the archive is regenerated.
+
+### Navigation
+
+- Added Previous-question navigation during an active test while preserving the learner's selected answers.
+- Added full question review from the result page, with source media, selected answer, correct answer, and previous/next review controls.
+
 ## 2026-07-20 - Distribution-aware semantic-separation pass
 
 ### Problem corrected

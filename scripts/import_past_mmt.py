@@ -380,7 +380,128 @@ def clean_prompt(text: str) -> str:
         line = re.sub(r"(?i)\b0/1\s+PUNT\b", "", line)
         if line:
             lines.append(line)
-    return normalize_inline(" ".join(lines))
+    prompt = normalize_inline(" ".join(lines))
+    # Some image-choice slides expose their standalone A-D labels at the end
+    # of the PDF text stream. They identify the pictures but are not part of
+    # the question sentence displayed beside the source image.
+    prompt = re.sub(
+        r"\s+(?:[A-D]\s+){3}[A-D]\s*$",
+        "",
+        prompt,
+        flags=re.I,
+    )
+    return prompt
+
+
+# These source PDFs contain text boxes, captions, and video annotations after
+# option D in their internal text order. The rendered page is correct, but a
+# plain text extractor cannot infer those visual boundaries. Keep the precise
+# source transcriptions here so future imports remain reproducible.
+OPTION_TEXT_OVERRIDES: dict[tuple[int, int], list[str]] = {
+    (2010, 29): ["Greece", "Albania", "Iraq", "Bangladesh"],
+    (2010, 35): [
+        "annual migration of Orca whales",
+        "ocean surface currents",
+        "thermo-haline circulation",
+        "major global wind systems",
+    ],
+    (2010, 38): [
+        "global warming",
+        "leaking gas pipelines",
+        "methane bubbles in the ice",
+        "gelifluction",
+    ],
+    (2010, 39): ["mud flow", "landslide", "creep", "solifluction"],
+    (2010, 40): [
+        "a strato volcano erupting",
+        "the formation of a caldera",
+        "a shield volcano erupting",
+        "pyroclastic clouds",
+    ],
+    (2012, 16): [
+        "1 = climate change and 2 = is not broken down",
+        "1 = wave pattern and 2 = accumulates",
+        "1 = rotation of the earth and 2 = accumulates",
+        "1 = distance to the equator and 2 = is not broken down",
+    ],
+    (2012, 27): ["Spring", "Monsoon", "Snow melt", "Autumn"],
+    (2014, 1): ["aeroponics", "geoponics", "hydroponics", "in vitro"],
+    (2014, 7): ["psychocentric", "near psychocentric", "mid-centric", "near allocentric"],
+    (2014, 16): ["Beijing", "Dhaka", "Mexico City", "Mumbai"],
+    (2015, 38): [
+        "It can only draw sustainable amounts from the aquifer.",
+        "It is energy efficient, using gravity to transport water.",
+        "It uses readily available surface water.",
+        "Its underground channels minimise evaporation.",
+    ],
+    (2017, 11): ["Africa", "Asia", "Europe", "Oceania"],
+    (2017, 15): ["river a", "river b", "river c", "river d"],
+    (2018, 20): ["point A", "point B", "point C", "point D"],
+    (2018, 26): [
+        "annual rainfall",
+        "forest fires",
+        "methane (CH₄) emission",
+        "lightning strikes",
+    ],
+    (2018, 39): ["age of houses", "house prices", "noise pollution", "temperature"],
+}
+
+
+PROMPT_TEXT_OVERRIDES: dict[tuple[int, int], str] = {
+    (2012, 5): "Which of the figures explains the phenomenon of clouds in the mountains as shown on the photograph?",
+    (2014, 28): "Which of the following concepts does NOT directly relate to this picture?",
+    (2016, 25): "In which type of climate (A, B, C or D) do rubber plantations grow?",
+    (2016, 37): "Which of the aerial images (A, B, C or D) corresponds to the photograph?",
+    (2018, 5): "A world of clouds. Where is the city of Québec (Canada) located?",
+    (2018, 8): "Which of these four shortcuts in the rock cycle is geologically least likely?",
+}
+
+
+TEXT_REPLACEMENTS = {
+    "rSpain)": "(Spain)",
+    "rTwitter is a social media platform.": "*Twitter is a social media platform.",
+    "r16r25r": "(16–25)",
+    "r65rr": "(65+)",
+    "rInstagram is a social media platform.)": "(*Instagram is a social media platform.)",
+    "rInstagram is a social media platform.": "*Instagram is a social media platform.",
+    "rArDrr": "(A–D):",
+    "2005r2010": "2005–2010",
+    "r1970r1990r": "(1970–1990)",
+    "r1960r2020r": "(1960–2020)",
+    "r1980r2010r": "(1980–2010)",
+    "r1990r2020r": "(1990–2020)",
+    "rArgentina)": "(Argentina)",
+    "rZCTAr": "(ZCTA)",
+    "rFrance)": "(France)",
+    "rTonga)": "(Tonga)",
+    "rTurkish staircase)": "(Turkish staircase)",
+    "rItaly)": "(Italy)",
+}
+
+
+def clean_imported_text(value: str) -> str:
+    """Remove known PDF extraction artifacts without rewriting source prose."""
+    for old, new in TEXT_REPLACEMENTS.items():
+        value = value.replace(old, new)
+    value = re.sub(r"\sr([A-D]|NW|NE|SE|SW)r(?=\W|$)", r" (\1)", value)
+    value = re.sub(r"\s+Q\.\s*\d+\s*$", "", value, flags=re.I)
+    return normalize_inline(value)
+
+
+def clean_imported_question(
+    edition: Edition,
+    number: int,
+    prompt: str,
+    options: list[str],
+) -> tuple[str, list[str]]:
+    prompt = clean_imported_text(prompt)
+    options = [clean_imported_text(option) for option in options]
+    prompt = PROMPT_TEXT_OVERRIDES.get((edition.year, number), prompt)
+    options = OPTION_TEXT_OVERRIDES.get((edition.year, number), options)
+    prompt = re.split(r"\s*※\s*a short film", prompt, maxsplit=1)[0]
+    if (edition.year, number) == (2014, 5):
+        prompt = prompt.replace("Which Q.5 soil type", "Which soil type")
+    return prompt, options
 
 
 def split_numbered_blocks(text: str, count: int) -> dict[int, str]:
@@ -415,6 +536,41 @@ def survey_page_data(text: str) -> tuple[str, list[str], str]:
     options = [strip_trailing_slide_noise(match.group(2)) for match in fractions]
     answer_index = max(range(4), key=lambda index: int(fractions[index].group(1)))
     return prompt, options, chr(65 + answer_index)
+
+
+def survey_header_prompts(path: Path, pages_by_question: dict[int, int]) -> dict[int, str]:
+    """Read only the official green question banner from survey-style slides."""
+    prompts: dict[int, str] = {}
+    with pdfplumber.open(path) as pdf:
+        for number, page_index in pages_by_question.items():
+            page = pdf.pages[page_index]
+            green_rectangles = []
+            for rectangle in page.rects:
+                color = rectangle.get("non_stroking_color")
+                if not isinstance(color, tuple) or len(color) != 3:
+                    continue
+                red, green, blue = color
+                if 0.45 < red < 0.7 and green > 0.7 and blue < 0.5:
+                    green_rectangles.append(rectangle)
+            if not green_rectangles:
+                raise ValueError(f"No question banner found on survey page {page_index + 1}")
+            banner = max(
+                green_rectangles,
+                key=lambda rectangle: (rectangle["x1"] - rectangle["x0"])
+                * (rectangle["bottom"] - rectangle["top"]),
+            )
+            words = [
+                word["text"]
+                for word in page.extract_words()
+                if word["x0"] >= banner["x0"] + 1
+                and word["top"] >= banner["top"] - 1
+                and word["bottom"] <= banner["bottom"] + 1
+            ]
+            prompt = normalize_inline(" ".join(words))
+            if not prompt:
+                raise ValueError(f"Empty question banner on survey page {page_index + 1}")
+            prompts[number] = prompt
+    return prompts
 
 
 def topic_metadata(prompt: str, options: Iterable[str]) -> tuple[str, list[str], str]:
@@ -648,6 +804,7 @@ def make_record(
     public_path = "/" + str(media_path.relative_to(ROOT / "public")).replace("\\", "/")
     source_question = f"data/Past MMT/{edition.year}/{edition.question_file}"
     source_answer = f"data/Past MMT/{edition.year}/{edition.answer_file}"
+    answer_label = str(answer_index + 1) if edition.year == 2002 and answer_index is not None else answer_letter
     return {
         "Question Name": prompt,
         "Question ID": f"igeo-{edition.year}-mmt-q{number:02d}",
@@ -668,7 +825,7 @@ def make_record(
         "Answer": answer,
         "Answer Index": answer_index,
         "Explanation": (
-            f"Official {edition.year} iGeo MMT answer key: {answer_letter} ({answer})."
+            f"Official {edition.year} iGeo MMT answer key: {answer_label} ({answer})."
             if answer_letter
             else f"Official {edition.year} iGeo MMT answer: {answer}."
         ),
@@ -786,13 +943,19 @@ def import_edition(edition: Edition, temp_dir: Path, render_media: bool) -> list
     )
     block_positions = question_positions(question_source) if edition.mode in {"mixed-open", "socrative"} else {}
     survey_answer_pages = page_map(answer_source) if edition.mode == "survey-answer-slides" else {}
+    survey_prompts = (
+        survey_header_prompts(question_source, source_page_mapping)
+        if edition.mode == "survey-answer-slides"
+        else {}
+    )
 
     for number in range(1, edition.question_count + 1):
         block = blocks[number]
         if edition.mode == "survey-answer-slides":
             answer_page = survey_answer_pages[number]
             answer_text = pdf_pages(answer_source)[answer_page]
-            prompt, options, answer_letter = survey_page_data(answer_text)
+            _, options, answer_letter = survey_page_data(answer_text)
+            prompt = survey_prompts[number]
         else:
             prompt, options = parse_options(block)
             answer_letter = answer_key.get(number)
@@ -809,6 +972,7 @@ def import_edition(edition: Edition, temp_dir: Path, render_media: bool) -> list
         if edition.year == 2018 and number == 12:
             related_pages = question_media_page_mapping[number]
             prompt = clean_prompt(question_page_texts[related_pages[-1]])
+        prompt, options = clean_imported_question(edition, number, prompt, options)
         if edition.mode == "mixed-open" and len(options) == 4:
             answer_value = normalized_for_match(open_answers.get(number, ""))
             answer_tokens = set(answer_value.split())
@@ -883,6 +1047,12 @@ def validate(records: list[dict]) -> None:
     ids = [record["Question ID"] for record in records]
     if len(ids) != len(set(ids)):
         raise ValueError("Duplicate question IDs")
+    extraction_noise = re.compile(
+        r"(?i)(?:https?://|www\.|※\s*a short film|\bQ(?:uestion)?\.\s*\d+\b|"
+        r"diagram\s+of\s+a\s+qanat|population\s+\(in\s+millions\)|\bQQ\.\.\d+|"
+        r"low/small\s+values|high/big\s+values|satellite\s+image\s+of\s+Betsiboka|"
+        r"\bpoint\s+C\s+START\b)"
+    )
     for record in records:
         options = record["Options"]
         if options and (len(options) != 4 or len(set(options)) != 4):
@@ -891,6 +1061,13 @@ def validate(records: list[dict]) -> None:
             raise ValueError(f"Answer is not an option: {record['Question ID']}")
         if not record["Question Name"]:
             raise ValueError(f"Missing prompt: {record['Question ID']}")
+        for value in [record["Question Name"], *options]:
+            if extraction_noise.search(value):
+                raise ValueError(f"PDF extraction noise in {record['Question ID']}: {value}")
+            if any(artifact in value for artifact in TEXT_REPLACEMENTS):
+                raise ValueError(f"Unrepaired PDF encoding in {record['Question ID']}: {value}")
+        if re.search(r"\s+(?:[A-D]\s+){3}[A-D]\s*$", record["Question Name"]):
+            raise ValueError(f"Image labels leaked into prompt: {record['Question ID']}")
 
 
 def main() -> None:
